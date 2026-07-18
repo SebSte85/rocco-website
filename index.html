@@ -34,11 +34,11 @@
   .rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}
 
   /* ================= HERO ================= */
-  .hero{position:relative;width:100%;overflow:hidden;padding-bottom:0}
-  .scene{position:absolute;inset:0}
-  .scene svg{width:100%;height:100%;display:block}
+  .hero{position:relative;width:100%;overflow:hidden;padding-bottom:0;background:#0C121B}
+  .scene{position:absolute;left:0;right:0;bottom:0}
+  .scene svg{width:100%;height:auto;display:block}
 
-  .nav{position:absolute;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:22px 40px}
+  .nav{position:absolute;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;justify-content:center;padding:26px 40px}
   .wordmark{display:flex;align-items:center;gap:11px;font:900 26px 'Rubik',sans-serif;color:var(--bone);letter-spacing:2px}
   .wordmark span{color:var(--amber)}
   .nav-links{display:flex;gap:26px;align-items:center}
@@ -49,12 +49,13 @@
   .btn.ghost{background:transparent;color:var(--bone);box-shadow:inset 0 0 0 2.5px rgba(245,242,235,.35)}
   .btn.ghost:hover{box-shadow:inset 0 0 0 2.5px rgba(245,242,235,.7)}
 
-  .hero-copy{position:relative;z-index:35;text-align:center;padding:130px 20px 0;max-width:860px;margin:0 auto}
+  .hero-copy{position:relative;z-index:35;text-align:center;padding:96px 20px 0;max-width:860px;margin:0 auto;min-height:100vh;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;align-items:center}
   .hero-copy h1{font-size:clamp(38px,5vw,64px);font-weight:900;line-height:1.06;color:var(--bone);letter-spacing:-.5px}
   .hero-copy h1 em{font-style:normal;color:var(--amber)}
   .hero-copy p{font:500 clamp(15px,1.4vw,19px)/1.55 'Rubik',sans-serif;color:var(--bone);opacity:.78;max-width:600px;margin:18px auto 0}
   .hero-ctas{display:flex;gap:14px;justify-content:center;margin-top:28px;flex-wrap:wrap}
 
+  @keyframes steam{0%{transform:translateY(0);opacity:0}25%{opacity:.55}100%{transform:translateY(-14px);opacity:0}}
   @keyframes argueWiggle{0%,55%,100%{transform:rotate(0deg)}60%{transform:rotate(-3deg)}68%{transform:rotate(2.5deg)}76%{transform:rotate(-1.5deg)}84%{transform:rotate(0deg)}}
   .rocco-door{position:absolute;left:6.5%;bottom:6.5%;z-index:20;width:min(20vw,280px)}
   .rocco-door svg{width:100%;height:auto;animation:rocBreathe 3.4s ease-in-out infinite}
@@ -71,7 +72,7 @@
     box-shadow:0 3px 0 rgba(0,0,0,.35);animation:bubblePop .5s .9s ease-out backwards;white-space:nowrap}
   .bubble-user::after{content:'';position:absolute;right:14px;bottom:-11px;width:14px;height:14px;background:var(--bone);
     border-left:3px solid var(--outline);border-bottom:3px solid var(--outline);transform:skewX(-28deg) rotate(-45deg)}
-  .phone-wrap{position:relative;z-index:30;display:flex;justify-content:center;align-items:flex-end;padding:56px 16px 0}
+  .phone-wrap{position:relative;z-index:30;display:flex;justify-content:center;align-items:flex-end;padding:10vh 16px 40px}
   .phone{width:310px;background:#1D1D1D;border-radius:48px;padding:11px;box-shadow:0 30px 60px rgba(0,0,0,.55),0 0 0 2px #3a3a3e,0 0 90px rgba(217,164,65,.14)}
   .screen{position:relative;background:linear-gradient(#F0EDE5,#E6E2D7);border-radius:38px;overflow:hidden;height:640px;display:flex;flex-direction:column}
   .island{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:92px;height:26px;background:#0b0b0d;border-radius:14px;z-index:5}
@@ -108,8 +109,7 @@
   .tab.active{color:var(--ink)}
   .tab-focus{position:relative;top:-16px;width:52px;height:52px;background:var(--amber);border-radius:50%;display:flex;align-items:center;justify-content:center;border:4px solid #fff;box-shadow:0 4px 10px rgba(0,0,0,.22)}
 
-  .scroll-cue{position:relative;z-index:30;display:flex;justify-content:center;padding:26px 0 30px}
-  .scroll-cue svg{animation:bounceCue 1.8s ease-in-out infinite}
+  .hero-cue{margin-top:9vh;opacity:.5;animation:bounceCue 1.8s ease-in-out infinite}
 
   /* ================= Social-Proof-Band ================= */
   .proof{background:var(--amber);padding:26px 20px}
@@ -212,17 +212,17 @@
   .t-who .s2{font:500 11.5px 'Rubik',sans-serif;color:var(--muted)}
 
   /* ================= Final CTA ================= */
-  .final{position:relative;background:radial-gradient(ellipse at 50% 120%,#3a2f16 0%,var(--night) 62%);text-align:center;overflow:hidden}
-  .final h2{color:var(--bone);font-size:clamp(32px,4vw,52px);font-weight:900}
-  .final h2 em{font-style:normal;color:var(--amber)}
-  .final p{color:var(--bone);opacity:.72;font:500 16px/1.6 'Rubik',sans-serif;max-width:520px;margin:16px auto 0}
+  .outro{background:var(--bone);padding:0 24px 72px}
+  .outro-card{position:relative;max-width:1400px;margin:0 auto;border-radius:44px;overflow:hidden;min-height:680px;box-shadow:0 24px 60px rgba(22,32,47,.18)}
+  .outro-card>svg{position:absolute;inset:0;width:100%;height:100%}
+  .outro-copy{position:relative;z-index:2;text-align:center;padding:88px 20px 0}
+  .outro-copy h2{color:var(--bone);font-size:clamp(32px,4vw,54px);font-weight:900;line-height:1.12}
+  .outro-copy h2 em{font-style:normal;color:var(--amber)}
   .stores{display:flex;gap:14px;justify-content:center;margin-top:30px;flex-wrap:wrap}
   .store-btn{display:flex;align-items:center;gap:10px;background:#000;border:2px solid #3a3a3e;color:#fff;border-radius:14px;padding:10px 20px;text-decoration:none;text-align:left;transition:transform .12s}
   .store-btn:hover{transform:translateY(-2px)}
   .store-btn .s{display:block;font:500 9.5px 'Rubik',sans-serif;opacity:.7}
   .store-btn .l{display:block;font:700 16px 'Rubik',sans-serif;line-height:1.1}
-  .final-rocco{display:flex;justify-content:center;margin-top:44px}
-  .final-rocco svg{animation:rocBreathe 3.4s ease-in-out infinite}
 
   .footer{background:var(--outline);color:var(--bone);padding:30px 40px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font:500 13px 'Rubik',sans-serif}
   .footer .fm{display:flex;align-items:center;gap:9px;font:900 18px 'Rubik',sans-serif;letter-spacing:1.5px}
@@ -240,6 +240,7 @@
     .feat-phones{min-height:0;flex-wrap:wrap;gap:24px}
     .mp-block,.mp-streak{transform:none}
     .chat-grid{grid-template-columns:1fr;gap:40px}
+    .outro-card{min-height:480px;border-radius:28px}
     .t-grid{grid-template-columns:1fr;max-width:520px}
     .sec{padding:72px 20px}
   }
@@ -472,20 +473,19 @@
       <path d="M14 31 Q28 26 42 31" stroke="#1D1D1D" stroke-width="6" fill="none" stroke-linecap="round"/>
       <path d="M58 25 Q72 17 86 27" stroke="#1D1D1D" stroke-width="6" fill="none" stroke-linecap="round"/>
     </svg>ROCCO<span>.</span></div>
-    <div class="nav-links">
-      <a href="#street">Door Policy</a>
-      <a href="#features">Features</a>
-      <a href="#excuses">Excuses</a>
-      <a class="btn" href="#download" style="padding:11px 22px;font-size:14px">Get it for iOS</a>
-    </div>
   </nav>
 
   <div class="hero-copy">
     <h1>Your apps have<br>a <em>bouncer</em> now.</h1>
     <p>Rocco guards the door to Instagram, TikTok &amp; Co. When your time is up, you are out. No arguing.</p>
     <div class="hero-ctas">
-      <a class="btn" href="#download">Download free</a>
-      <a class="btn ghost" href="#street">See how Rocco works</a>
+      <a class="store-btn" href="#" aria-label="Download on the App Store">
+        <svg width="24" height="28" viewBox="0 0 24 28" fill="#fff"><path d="M19.7 14.6c0-3 2.5-4.5 2.6-4.6-1.4-2.1-3.6-2.4-4.4-2.4-1.9-.2-3.7 1.1-4.6 1.1-1 0-2.4-1.1-4-1-2 0-3.9 1.2-5 3-2.1 3.7-.5 9.1 1.5 12.1 1 1.5 2.2 3.1 3.8 3 1.5-.1 2.1-1 4-1s2.4 1 4 1 2.7-1.5 3.7-2.9c1.2-1.7 1.6-3.3 1.7-3.4-.1-.1-3.3-1.3-3.3-4.9zM16.6 5.6c.8-1 1.4-2.4 1.2-3.8-1.2 0-2.7.8-3.5 1.8-.8.9-1.5 2.3-1.3 3.7 1.4.1 2.8-.7 3.6-1.7z"/></svg>
+        <span><span class="s">Download on the</span><span class="l">App Store</span></span>
+      </a>
+    </div>
+    <div class="hero-cue">
+      <svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="#F5F2EB" stroke-width="2.6" stroke-linecap="round"><path d="M6 10 l7 7 7-7"/></svg>
     </div>
   </div>
 
@@ -501,7 +501,7 @@
   </div>
   <div class="bubble-user">But I wasn't done scrolling!!</div>
 
-  <div class="phone-wrap">
+  <div class="phone-wrap rv">
     <div class="phone">
       <div class="screen">
         <div class="island"></div>
@@ -596,9 +596,6 @@
     </div>
   </div>
 
-  <div class="scroll-cue">
-    <svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="#F5F2EB" stroke-width="2.6" stroke-linecap="round" opacity=".5"><path d="M6 10 l7 7 7-7"/></svg>
-  </div>
 </div>
 
 <!-- ================= SOCIAL PROOF ================= -->
@@ -899,24 +896,147 @@
   </div>
 </section>
 
-<!-- ================= FINAL CTA ================= -->
-<section class="sec final" id="download">
-  <div class="rv">
-    <h2>Put Rocco at <em>your door</em>.</h2>
-    <p>Free to download. Getting kicked out is included. And tomorrow at 7 AM, he opens up again — promise.</p>
-    <div class="stores">
-      <a class="store-btn" href="#" aria-label="Download on the App Store">
-        <svg width="24" height="28" viewBox="0 0 24 28" fill="#fff"><path d="M19.7 14.6c0-3 2.5-4.5 2.6-4.6-1.4-2.1-3.6-2.4-4.4-2.4-1.9-.2-3.7 1.1-4.6 1.1-1 0-2.4-1.1-4-1-2 0-3.9 1.2-5 3-2.1 3.7-.5 9.1 1.5 12.1 1 1.5 2.2 3.1 3.8 3 1.5-.1 2.1-1 4-1s2.4 1 4 1 2.7-1.5 3.7-2.9c1.2-1.7 1.6-3.3 1.7-3.4-.1-.1-3.3-1.3-3.3-4.9zM16.6 5.6c.8-1 1.4-2.4 1.2-3.8-1.2 0-2.7.8-3.5 1.8-.8.9-1.5 2.3-1.3 3.7 1.4.1 2.8-.7 3.6-1.7z"/></svg>
-        <span><span class="s">Download on the</span><span class="l">App Store</span></span>
-      </a>
-      <a class="store-btn" href="#" aria-label="Get it on Google Play">
-        <svg width="24" height="26" viewBox="0 0 24 26"><path d="M2 1.8 v22.4 c0 .7.8 1.1 1.4.7 L16 17.5 2.9 1 C2.4.9 2 1.2 2 1.8Z" fill="#00D2FF"/><path d="M16 17.5 3.4 24.9 c-.2.1-.4.2-.6.1 L14.6 13 16 17.5Z" fill="#FF3A44" transform="translate(0 0)"/><path d="M2.9 1 16 8.5 14.6 13 2.9 1Z" fill="#00F076"/><path d="M16 8.5 l4.8 2.8 c.9.5.9 1.8 0 2.3 L16 17.5 14.6 13 16 8.5Z" fill="#FFC900"/></svg>
-        <span><span class="s">Get it on</span><span class="l">Google Play</span></span>
-      </a>
+<!-- ================= OUTRO CARD ================= -->
+<section class="sec outro" id="download">
+  <div class="outro-card rv">
+    <svg viewBox="0 0 1600 840" preserveAspectRatio="xMidYMax slice" aria-label="Sunrise after closing time: Rocco has a coffee outside the club">
+      <defs>
+        <linearGradient id="dawn" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#16202F"/>
+          <stop offset=".5" stop-color="#3E3521"/>
+          <stop offset=".78" stop-color="#B3823A"/>
+          <stop offset="1" stop-color="#D9A441"/>
+        </linearGradient>
+        <radialGradient id="sunGlow" cx=".5" cy=".5" r=".5">
+          <stop offset="0" stop-color="#F2C879" stop-opacity=".85"/>
+          <stop offset="1" stop-color="#F2C879" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <rect width="1600" height="840" fill="url(#dawn)"/>
+      <g fill="#F5F2EB">
+        <circle cx="240" cy="90" r="1.8" style="animation:twinkle 3.6s ease-in-out infinite"/>
+        <circle cx="520" cy="60" r="1.4" style="animation:twinkle 4.2s .8s ease-in-out infinite"/>
+        <circle cx="1130" cy="80" r="1.6" style="animation:twinkle 3.2s 1.3s ease-in-out infinite"/>
+        <circle cx="1420" cy="120" r="1.5" style="animation:twinkle 4s .4s ease-in-out infinite"/>
+      </g>
+      <circle cx="800" cy="668" r="290" fill="url(#sunGlow)"/>
+      <circle cx="800" cy="676" r="92" fill="#F2C879"/>
+      <!-- skyline -->
+      <g fill="#1B2635" opacity=".85">
+        <rect x="-20" y="420" width="150" height="260"/>
+        <rect x="160" y="360" width="120" height="320"/>
+        <rect x="470" y="440" width="130" height="240"/>
+        <rect x="620" y="380" width="110" height="300"/>
+        <rect x="900" y="430" width="140" height="250"/>
+        <rect x="1080" y="360" width="120" height="320"/>
+        <rect x="1290" y="440" width="150" height="240"/>
+        <rect x="1470" y="390" width="150" height="290"/>
+        <circle cx="965" cy="415" r="42"/>
+      </g>
+      <g fill="#121B28">
+        <rect x="440" y="520" width="180" height="160" rx="8"/>
+        <rect x="880" y="540" width="200" height="140" rx="8"/>
+        <rect x="1180" y="500" width="170" height="180" rx="8"/>
+        <rect x="1400" y="540" width="220" height="140" rx="8"/>
+      </g>
+      <!-- street -->
+      <rect x="0" y="680" width="1600" height="160" fill="#0D1119"/>
+      <rect x="0" y="662" width="1600" height="24" rx="4" fill="#1E2836"/>
+      <g stroke="#0D1119" stroke-width="3" opacity=".6">
+        <line x1="480" y1="662" x2="468" y2="686"/><line x1="760" y1="662" x2="748" y2="686"/>
+        <line x1="1040" y1="662" x2="1028" y2="686"/><line x1="1330" y1="662" x2="1318" y2="686"/>
+      </g>
+      <!-- club, closed for the day -->
+      <g>
+        <rect x="40" y="330" width="360" height="332" fill="#131C2A"/>
+        <rect x="40" y="330" width="360" height="14" fill="#0A0E15"/>
+        <g opacity=".55">
+          <rect x="76" y="368" width="112" height="44" rx="10" fill="#0A0E15" stroke="#3A4A61" stroke-width="3"/>
+          <text x="132" y="398" text-anchor="middle" font-family="Rubik,sans-serif" font-weight="800" font-size="24" fill="#3A4A61" letter-spacing="3">CLUB</text>
+        </g>
+        <rect x="222" y="400" width="132" height="262" rx="8" fill="#0A0E15"/>
+        <rect x="234" y="414" width="108" height="248" rx="6" fill="#241A12"/>
+        <g transform="rotate(-3 288 470)">
+          <rect x="243" y="440" width="90" height="58" rx="9" fill="#F5F2EB" stroke="#060A10" stroke-width="4"/>
+          <text x="288" y="466" text-anchor="middle" font-family="Rubik,sans-serif" font-weight="800" font-size="17" fill="#16202F">CLOSED</text>
+          <text x="288" y="486" text-anchor="middle" font-family="Rubik,sans-serif" font-weight="600" font-size="11.5" fill="#5A6270">back at 7:00 PM</text>
+        </g>
+      </g>
+      <!-- rope, off duty -->
+      <g>
+        <line x1="480" y1="662" x2="480" y2="576" stroke="#060A10" stroke-width="5"/>
+        <line x1="610" y1="662" x2="610" y2="576" stroke="#060A10" stroke-width="5"/>
+        <path d="M480 584 Q545 622 610 584" stroke="#B3402F" stroke-width="8" fill="none" stroke-linecap="round"/>
+        <circle cx="480" cy="572" r="10" fill="#D9A441" stroke="#060A10" stroke-width="4"/>
+        <circle cx="610" cy="572" r="10" fill="#D9A441" stroke="#060A10" stroke-width="4"/>
+        <rect x="464" y="658" width="32" height="11" rx="5.5" fill="#D9A441" stroke="#060A10" stroke-width="4"/>
+        <rect x="594" y="658" width="32" height="11" rx="5.5" fill="#D9A441" stroke="#060A10" stroke-width="4"/>
+      </g>
+      <!-- Rocco, feet up, first coffee -->
+      <g transform="translate(340 434) scale(1.15)">
+        <rect x="18" y="120" width="86" height="14" rx="7" fill="#B3402F" stroke="#060A10" stroke-width="5"/>
+        <rect x="10" y="52" width="16" height="82" rx="8" fill="#B3402F" stroke="#060A10" stroke-width="5"/>
+        <rect x="30" y="134" width="10" height="66" rx="5" fill="#060A10"/>
+        <rect x="84" y="134" width="10" height="66" rx="5" fill="#060A10"/>
+        <rect x="70" y="118" width="58" height="26" rx="13" fill="#2A3648" stroke="#060A10" stroke-width="5"/>
+        <rect x="112" y="130" width="24" height="58" rx="12" fill="#2A3648" stroke="#060A10" stroke-width="5"/>
+        <rect x="104" y="180" width="44" height="17" rx="8.5" fill="#16161A" stroke="#060A10" stroke-width="5"/>
+        <path d="M28 62 Q28 34 62 30 L84 30 Q116 34 116 62 L116 112 Q116 128 98 128 L46 128 Q28 128 28 112 Z" fill="#1E2836" stroke="#060A10" stroke-width="5"/>
+        <path d="M52 32 Q72 46 94 32" stroke="#D9A441" stroke-width="5.5" fill="none" stroke-linecap="round"/>
+        <rect x="88" y="58" width="52" height="24" rx="12" fill="#F5B98F" stroke="#060A10" stroke-width="5"/>
+        <circle cx="138" cy="70" r="11" fill="#F5B98F" stroke="#060A10" stroke-width="5"/>
+        <rect x="128" y="38" width="26" height="22" rx="5" fill="#F5F2EB" stroke="#060A10" stroke-width="5"/>
+        <path d="M154 44 q10 3 0 12" stroke="#060A10" stroke-width="5" fill="none"/>
+        <path d="M136 30 q3 -6 0 -10" stroke="#F5F2EB" stroke-width="3.5" fill="none" opacity=".6" style="animation:steam 2.6s ease-out infinite"/>
+        <path d="M146 32 q3 -6 0 -10" stroke="#F5F2EB" stroke-width="3.5" fill="none" opacity=".6" style="animation:steam 2.6s 1.2s ease-out infinite"/>
+        <g>
+          <circle cx="40" cy="-8" r="8" fill="#F5B98F" stroke="#060A10" stroke-width="5"/>
+          <circle cx="104" cy="-8" r="8" fill="#F5B98F" stroke="#060A10" stroke-width="5"/>
+          <rect x="40" y="-42" width="64" height="64" rx="27" fill="#F5B98F" stroke="#060A10" stroke-width="5"/>
+          <path d="M48 2 Q72 24 96 2 Q92 18 72 19 Q52 18 48 2 Z" fill="#DE9A6C"/>
+          <path d="M60 7 Q72 14 84 7" stroke="#1D1D1D" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <rect x="46" y="-24" width="23" height="15" rx="7.5" fill="#16161A"/>
+          <rect x="75" y="-24" width="23" height="15" rx="7.5" fill="#16161A"/>
+          <rect x="67" y="-19" width="10" height="4" rx="2" fill="#16161A"/>
+          <rect x="50" y="-21" width="8" height="3" rx="1.5" fill="#fff" opacity=".45"/>
+          <path d="M47 -30 Q57 -33 67 -30" stroke="#1D1D1D" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+          <path d="M77 -30 Q87 -33 97 -30" stroke="#1D1D1D" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+        </g>
+      </g>
+      <!-- cat -->
+      <g transform="translate(700 690)">
+        <path d="M-24 30 Q-46 24 -40 2" stroke="#16202F" stroke-width="8" fill="none" stroke-linecap="round"/>
+        <ellipse cx="0" cy="16" rx="26" ry="21" fill="#16202F" stroke="#060A10" stroke-width="4"/>
+        <circle cx="22" cy="-8" r="15" fill="#16202F" stroke="#060A10" stroke-width="4"/>
+        <path d="M12 -18 L15 -31 L23 -20 Z" fill="#16202F" stroke="#060A10" stroke-width="3"/>
+        <path d="M31 -19 L38 -30 L40 -17 Z" fill="#16202F" stroke="#060A10" stroke-width="3"/>
+        <circle cx="18" cy="-9" r="2.2" fill="#D9A441"/><circle cx="28" cy="-9" r="2.2" fill="#D9A441"/>
+      </g>
+      <!-- pigeons -->
+      <g transform="translate(950 700)">
+        <ellipse cx="0" cy="6" rx="13" ry="10" fill="#8b93a1" stroke="#060A10" stroke-width="3.5"/>
+        <circle cx="11" cy="-3" r="7" fill="#8b93a1" stroke="#060A10" stroke-width="3.5"/>
+        <path d="M17 -3 l7 2 -7 3 Z" fill="#D9A441"/>
+        <line x1="-3" y1="15" x2="-3" y2="21" stroke="#060A10" stroke-width="3"/>
+        <line x1="4" y1="15" x2="4" y2="21" stroke="#060A10" stroke-width="3"/>
+      </g>
+      <g transform="translate(1030 712) scale(-.85,.85)">
+        <ellipse cx="0" cy="6" rx="13" ry="10" fill="#8b93a1" stroke="#060A10" stroke-width="3.5"/>
+        <circle cx="11" cy="-3" r="7" fill="#8b93a1" stroke="#060A10" stroke-width="3.5"/>
+        <path d="M17 -3 l7 2 -7 3 Z" fill="#D9A441"/>
+        <line x1="-3" y1="15" x2="-3" y2="21" stroke="#060A10" stroke-width="3"/>
+        <line x1="4" y1="15" x2="4" y2="21" stroke="#060A10" stroke-width="3"/>
+      </g>
+    </svg>
+    <div class="outro-copy">
+      <h2>Enough scrolling.<br>Send in <em>Rocco</em>.</h2>
+      <div class="stores">
+        <a class="store-btn" href="#" aria-label="Download on the App Store">
+          <svg width="24" height="28" viewBox="0 0 24 28" fill="#fff"><path d="M19.7 14.6c0-3 2.5-4.5 2.6-4.6-1.4-2.1-3.6-2.4-4.4-2.4-1.9-.2-3.7 1.1-4.6 1.1-1 0-2.4-1.1-4-1-2 0-3.9 1.2-5 3-2.1 3.7-.5 9.1 1.5 12.1 1 1.5 2.2 3.1 3.8 3 1.5-.1 2.1-1 4-1s2.4 1 4 1 2.7-1.5 3.7-2.9c1.2-1.7 1.6-3.3 1.7-3.4-.1-.1-3.3-1.3-3.3-4.9zM16.6 5.6c.8-1 1.4-2.4 1.2-3.8-1.2 0-2.7.8-3.5 1.8-.8.9-1.5 2.3-1.3 3.7 1.4.1 2.8-.7 3.6-1.7z"/></svg>
+          <span><span class="s">Download on the</span><span class="l">App Store</span></span>
+        </a>
+      </div>
     </div>
-  </div>
-  <div class="final-rocco rv d1">
-    <svg viewBox="0 0 300 360" width="230" height="276" aria-label="Rocco nodding at you"><use href="#rocco-block"/></svg>
   </div>
 </section>
 
