@@ -55,6 +55,7 @@
   .hero-copy p{font:500 clamp(15px,1.4vw,19px)/1.55 'Rubik',sans-serif;color:var(--bone);opacity:.78;max-width:600px;margin:18px auto 0}
   .hero-ctas{display:flex;gap:14px;justify-content:center;margin-top:28px;flex-wrap:wrap}
 
+  @keyframes argueWiggle{0%,55%,100%{transform:rotate(0deg)}60%{transform:rotate(-3deg)}68%{transform:rotate(2.5deg)}76%{transform:rotate(-1.5deg)}84%{transform:rotate(0deg)}}
   .rocco-door{position:absolute;left:6.5%;bottom:6.5%;z-index:20;width:min(20vw,280px)}
   .rocco-door svg{width:100%;height:auto;animation:rocBreathe 3.4s ease-in-out infinite}
   .bubble{position:absolute;left:calc(6.5% + min(14vw,195px));bottom:calc(6.5% + min(23vw,320px));z-index:21;background:var(--bone);color:var(--ink);
@@ -63,6 +64,13 @@
   .bubble::after{content:'';position:absolute;left:14px;bottom:-11px;width:14px;height:14px;background:var(--bone);
     border-right:3px solid var(--outline);border-bottom:3px solid var(--outline);transform:skewX(28deg) rotate(45deg)}
 
+  .user-side{position:absolute;right:7%;bottom:6%;z-index:20;width:min(16vw,220px)}
+  .user-side svg{width:100%;height:auto;animation:argueWiggle 3.2s ease-in-out infinite;transform-origin:50% 92%}
+  .bubble-user{position:absolute;right:calc(7% + min(11vw,150px));bottom:calc(6% + min(19.5vw,268px));z-index:21;background:var(--bone);color:var(--ink);
+    font:700 clamp(12px,1.05vw,15px) 'Rubik',sans-serif;padding:10px 16px;border-radius:16px;border:3px solid var(--outline);
+    box-shadow:0 3px 0 rgba(0,0,0,.35);animation:bubblePop .5s .9s ease-out backwards;white-space:nowrap}
+  .bubble-user::after{content:'';position:absolute;right:14px;bottom:-11px;width:14px;height:14px;background:var(--bone);
+    border-left:3px solid var(--outline);border-bottom:3px solid var(--outline);transform:skewX(-28deg) rotate(-45deg)}
   .phone-wrap{position:relative;z-index:30;display:flex;justify-content:center;align-items:flex-end;padding:56px 16px 0}
   .phone{width:310px;background:#1D1D1D;border-radius:48px;padding:11px;box-shadow:0 30px 60px rgba(0,0,0,.55),0 0 0 2px #3a3a3e,0 0 90px rgba(217,164,65,.14)}
   .screen{position:relative;background:linear-gradient(#F0EDE5,#E6E2D7);border-radius:38px;overflow:hidden;height:640px;display:flex;flex-direction:column}
@@ -225,7 +233,7 @@
   .footer .quote{opacity:.45}
 
   @media (max-width:1060px){
-    .rocco-door,.bubble{display:none}
+    .rocco-door,.bubble,.user-side,.bubble-user{display:none}
     .nav{padding:16px 20px}
     .nav-links a{display:none}
     .feat-grid{grid-template-columns:1fr;gap:44px}
@@ -484,7 +492,14 @@
   <div class="rocco-door">
     <svg viewBox="0 0 300 360" aria-label="Rocco crossing his arms at the club door"><use href="#rocco-block"/></svg>
   </div>
-  <div class="bubble">Not tonight.</div>
+  <div class="bubble">Time's up. Go home.</div>
+
+  <div class="user-side">
+    <svg viewBox="-34 -24 214 272" aria-label="Kicked-out user complaining about his time being up" style="--coat:#7A4A3B;--skin:#F0AC80;--hat:#3B2E20">
+      <use href="#guest-argue"/>
+    </svg>
+  </div>
+  <div class="bubble-user">But I wasn't done scrolling!!</div>
 
   <div class="phone-wrap">
     <div class="phone">
