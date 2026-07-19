@@ -3,1070 +3,374 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Rocco — The Bouncer for Your Feed</title>
-<meta name="description" content="Rocco guards the door to Instagram, TikTok & Co. When your time's up, you're out. No arguing.">
+<title>Rocco — Scroll's over. Rocco's on the door.</title>
+<meta name="description" content="Put your apps on the list, set your minutes. When time's up, Rocco decides who gets in — and it's nobody.">
 <link rel="icon" type="image/svg+xml" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="%23F5B98F" stroke="%23060A10" stroke-width="7"/><path d="M22 60 Q50 88 78 60 Q73 79 50 81 Q27 79 22 60 Z" fill="%23DE9A6C"/><path d="M38 71 L62 71" stroke="%231D1D1D" stroke-width="6" stroke-linecap="round"/><rect x="13" y="37" width="30" height="20" rx="10" fill="%2316161A"/><rect x="57" y="37" width="30" height="20" rx="10" fill="%2316161A"/><rect x="41" y="43" width="18" height="6" rx="3" fill="%2316161A"/><path d="M14 31 Q28 26 42 31" stroke="%231D1D1D" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M58 25 Q72 17 86 27" stroke="%231D1D1D" stroke-width="6" fill="none" stroke-linecap="round"/></svg>'>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --ink:#16202F; --charcoal:#2E3B50; --amber:#D9A441; --bone:#F5F2EB;
-    --night:#10161F; --signal:#B3402F; --outline:#060A10; --muted:#5A6270;
-  }
-  *{box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{margin:0;background:var(--night);font-family:'Rubik',sans-serif;overflow-x:hidden}
-  h1,h2,h3{font-family:'Rubik',sans-serif;margin:0}
-
-  @keyframes rocBreathe{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
-  @keyframes rocNod{0%,20%,100%{transform:rotate(0deg)}8%{transform:rotate(4deg)}14%{transform:rotate(-1deg)}}
-  @keyframes rocGlint{0%,88%,100%{opacity:0}92%{opacity:.85}}
-  @keyframes twinkle{0%,100%{opacity:.25}50%{opacity:.9}}
-  @keyframes neonFlicker{0%,93%,95%,100%{opacity:1}94%{opacity:.55}}
-  @keyframes bubblePop{0%{transform:scale(.92);opacity:0}100%{transform:scale(1);opacity:1}}
-  @keyframes phoneGlow{0%,100%{opacity:.5}50%{opacity:.85}}
-  @keyframes bounceCue{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
-
-  /* Scroll-Reveal */
-  .rv{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
-  .rv.in{opacity:1;transform:none}
-  .rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}
-
-  /* ================= HERO ================= */
-  .hero{position:relative;width:100%;overflow:hidden;padding-bottom:0;background:#0C121B}
-  .scene{position:absolute;left:0;right:0;bottom:0}
-  .scene svg{width:100%;height:auto;display:block}
-
-  .nav{position:absolute;top:0;left:0;right:0;z-index:40;display:flex;align-items:center;justify-content:center;padding:26px 40px}
-  .wordmark{display:flex;align-items:center;gap:11px;font:900 26px 'Rubik',sans-serif;color:var(--bone);letter-spacing:2px}
-  .wordmark span{color:var(--amber)}
-  .nav-links{display:flex;gap:26px;align-items:center}
-  .nav-links a{font:600 14px 'Rubik',sans-serif;color:var(--bone);opacity:.75;text-decoration:none}
-  .nav-links a:hover{opacity:1}
-  .btn{display:inline-block;font:700 15px 'Rubik',sans-serif;color:var(--night);background:var(--amber);padding:13px 26px;border-radius:14px;text-decoration:none;box-shadow:0 4px 0 rgba(0,0,0,.35);transition:transform .12s}
-  .btn:hover{transform:translateY(-2px)}
-  .btn.ghost{background:transparent;color:var(--bone);box-shadow:inset 0 0 0 2.5px rgba(245,242,235,.35)}
-  .btn.ghost:hover{box-shadow:inset 0 0 0 2.5px rgba(245,242,235,.7)}
-
-  .hero-copy{position:relative;z-index:35;text-align:center;padding:96px 20px 0;max-width:860px;margin:0 auto;min-height:100vh;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;align-items:center}
-  .hero-copy h1{font-size:clamp(38px,5vw,64px);font-weight:900;line-height:1.06;color:var(--bone);letter-spacing:-.5px}
-  .hero-copy h1 em{font-style:normal;color:var(--amber)}
-  .hero-copy p{font:500 clamp(15px,1.4vw,19px)/1.55 'Rubik',sans-serif;color:var(--bone);opacity:.78;max-width:600px;margin:18px auto 0}
-  .hero-ctas{display:flex;gap:14px;justify-content:center;margin-top:28px;flex-wrap:wrap}
-
-  @keyframes steam{0%{transform:translateY(0);opacity:0}25%{opacity:.55}100%{transform:translateY(-14px);opacity:0}}
-  @keyframes argueWiggle{0%,55%,100%{transform:rotate(0deg)}60%{transform:rotate(-3deg)}68%{transform:rotate(2.5deg)}76%{transform:rotate(-1.5deg)}84%{transform:rotate(0deg)}}
-  .rocco-door{position:absolute;left:6.5%;bottom:6.5%;z-index:20;width:min(20vw,280px)}
-  .rocco-door svg{width:100%;height:auto;animation:rocBreathe 3.4s ease-in-out infinite}
-  .bubble{position:absolute;left:calc(6.5% + min(14vw,195px));bottom:calc(6.5% + min(23vw,320px));z-index:21;background:var(--bone);color:var(--ink);
-    font:700 clamp(13px,1.15vw,16px) 'Rubik',sans-serif;padding:10px 16px;border-radius:16px;border:3px solid var(--outline);
-    box-shadow:0 3px 0 rgba(0,0,0,.35);animation:bubblePop .5s .4s ease-out backwards;white-space:nowrap}
-  .bubble::after{content:'';position:absolute;left:14px;bottom:-11px;width:14px;height:14px;background:var(--bone);
-    border-right:3px solid var(--outline);border-bottom:3px solid var(--outline);transform:skewX(28deg) rotate(45deg)}
-
-  .user-side{position:absolute;right:7%;bottom:6%;z-index:20;width:min(16vw,220px)}
-  .user-side svg{width:100%;height:auto;animation:argueWiggle 3.2s ease-in-out infinite;transform-origin:50% 92%}
-  .bubble-user{position:absolute;right:calc(7% + min(11vw,150px));bottom:calc(6% + min(19.5vw,268px));z-index:21;background:var(--bone);color:var(--ink);
-    font:700 clamp(12px,1.05vw,15px) 'Rubik',sans-serif;padding:10px 16px;border-radius:16px;border:3px solid var(--outline);
-    box-shadow:0 3px 0 rgba(0,0,0,.35);animation:bubblePop .5s .9s ease-out backwards;white-space:nowrap}
-  .bubble-user::after{content:'';position:absolute;right:14px;bottom:-11px;width:14px;height:14px;background:var(--bone);
-    border-left:3px solid var(--outline);border-bottom:3px solid var(--outline);transform:skewX(-28deg) rotate(-45deg)}
-  .phone-wrap{position:relative;z-index:30;display:flex;justify-content:center;align-items:flex-end;padding:10vh 16px 40px}
-  .phone{width:310px;background:#1D1D1D;border-radius:48px;padding:11px;box-shadow:0 30px 60px rgba(0,0,0,.55),0 0 0 2px #3a3a3e,0 0 90px rgba(217,164,65,.14)}
-  .screen{position:relative;background:linear-gradient(#F0EDE5,#E6E2D7);border-radius:38px;overflow:hidden;height:640px;display:flex;flex-direction:column}
-  .island{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:92px;height:26px;background:#0b0b0d;border-radius:14px;z-index:5}
-  .statusbar{display:flex;justify-content:space-between;align-items:center;padding:14px 24px 0;font:600 12px 'Rubik',sans-serif;color:var(--ink)}
-  .screen.dark .statusbar{color:var(--bone)}
-
-  .app-header{display:flex;align-items:center;justify-content:center;position:relative;padding:14px 18px 2px}
-  .app-header h1{font:900 19px 'Rubik',sans-serif;color:var(--ink);letter-spacing:2.5px}
-  .streak{position:absolute;right:18px;top:8px;display:flex;flex-direction:column;align-items:center;line-height:1}
-  .streak b{font:800 11px 'Rubik',sans-serif;color:var(--ink);margin-top:1px}
-  .phone-rocco{display:flex;justify-content:center;padding:6px 0 0}
-  .phone-rocco svg{animation:rocBreathe 3.4s ease-in-out infinite}
-  .score{text-align:center;margin-top:2px}
-  .score .pct{font:900 46px/1 'Rubik',sans-serif;color:var(--ink);text-shadow:0 2px 0 rgba(255,255,255,.7)}
-  .score .pct small{font-size:22px;font-weight:800}
-  .score .lbl{font:600 10.5px 'Rubik',sans-serif;color:var(--muted);margin-top:2px}
-  .bar{margin:8px 26px 0;height:8px;background:rgba(22,32,47,.12);border-radius:6px;overflow:hidden}
-  .bar i{display:block;height:100%;width:90%;background:linear-gradient(90deg,#c8912f,var(--amber));border-radius:6px}
-  .tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;padding:14px 18px 0}
-  .tile{background:rgba(22,32,47,.07);border-radius:15px;padding:10px 6px 9px;text-align:center}
-  .tile .v{font:800 14px 'Rubik',sans-serif;color:var(--ink);margin-top:4px}
-  .tile .l{font:500 8.5px 'Rubik',sans-serif;color:var(--muted);margin-top:1px}
-  .offenders{padding:13px 18px 0;flex:1}
-  .offenders h2{margin:0 0 7px;font:700 12.5px 'Rubik',sans-serif;color:var(--ink)}
-  .olist{background:#fff;border-radius:16px;padding:4px 12px;box-shadow:0 1px 3px rgba(0,0,0,.07)}
-  .orow{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(0,0,0,.06)}
-  .orow:last-child{border-bottom:none}
-  .orow .meta{flex:1;line-height:1.15}
-  .orow .n{font:700 11.5px 'Rubik',sans-serif;color:var(--ink)}
-  .orow .c{font:500 9px 'Rubik',sans-serif;color:#8b93a1}
-  .orow .t{font:700 11px 'Rubik',sans-serif;color:var(--muted)}
-  .tabbar{position:relative;background:#fff;border-radius:24px 24px 0 0;display:flex;justify-content:space-around;align-items:flex-end;padding:8px 8px 12px;box-shadow:0 -4px 14px rgba(0,0,0,.08)}
-  .tab{display:flex;flex-direction:column;align-items:center;gap:2px;font:600 8.5px 'Rubik',sans-serif;color:#9aa1ad;width:48px}
-  .tab.active{color:var(--ink)}
-  .tab-focus{position:relative;top:-16px;width:52px;height:52px;background:var(--amber);border-radius:50%;display:flex;align-items:center;justify-content:center;border:4px solid #fff;box-shadow:0 4px 10px rgba(0,0,0,.22)}
-
-  .hero-cue{margin-top:9vh;opacity:.5;animation:bounceCue 1.8s ease-in-out infinite}
-
-  /* ================= Social-Proof-Band ================= */
-  .proof{background:var(--amber);padding:26px 20px}
-  .proof-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-around;gap:24px;flex-wrap:wrap;text-align:center}
-  .proof .num{font:900 30px 'Rubik',sans-serif;color:var(--night)}
-  .proof .cap{font:600 13px 'Rubik',sans-serif;color:var(--night);opacity:.75;margin-top:2px}
-
-  /* ================= Sektionen allgemein ================= */
-  .sec{padding:104px 24px}
-  .sec-head{max-width:760px;margin:0 auto 56px;text-align:center}
-  .sec-head .kicker{display:inline-block;font:700 12px 'Rubik',sans-serif;letter-spacing:2px;text-transform:uppercase;padding:6px 14px;border-radius:20px;margin-bottom:16px}
-  .sec-head h2{font-size:clamp(30px,3.6vw,46px);font-weight:900;line-height:1.1;letter-spacing:-.4px}
-  .sec-head p{font:500 16px/1.6 'Rubik',sans-serif;margin:16px auto 0;max-width:560px}
-
-  /* ================= Club-Straße ================= */
-  .street{background:linear-gradient(#10161F,#141d2c)}
-  .street .kicker{background:rgba(217,164,65,.15);color:var(--amber)}
-  .street h2{color:var(--bone)}
-  .street h2 em{font-style:normal;color:var(--amber)}
-  .street p{color:var(--bone);opacity:.72}
-  .street-scene{max-width:1240px;margin:0 auto;border-radius:28px;overflow:hidden;border:3px solid var(--outline);box-shadow:0 24px 60px rgba(0,0,0,.45)}
-  .street-scene svg{display:block;width:100%;height:auto}
-  .street-caption{max-width:760px;margin:26px auto 0;text-align:center;font:500 14px/1.6 'Rubik',sans-serif;color:var(--bone);opacity:.55}
-
-  /* ================= Features ================= */
-  .features{background:var(--bone)}
-  .features .kicker{background:rgba(22,32,47,.08);color:var(--ink)}
-  .features h2{color:var(--ink)}
-  .features .sec-head p{color:var(--muted)}
-  .feat-grid{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:390px 1fr;gap:56px;align-items:center}
-  .feat-cards{display:flex;flex-direction:column;gap:18px}
-  .fcard{background:#fff;border-radius:22px;padding:22px 24px;box-shadow:0 2px 4px rgba(0,0,0,.05),0 12px 28px rgba(22,32,47,.07);display:flex;gap:16px;align-items:flex-start;transition:transform .25s}
-  .fcard:hover{transform:translateY(-3px)}
-  .fcard .fic{flex:0 0 46px;width:46px;height:46px;border-radius:14px;background:var(--ink);display:flex;align-items:center;justify-content:center}
-  .fcard h3{font:800 17px 'Rubik',sans-serif;color:var(--ink)}
-  .fcard p{margin:4px 0 0;font:500 13.5px/1.5 'Rubik',sans-serif;color:var(--muted)}
-  .feat-phones{display:flex;justify-content:center;align-items:center;gap:0;position:relative;min-height:640px}
-  .mini-phone{width:264px;background:#1D1D1D;border-radius:42px;padding:10px;box-shadow:0 24px 50px rgba(22,32,47,.28),0 0 0 2px #3a3a3e}
-  .mini-screen{position:relative;border-radius:33px;overflow:hidden;height:548px;display:flex;flex-direction:column}
-  .mini-island{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:78px;height:22px;background:#0b0b0d;border-radius:12px;z-index:5}
-  .mp-block{transform:rotate(-5deg) translateY(14px);z-index:2}
-  .mp-streak{transform:rotate(4deg) translateX(-18px);z-index:1}
-  .mini-status{display:flex;justify-content:space-between;padding:12px 20px 0;font:600 11px 'Rubik',sans-serif}
-
-  .block-screen{background:#10161F}
-  .block-screen .mini-status{color:var(--bone)}
-  .block-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:0 22px}
-  .block-body svg{animation:rocBreathe 3.4s ease-in-out infinite}
-  .block-title{font:800 22px/1.15 'Rubik',sans-serif;color:var(--bone);text-align:center}
-  .block-sub{font:400 12px/1.5 'Rubik',sans-serif;color:var(--bone);opacity:.68;text-align:center}
-  .block-btn{width:100%;text-align:center;padding:12px 0;background:var(--amber);color:#10161F;border-radius:13px;font:700 14px 'Rubik',sans-serif}
-  .block-note{font:500 11px 'Rubik',sans-serif;color:var(--bone);opacity:.45;margin-bottom:16px}
-
-  .streak-screen{background:linear-gradient(#F7EEDC,#F0DFBB)}
-  .streak-screen .mini-status{color:var(--ink)}
-  .streak-body{flex:1;display:flex;flex-direction:column;align-items:center;padding:16px 20px 18px;gap:10px}
-  .streak-num{font:900 52px/1 'Rubik',sans-serif;color:var(--ink)}
-  .streak-cap{font:700 14px 'Rubik',sans-serif;color:var(--ink)}
-  .week{display:flex;gap:7px;margin-top:4px}
-  .day{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:700 10px 'Rubik',sans-serif;color:var(--muted);background:rgba(22,32,47,.08)}
-  .day.hot{background:var(--amber);color:var(--night)}
-  .streak-card{width:100%;background:var(--amber);border-radius:16px;padding:14px;text-align:center;margin-top:8px}
-  .streak-card .a{font:800 13px 'Rubik',sans-serif;color:var(--night)}
-  .streak-card .b{font:500 10.5px 'Rubik',sans-serif;color:var(--night);opacity:.7;margin-top:2px}
-  .mile{width:100%;background:#fff;border-radius:16px;padding:12px 14px;margin-top:6px}
-  .mile .t{display:flex;justify-content:space-between;font:700 11px 'Rubik',sans-serif;color:var(--ink)}
-  .mile .bar2{height:6px;background:rgba(22,32,47,.1);border-radius:4px;margin-top:8px;overflow:hidden}
-  .mile .bar2 i{display:block;height:100%;width:40%;background:var(--amber);border-radius:4px}
-
-  /* ================= Ausreden / Chat ================= */
-  .excuses{background:var(--night)}
-  .excuses .kicker{background:rgba(217,164,65,.15);color:var(--amber)}
-  .excuses h2{color:var(--bone)}
-  .excuses .sec-head p{color:var(--bone);opacity:.72}
-  .chat-grid{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
-  .chat{background:#151E2C;border-radius:26px;border:3px solid var(--outline);padding:26px 24px;box-shadow:0 20px 50px rgba(0,0,0,.4)}
-  .chat-head{display:flex;align-items:center;gap:12px;padding-bottom:16px;border-bottom:1px solid rgba(245,242,235,.08);margin-bottom:18px}
-  .chat-head .who{line-height:1.2}
-  .chat-head .who b{display:block;font:800 15px 'Rubik',sans-serif;color:var(--bone)}
-  .chat-head .who span{font:500 11px 'Rubik',sans-serif;color:var(--amber)}
-  .msg{max-width:78%;padding:10px 15px;border-radius:18px;font:500 14px/1.4 'Rubik',sans-serif;margin-bottom:10px;animation:bubblePop .4s ease-out backwards}
-  .msg.you{background:#2E3B50;color:var(--bone);border-bottom-left-radius:6px}
-  .msg.roc{background:var(--amber);color:var(--night);font-weight:700;margin-left:auto;border-bottom-right-radius:6px}
-  .faces{display:grid;grid-template-columns:1fr 1fr;gap:22px}
-  .face{background:#151E2C;border:3px solid var(--outline);border-radius:22px;padding:20px 14px 16px;display:flex;flex-direction:column;align-items:center;gap:10px}
-  .face span{font:700 13px 'Rubik',sans-serif;color:var(--bone);text-align:center}
-
-  /* ================= Testimonials ================= */
-  .testis{background:var(--bone)}
-  .testis .kicker{background:rgba(22,32,47,.08);color:var(--ink)}
-  .testis h2{color:var(--ink)}
-  .testis .sec-head p{color:var(--muted)}
-  .t-grid{max-width:1140px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-  .t-card{background:#fff;border-radius:22px;padding:26px 26px 22px;box-shadow:0 2px 4px rgba(0,0,0,.05),0 14px 30px rgba(22,32,47,.08);display:flex;flex-direction:column;gap:14px}
-  .t-card .stars{color:var(--amber);font-size:15px;letter-spacing:2px}
-  .t-card blockquote{margin:0;font:500 15px/1.55 'Rubik',sans-serif;color:var(--ink)}
-  .t-card .t-who{display:flex;align-items:center;gap:11px;margin-top:auto}
-  .t-ava{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:800 15px 'Rubik',sans-serif;color:#fff}
-  .t-who .n2{font:700 13.5px 'Rubik',sans-serif;color:var(--ink)}
-  .t-who .s2{font:500 11.5px 'Rubik',sans-serif;color:var(--muted)}
-
-  /* ================= Final CTA ================= */
-  .outro{background:var(--bone);padding:0 24px 72px}
-  .outro-card{position:relative;max-width:1400px;margin:0 auto;border-radius:44px;overflow:hidden;min-height:680px;box-shadow:0 24px 60px rgba(22,32,47,.18)}
-  .outro-card>svg{position:absolute;inset:0;width:100%;height:100%}
-  .outro-copy{position:relative;z-index:2;text-align:center;padding:88px 20px 0}
-  .outro-copy h2{color:var(--bone);font-size:clamp(32px,4vw,54px);font-weight:900;line-height:1.12}
-  .outro-copy h2 em{font-style:normal;color:var(--amber)}
-  .stores{display:flex;gap:14px;justify-content:center;margin-top:30px;flex-wrap:wrap}
-  .store-btn{display:flex;align-items:center;gap:10px;background:#000;border:2px solid #3a3a3e;color:#fff;border-radius:14px;padding:10px 20px;text-decoration:none;text-align:left;transition:transform .12s}
-  .store-btn:hover{transform:translateY(-2px)}
-  .store-btn .s{display:block;font:500 9.5px 'Rubik',sans-serif;opacity:.7}
-  .store-btn .l{display:block;font:700 16px 'Rubik',sans-serif;line-height:1.1}
-
-  .footer{background:var(--outline);color:var(--bone);padding:30px 40px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font:500 13px 'Rubik',sans-serif}
-  .footer .fm{display:flex;align-items:center;gap:9px;font:900 18px 'Rubik',sans-serif;letter-spacing:1.5px}
-  .footer .fm span{color:var(--amber)}
-  .footer nav{display:flex;gap:20px}
-  .footer a{color:var(--bone);opacity:.65;text-decoration:none}
-  .footer a:hover{opacity:1;color:var(--amber)}
-  .footer .quote{opacity:.45}
-
-  @media (max-width:1060px){
-    .rocco-door,.bubble,.user-side,.bubble-user{display:none}
-    .nav{padding:16px 20px}
-    .nav-links a{display:none}
-    .feat-grid{grid-template-columns:1fr;gap:44px}
-    .feat-phones{min-height:0;flex-wrap:wrap;gap:24px}
-    .mp-block,.mp-streak{transform:none}
-    .chat-grid{grid-template-columns:1fr;gap:40px}
-    .outro-card{min-height:480px;border-radius:28px}
-    .t-grid{grid-template-columns:1fr;max-width:520px}
-    .sec{padding:72px 20px}
-  }
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@500;600;700;800;900&amp;family=Figtree:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>body{margin:0;background:#10161F;font-family:'Figtree',sans-serif}a{color:#D9A441;text-decoration:none}a:hover{color:#F0C96A}
+@keyframes rocBreathe{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes rocNod{0%,20%,100%{transform:rotate(0deg)}8%{transform:rotate(4deg)}14%{transform:rotate(-1deg)}}
+@keyframes neonFlick{0%,72%,76%,100%{opacity:1}74%{opacity:.55}90%{opacity:.85}}
+@keyframes bubbleBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes starTwinkle{0%,100%{opacity:.9}50%{opacity:.35}}</style>
 </head>
 <body>
+<div style="background:#10161F;color:#F5F2EB;overflow:hidden;position:relative">
 
-<!-- ======= Globale Symbole (Gast-Charaktere) ======= -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <defs>
-    <!-- Handy-Zombie: Gast, der aufs Handy starrt -->
-    <g id="guest">
-      <ellipse cx="80" cy="232" rx="52" ry="7" fill="rgba(0,0,0,.3)"/>
-      <rect x="52" y="182" width="24" height="42" rx="11" fill="#1A2230" stroke="#060A10" stroke-width="6"/>
-      <rect x="86" y="182" width="24" height="42" rx="11" fill="#1A2230" stroke="#060A10" stroke-width="6"/>
-      <rect x="46" y="216" width="36" height="16" rx="8" fill="#16161A" stroke="#060A10" stroke-width="6"/>
-      <rect x="82" y="216" width="36" height="16" rx="8" fill="#16161A" stroke="#060A10" stroke-width="6"/>
-      <path d="M46 112 Q46 84 78 82 L84 82 Q116 84 116 112 L116 172 Q116 190 98 190 L64 190 Q46 190 46 172 Z" fill="var(--coat,#3D4C63)" stroke="#060A10" stroke-width="6"/>
-      <!-- Arme halten Handy vor der Brust -->
-      <rect x="36" y="118" width="46" height="22" rx="11" fill="var(--coat,#3D4C63)" stroke="#060A10" stroke-width="6" transform="rotate(24 59 129)"/>
-      <rect x="80" y="118" width="46" height="22" rx="11" fill="var(--coat,#3D4C63)" stroke="#060A10" stroke-width="6" transform="rotate(-24 103 129)"/>
-      <!-- Handy mit Glow -->
-      <path d="M66 132 L96 132 L108 96 L54 96 Z" fill="#9EC5FF" opacity=".28" style="animation:phoneGlow 2.4s ease-in-out infinite"/>
-      <rect x="64" y="130" width="34" height="24" rx="5" fill="#0A0E15" stroke="#060A10" stroke-width="5"/>
-      <rect x="68" y="134" width="26" height="16" rx="3" fill="#9EC5FF" opacity=".9"/>
-      <circle cx="60" cy="146" r="9" fill="var(--skin,#F5B98F)" stroke="#060A10" stroke-width="5"/>
-      <circle cx="102" cy="146" r="9" fill="var(--skin,#F5B98F)" stroke="#060A10" stroke-width="5"/>
-      <!-- Kopf, nach unten geneigt -->
-      <g transform="rotate(9 81 60)">
-        <circle cx="81" cy="52" r="32" fill="var(--skin,#F5B98F)" stroke="#060A10" stroke-width="6"/>
-        <path d="M52 44 Q52 18 81 18 Q110 18 110 44 L110 40 Q96 34 81 34 Q66 34 52 40 Z" fill="var(--hat,#241A12)" stroke="#060A10" stroke-width="6"/>
-        <circle cx="70" cy="58" r="3.2" fill="#1D1D1D"/>
-        <circle cx="92" cy="58" r="3.2" fill="#1D1D1D"/>
-        <path d="M74 72 Q81 76 88 72" stroke="#1D1D1D" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+  <div style="position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;padding:64px 24px 0">
+    <span style="position:absolute;top:90px;left:12%;width:4px;height:4px;background:#F5F2EB;border-radius:999px;animation:starTwinkle 3.2s ease-in-out infinite"></span>
+    <span style="position:absolute;top:180px;left:22%;width:3px;height:3px;background:#F5F2EB;border-radius:999px;animation:starTwinkle 4.1s ease-in-out .6s infinite"></span>
+    <span style="position:absolute;top:120px;right:18%;width:3px;height:3px;background:#F5F2EB;border-radius:999px;animation:starTwinkle 3.6s ease-in-out .3s infinite"></span>
+    <span style="position:absolute;top:250px;right:9%;width:4px;height:4px;background:#F5F2EB;border-radius:999px;animation:starTwinkle 4.5s ease-in-out 1s infinite"></span>
+    <span style="position:absolute;top:300px;left:7%;width:3px;height:3px;background:#F5F2EB;border-radius:999px;animation:starTwinkle 3.9s ease-in-out 1.4s infinite"></span>
+    <svg viewBox="0 0 60 60" width="72" height="72" style="position:absolute;top:70px;right:10%;opacity:.9"><path d="M40 6 A26 26 0 1 0 40 54 A21 21 0 0 1 40 6 Z" fill="#F0C96A" opacity=".9"></path></svg>
+    <div style="position:absolute;top:26px;left:36px;display:flex;align-items:center;gap:11px">
+      <div style="width:42px;height:42px;background:#D9A441;border:2.5px solid #060A10;border-radius:11px;display:flex;align-items:center;justify-content:center;overflow:hidden">
+        <svg viewBox="80 -2 140 140" width="36" height="36">
+          <circle cx="88" cy="70" r="11" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"></circle>
+          <circle cx="212" cy="70" r="11" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"></circle>
+          <rect x="88" y="6" width="124" height="120" rx="50" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"></rect>
+          <path d="M104 88 Q150 128 196 88 Q190 118 150 120 Q110 118 104 88 Z" fill="#DE9A6C"></path>
+          <path d="M136 102 Q152 111 166 102" stroke="#1D1D1D" stroke-width="5" fill="none" stroke-linecap="round"></path>
+          <rect x="102" y="42" width="42" height="28" rx="13" fill="#16161A"></rect>
+          <rect x="156" y="42" width="42" height="28" rx="13" fill="#16161A"></rect>
+          <rect x="141" y="51" width="18" height="7" rx="3.5" fill="#16161A"></rect>
+          <path d="M104 36 Q122 31 140 36" stroke="#1D1D1D" stroke-width="6" fill="none" stroke-linecap="round"></path>
+          <path d="M160 36 Q178 31 196 36" stroke="#1D1D1D" stroke-width="6" fill="none" stroke-linecap="round"></path>
+        </svg>
+      </div>
+      <span style="font:900 19px 'Gabarito',sans-serif;letter-spacing:3px;color:#F5F2EB">ROCCO</span>
+    </div>
+    <h1 style="margin:70px 0 0;font:900 clamp(44px,7vw,84px)/1.05 'Gabarito',sans-serif;letter-spacing:-2px;color:#F5F2EB;text-wrap:balance">Scroll's over.<br>Rocco's on the door.</h1>
+    <p style="margin:22px 0 0;max-width:540px;font:400 18px/1.6 'Figtree',sans-serif;color:#F5F2EB;opacity:.72;text-wrap:pretty">Put your apps on the list, set your minutes. When time's up, Rocco decides who gets in — and it's nobody.</p>
+    <div style="margin-top:32px;display:flex;align-items:center;gap:12px;background:#000;border:2px solid rgba(245,242,235,.55);border-radius:14px;padding:10px 22px;cursor:pointer">
+      <svg viewBox="0 0 24 24" width="26" height="26" fill="#fff"><path d="M17.05 12.54c-.03-2.89 2.36-4.28 2.47-4.35-1.35-1.97-3.44-2.24-4.18-2.27-1.78-.18-3.47 1.05-4.37 1.05-.9 0-2.29-1.02-3.77-1-1.94.03-3.72 1.13-4.72 2.86-2.01 3.49-.51 8.66 1.45 11.49.96 1.39 2.1 2.94 3.6 2.88 1.45-.06 1.99-.93 3.74-.93s2.24.93 3.77.9c1.56-.03 2.54-1.41 3.49-2.8 1.1-1.61 1.55-3.17 1.58-3.25-.03-.02-3.03-1.16-3.06-4.58zM14.16 4.05c.8-.97 1.34-2.32 1.19-3.66-1.15.05-2.55.77-3.38 1.73-.74.86-1.39 2.23-1.22 3.55 1.29.1 2.6-.65 3.41-1.62z"></path></svg>
+      <div style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.15"><span style="font:500 11px 'Figtree',sans-serif;color:#fff">Download on the</span><span style="font:700 19px 'Gabarito',sans-serif;color:#fff">App Store</span></div>
+    </div>
+  </div>
+
+  <svg viewBox="0 0 1200 660" style="display:block;width:100%;margin-top:-10px" aria-label="Rocco vor dem Club, niemand kommt rein">
+    <path d="M0 560 L0 400 L70 400 L70 330 L130 330 L130 410 L210 410 L210 360 L290 360 L290 560 Z" fill="#0C1220"></path>
+    <path d="M880 560 L880 380 L950 380 L950 300 L1010 300 L1010 390 L1090 390 L1090 340 L1200 340 L1200 560 Z" fill="#0C1220"></path>
+    <path d="M120 560 L120 440 L200 440 L200 470 L280 470 L280 430 L340 430 L340 560 Z" fill="#131B29"></path>
+    <path d="M860 560 L860 450 L940 450 L940 480 L1030 480 L1030 440 L1120 440 L1120 560 Z" fill="#131B29"></path>
+    <g transform="translate(360,110)">
+      <rect x="0" y="30" width="480" height="430" rx="6" fill="#16202F" stroke="#060A10" stroke-width="6"></rect>
+      <rect x="-14" y="14" width="508" height="26" rx="8" fill="#1E2836" stroke="#060A10" stroke-width="5"></rect>
+      <rect x="90" y="54" width="300" height="126" rx="14" fill="#0B1018" stroke="#060A10" stroke-width="6"></rect>
+      <text x="240" y="106" text-anchor="middle" style="font:900 40px 'Gabarito',sans-serif;fill:#F0C96A;filter:drop-shadow(0 0 14px rgba(217,164,65,.85));animation:neonFlick 6s linear infinite">THE FEED</text>
+      <g>
+        <rect x="156" y="122" width="40" height="40" rx="10" fill="#DD2A7B" stroke="#060A10" stroke-width="4"></rect>
+        <text x="176" y="149" text-anchor="middle" style="font:800 15px 'Gabarito',sans-serif;fill:#fff">IG</text>
+        <rect x="220" y="122" width="40" height="40" rx="10" fill="#010101" stroke="#060A10" stroke-width="4"></rect>
+        <text x="240" y="149" text-anchor="middle" style="font:800 15px 'Gabarito',sans-serif;fill:#fff">TT</text>
+        <rect x="284" y="122" width="40" height="40" rx="10" fill="#1E2836" stroke="#060A10" stroke-width="4"></rect>
+        <text x="304" y="149" text-anchor="middle" style="font:800 15px 'Gabarito',sans-serif;fill:#fff">X</text>
       </g>
+      <rect x="176" y="266" width="128" height="194" rx="8" fill="#060A10" stroke="#D9A441" stroke-width="5" style="filter:drop-shadow(0 0 10px rgba(217,164,65,.4))"></rect>
+      <circle cx="240" cy="252" r="9" fill="#F0C96A" style="filter:drop-shadow(0 0 10px rgba(240,201,106,.9))"></circle>
+      <rect x="40" y="280" width="60" height="80" rx="6" fill="#1E2836" stroke="#060A10" stroke-width="4"></rect>
+      <rect x="380" y="280" width="60" height="80" rx="6" fill="#1E2836" stroke="#060A10" stroke-width="4"></rect>
     </g>
-    <!-- Gast, der mit Rocco diskutiert (Arm hoch, empört) -->
-    <g id="guest-argue">
-      <ellipse cx="80" cy="232" rx="52" ry="7" fill="rgba(0,0,0,.3)"/>
-      <rect x="52" y="182" width="24" height="42" rx="11" fill="#1A2230" stroke="#060A10" stroke-width="6"/>
-      <rect x="86" y="182" width="24" height="42" rx="11" fill="#1A2230" stroke="#060A10" stroke-width="6"/>
-      <rect x="46" y="216" width="36" height="16" rx="8" fill="#16161A" stroke="#060A10" stroke-width="6"/>
-      <rect x="82" y="216" width="36" height="16" rx="8" fill="#16161A" stroke="#060A10" stroke-width="6"/>
-      <path d="M46 112 Q46 84 78 82 L84 82 Q116 84 116 112 L116 172 Q116 190 98 190 L64 190 Q46 190 46 172 Z" fill="var(--coat,#7A4A3B)" stroke="#060A10" stroke-width="6"/>
-      <!-- linker Arm gestikuliert nach oben -->
-      <g transform="rotate(-116 46 118)">
-        <rect x="36" y="106" width="52" height="22" rx="11" fill="var(--coat,#7A4A3B)" stroke="#060A10" stroke-width="6"/>
-        <circle cx="90" cy="117" r="10" fill="var(--skin,#F5B98F)" stroke="#060A10" stroke-width="5"/>
+    <rect x="0" y="560" width="1200" height="100" fill="#1E2836"></rect>
+    <line x1="0" y1="560" x2="1200" y2="560" stroke="#060A10" stroke-width="5"></line>
+    <rect x="0" y="632" width="1200" height="28" fill="#0B1018"></rect>
+    <rect x="946" y="290" width="8" height="270" fill="#060A10"></rect>
+    <rect x="928" y="278" width="44" height="18" rx="9" fill="#060A10"></rect>
+    <circle cx="950" cy="296" r="8" fill="#F0C96A" style="filter:drop-shadow(0 0 12px rgba(240,201,106,.9))"></circle>
+    <polygon points="950,300 856,560 1044,560" fill="rgba(217,164,65,.07)"></polygon>
+    <ellipse cx="600" cy="556" rx="96" ry="10" fill="rgba(0,0,0,.4)"></ellipse>
+    <g transform="translate(480,272) scale(0.8)">
+      <g id="legs">
+        <rect x="106" y="276" width="36" height="56" rx="16" fill="#2A3648" stroke="#060A10" stroke-width="6"></rect>
+        <rect x="158" y="276" width="36" height="56" rx="16" fill="#2A3648" stroke="#060A10" stroke-width="6"></rect>
+        <rect x="98" y="324" width="52" height="21" rx="10.5" fill="#16161A" stroke="#060A10" stroke-width="6"></rect>
+        <rect x="150" y="324" width="52" height="21" rx="10.5" fill="#16161A" stroke="#060A10" stroke-width="6"></rect>
       </g>
-      <!-- rechter Arm hält Handy runter -->
-      <rect x="86" y="120" width="46" height="22" rx="11" fill="var(--coat,#7A4A3B)" stroke="#060A10" stroke-width="6" transform="rotate(38 109 131)"/>
-      <rect x="112" y="152" width="30" height="20" rx="4" fill="#0A0E15" stroke="#060A10" stroke-width="5" transform="rotate(14 127 162)"/>
-      <circle cx="112" cy="150" r="9" fill="var(--skin,#F5B98F)" stroke="#060A10" stroke-width="5"/>
-      <!-- Kopf hoch, empört -->
-      <g transform="rotate(-6 81 56)">
-        <circle cx="81" cy="50" r="32" fill="var(--skin,#F5B98F)" stroke="#060A10" stroke-width="6"/>
-        <path d="M52 42 Q52 16 81 16 Q110 16 110 42 L110 38 Q96 32 81 32 Q66 32 52 38 Z" fill="var(--hat,#3B2E20)" stroke="#060A10" stroke-width="6"/>
-        <circle cx="70" cy="54" r="3.4" fill="#1D1D1D"/>
-        <circle cx="92" cy="54" r="3.4" fill="#1D1D1D"/>
-        <path d="M62 44 L76 48" stroke="#1D1D1D" stroke-width="4.5" stroke-linecap="round"/>
-        <path d="M100 44 L86 48" stroke="#1D1D1D" stroke-width="4.5" stroke-linecap="round"/>
-        <ellipse cx="81" cy="70" rx="7" ry="9" fill="#1D1D1D"/>
+      <g style="animation:rocBreathe 3.4s ease-in-out infinite">
+        <circle cx="58" cy="202" r="24" fill="#F5B98F" stroke="#060A10" stroke-width="6"></circle>
+        <circle cx="242" cy="202" r="24" fill="#F5B98F" stroke="#060A10" stroke-width="6"></circle>
+        <path d="M62 192 Q62 148 108 142 L192 142 Q238 148 238 192 L238 262 Q238 282 216 282 L84 282 Q62 282 62 262 Z" fill="#1E2836" stroke="#060A10" stroke-width="6"></path>
+        <path d="M116 143 Q150 162 184 143" stroke="#D9A441" stroke-width="7" fill="none" stroke-linecap="round"></path>
+        <g transform="rotate(8 150 226)"><rect x="70" y="210" width="160" height="34" rx="17" fill="#F0AC80" stroke="#060A10" stroke-width="6"></rect><circle cx="86" cy="227" r="15" fill="#F5B98F" stroke="#060A10" stroke-width="6"></circle></g>
+        <g transform="rotate(-8 150 208)"><rect x="70" y="192" width="160" height="34" rx="17" fill="#F5B98F" stroke="#060A10" stroke-width="6"></rect><circle cx="214" cy="209" r="15" fill="#F5B98F" stroke="#060A10" stroke-width="6"></circle></g>
+        <rect x="130" y="112" width="40" height="32" rx="10" fill="#F0AC80" stroke="#060A10" stroke-width="6"></rect>
       </g>
-    </g>
-    <!-- Comic-Rocco Block-Pose (dunkle Outline) -->
-    <g id="rocco-block">
-      <ellipse cx="150" cy="348" rx="82" ry="9" fill="rgba(0,0,0,.35)"/>
-      <rect x="106" y="276" width="36" height="56" rx="16" fill="#2A3648" stroke="#060A10" stroke-width="6"/>
-      <rect x="158" y="276" width="36" height="56" rx="16" fill="#2A3648" stroke="#060A10" stroke-width="6"/>
-      <rect x="98" y="324" width="52" height="21" rx="10.5" fill="#16161A" stroke="#060A10" stroke-width="6"/>
-      <rect x="150" y="324" width="52" height="21" rx="10.5" fill="#16161A" stroke="#060A10" stroke-width="6"/>
-      <circle cx="58" cy="202" r="24" fill="#F5B98F" stroke="#060A10" stroke-width="6"/>
-      <circle cx="242" cy="202" r="24" fill="#F5B98F" stroke="#060A10" stroke-width="6"/>
-      <path d="M62 192 Q62 148 108 142 L192 142 Q238 148 238 192 L238 262 Q238 282 216 282 L84 282 Q62 282 62 262 Z" fill="#1E2836" stroke="#060A10" stroke-width="6"/>
-      <path d="M116 143 Q150 162 184 143" stroke="#D9A441" stroke-width="7" fill="none" stroke-linecap="round"/>
-      <g transform="rotate(8 150 226)"><rect x="70" y="210" width="160" height="34" rx="17" fill="#F0AC80" stroke="#060A10" stroke-width="6"/><circle cx="86" cy="227" r="15" fill="#F5B98F" stroke="#060A10" stroke-width="6"/></g>
-      <g transform="rotate(-8 150 208)"><rect x="70" y="192" width="160" height="34" rx="17" fill="#F5B98F" stroke="#060A10" stroke-width="6"/><circle cx="214" cy="209" r="15" fill="#F5B98F" stroke="#060A10" stroke-width="6"/></g>
-      <rect x="130" y="112" width="40" height="32" rx="10" fill="#F0AC80" stroke="#060A10" stroke-width="6"/>
       <g style="animation:rocNod 5s ease-in-out infinite;transform-origin:150px 100px;transform-box:view-box">
-        <circle cx="88" cy="70" r="11" fill="#F5B98F" stroke="#060A10" stroke-width="6"/>
-        <circle cx="212" cy="70" r="11" fill="#F5B98F" stroke="#060A10" stroke-width="6"/>
-        <rect x="88" y="6" width="124" height="120" rx="50" fill="#F5B98F" stroke="#060A10" stroke-width="6"/>
-        <path d="M104 88 Q150 128 196 88 Q190 118 150 120 Q110 118 104 88 Z" fill="#DE9A6C"/>
-        <path d="M136 104 L166 104" stroke="#1D1D1D" stroke-width="5" fill="none" stroke-linecap="round"/>
-        <rect x="102" y="42" width="42" height="28" rx="13" fill="#16161A" stroke="#060A10" stroke-width="4"/>
-        <rect x="156" y="42" width="42" height="28" rx="13" fill="#16161A" stroke="#060A10" stroke-width="4"/>
-        <rect x="141" y="51" width="18" height="7" rx="3.5" fill="#16161A"/>
-        <rect x="109" y="47" width="13" height="5" rx="2.5" fill="#FFFFFF" opacity=".45" style="animation:rocGlint 6s linear infinite"/>
-        <rect x="163" y="47" width="13" height="5" rx="2.5" fill="#FFFFFF" opacity=".45"/>
-        <path d="M104 38 Q122 34 140 38" stroke="#1D1D1D" stroke-width="6" fill="none" stroke-linecap="round"/>
-        <path d="M160 30 Q178 22 196 32" stroke="#1D1D1D" stroke-width="6" fill="none" stroke-linecap="round"/>
+        <circle cx="88" cy="70" r="11" fill="#F5B98F" stroke="#060A10" stroke-width="6"></circle>
+        <circle cx="212" cy="70" r="11" fill="#F5B98F" stroke="#060A10" stroke-width="6"></circle>
+        <rect x="88" y="6" width="124" height="120" rx="50" fill="#F5B98F" stroke="#060A10" stroke-width="6"></rect>
+        <path d="M104 88 Q150 128 196 88 Q190 118 150 120 Q110 118 104 88 Z" fill="#DE9A6C"></path>
+        <path d="M136 104 L166 104" stroke="#1D1D1D" stroke-width="5" fill="none" stroke-linecap="round"></path>
+        <rect x="102" y="42" width="42" height="28" rx="13" fill="#16161A"></rect>
+        <rect x="156" y="42" width="42" height="28" rx="13" fill="#16161A"></rect>
+        <rect x="141" y="51" width="18" height="7" rx="3.5" fill="#16161A"></rect>
+        <rect x="109" y="47" width="13" height="5" rx="2.5" fill="#fff" opacity=".45"></rect>
+        <path d="M104 38 Q122 34 140 38" stroke="#1D1D1D" stroke-width="6" fill="none" stroke-linecap="round"></path>
+        <path d="M160 30 Q178 22 196 32" stroke="#1D1D1D" stroke-width="6" fill="none" stroke-linecap="round"></path>
       </g>
     </g>
-    <!-- Rocco-Kopf (für Chat-Avatar etc.) -->
-    <g id="rocco-head">
-      <circle cx="20" cy="42" r="7" fill="#F5B98F" stroke="#060A10" stroke-width="4"/>
-      <circle cx="80" cy="42" r="7" fill="#F5B98F" stroke="#060A10" stroke-width="4"/>
-      <rect x="19" y="4" width="62" height="62" rx="26" fill="#F5B98F" stroke="#060A10" stroke-width="4.5"/>
-      <path d="M27 46 Q50 66 73 46 Q70 60 50 61 Q30 60 27 46 Z" fill="#DE9A6C"/>
-      <path d="M42 52 Q50 56 58 52" stroke="#1D1D1D" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-      <rect x="26" y="23" width="21" height="14" rx="7" fill="#16161A"/>
-      <rect x="53" y="23" width="21" height="14" rx="7" fill="#16161A"/>
-      <rect x="45" y="27" width="10" height="4" rx="2" fill="#16161A"/>
-      <rect x="29" y="26" width="8" height="2.6" rx="1.3" fill="#fff" opacity=".45"/>
-      <path d="M27 19 Q37 16 47 19" stroke="#1D1D1D" stroke-width="4" fill="none" stroke-linecap="round"/>
-      <path d="M53 19 Q63 16 73 19" stroke="#1D1D1D" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <g>
+        <g transform="translate(118,468) rotate(-3)">
+          <rect x="0" y="0" width="58" height="58" rx="14" fill="#DD2A7B" stroke="#060A10" stroke-width="5"></rect>
+          <path d="M14 20 Q19 15 24 20" stroke="#060A10" stroke-width="4" fill="none" stroke-linecap="round" transform="rotate(18 19 18)"></path>
+          <path d="M34 20 Q39 15 44 20" stroke="#060A10" stroke-width="4" fill="none" stroke-linecap="round" transform="rotate(-18 39 18)"></path>
+          <circle cx="19" cy="27" r="3.5" fill="#060A10"></circle><circle cx="39" cy="27" r="3.5" fill="#060A10"></circle>
+          <path d="M20 44 Q29 37 38 44" stroke="#060A10" stroke-width="4" fill="none" stroke-linecap="round"></path>
+        </g>
+        <ellipse cx="147" cy="556" rx="34" ry="6" fill="rgba(0,0,0,.35)"></ellipse>
+        <g style="animation:bubbleBob 3s ease-in-out infinite;transform-box:fill-box;transform-origin:center">
+          <rect x="88" y="408" width="150" height="40" rx="12" fill="#F5F2EB" stroke="#060A10" stroke-width="4"></rect>
+          <path d="M140 446 L152 462 L160 446 Z" fill="#F5F2EB" stroke="#060A10" stroke-width="4" stroke-linejoin="round"></path>
+          <rect x="92" y="444" width="60" height="6" fill="#F5F2EB"></rect>
+          <text x="163" y="434" text-anchor="middle" style="font:700 16px 'Gabarito',sans-serif;fill:#16202F">C'mon. 5 minutes.</text>
+        </g>
+        <g transform="translate(222,482) rotate(4)">
+          <rect x="0" y="0" width="54" height="54" rx="13" fill="#010101" stroke="#060A10" stroke-width="5"></rect>
+          <path d="M12 19 L23 23" stroke="#F5F2EB" stroke-width="4" stroke-linecap="round"></path>
+          <path d="M42 19 L31 23" stroke="#F5F2EB" stroke-width="4" stroke-linecap="round"></path>
+          <circle cx="18" cy="29" r="3.5" fill="#F5F2EB"></circle><circle cx="36" cy="29" r="3.5" fill="#F5F2EB"></circle>
+          <path d="M18 43 Q27 37 36 43" stroke="#F5F2EB" stroke-width="4" fill="none" stroke-linecap="round"></path>
+        </g>
+        <ellipse cx="249" cy="556" rx="32" ry="6" fill="rgba(0,0,0,.35)"></ellipse>
+        <g style="animation:bubbleBob 3s ease-in-out .7s infinite;transform-box:fill-box;transform-origin:center">
+          <rect x="196" y="352" width="132" height="40" rx="12" fill="#F5F2EB" stroke="#060A10" stroke-width="4"></rect>
+          <path d="M240 390 L250 406 L258 390 Z" fill="#F5F2EB" stroke="#060A10" stroke-width="4" stroke-linejoin="round"></path>
+          <rect x="200" y="388" width="56" height="6" fill="#F5F2EB"></rect>
+          <text x="262" y="378" text-anchor="middle" style="font:700 16px 'Gabarito',sans-serif;fill:#16202F">We had plans!</text>
+        </g>
+        <g transform="translate(316,474) rotate(-2)">
+          <rect x="0" y="0" width="56" height="56" rx="13" fill="#1E2836" stroke="#060A10" stroke-width="5"></rect>
+          <path d="M13 21 L24 19" stroke="#F5F2EB" stroke-width="4" stroke-linecap="round"></path>
+          <path d="M43 21 L32 19" stroke="#F5F2EB" stroke-width="4" stroke-linecap="round"></path>
+          <circle cx="19" cy="28" r="3.5" fill="#F5F2EB"></circle><circle cx="37" cy="28" r="3.5" fill="#F5F2EB"></circle>
+          <line x1="20" y1="43" x2="36" y2="43" stroke="#F5F2EB" stroke-width="4" stroke-linecap="round"></line>
+        </g>
+        <ellipse cx="344" cy="556" rx="32" ry="6" fill="rgba(0,0,0,.35)"></ellipse>
+        <g style="animation:bubbleBob 3s ease-in-out 1.4s infinite;transform-box:fill-box;transform-origin:center">
+          <rect x="318" y="418" width="86" height="38" rx="12" fill="#F5F2EB" stroke="#060A10" stroke-width="4"></rect>
+          <path d="M340 454 L350 470 L358 454 Z" fill="#F5F2EB" stroke="#060A10" stroke-width="4" stroke-linejoin="round"></path>
+          <rect x="322" y="452" width="46" height="6" fill="#F5F2EB"></rect>
+          <text x="361" y="443" text-anchor="middle" style="font:700 16px 'Gabarito',sans-serif;fill:#16202F">…hello?</text>
+        </g>
+      </g>
+    
+    <g>
+      <rect x="436" y="478" width="10" height="82" rx="4" fill="#D9A441" stroke="#060A10" stroke-width="4"></rect>
+      <circle cx="441" cy="474" r="11" fill="#F0C96A" stroke="#060A10" stroke-width="4"></circle>
+      <ellipse cx="441" cy="560" rx="24" ry="7" fill="#B08334" stroke="#060A10" stroke-width="4"></ellipse>
+      <rect x="754" y="478" width="10" height="82" rx="4" fill="#D9A441" stroke="#060A10" stroke-width="4"></rect>
+      <circle cx="759" cy="474" r="11" fill="#F0C96A" stroke="#060A10" stroke-width="4"></circle>
+      <ellipse cx="759" cy="560" rx="24" ry="7" fill="#B08334" stroke="#060A10" stroke-width="4"></ellipse>
+      <path d="M448 484 Q600 542 752 484" stroke="#B3402F" stroke-width="9" fill="none" stroke-linecap="round"></path>
+      <path d="M448 484 Q600 542 752 484" stroke="rgba(255,255,255,.18)" stroke-width="3" fill="none" stroke-linecap="round"></path>
     </g>
-  </defs>
-</svg>
+  </svg>
 
-<!-- ================= HERO ================= -->
-<div class="hero">
-  <div class="scene" aria-hidden="true">
-    <svg viewBox="0 0 1600 1150" preserveAspectRatio="xMidYMax slice">
-      <defs>
-        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#0C121B"/>
-          <stop offset=".62" stop-color="#16202F"/>
-          <stop offset="1" stop-color="#22304A"/>
-        </linearGradient>
-        <radialGradient id="doorGlow" cx=".5" cy=".9" r=".75">
-          <stop offset="0" stop-color="#D9A441" stop-opacity=".5"/>
-          <stop offset="1" stop-color="#D9A441" stop-opacity="0"/>
-        </radialGradient>
-      </defs>
-      <rect width="1600" height="1150" fill="url(#sky)"/>
-      <g fill="#F5F2EB">
-        <circle cx="140" cy="120" r="2" style="animation:twinkle 3.2s ease-in-out infinite"/>
-        <circle cx="320" cy="190" r="1.6" style="animation:twinkle 4.1s .6s ease-in-out infinite"/>
-        <circle cx="520" cy="90" r="1.8" style="animation:twinkle 3.6s 1.1s ease-in-out infinite"/>
-        <circle cx="1090" cy="140" r="1.7" style="animation:twinkle 3s .3s ease-in-out infinite"/>
-        <circle cx="1300" cy="80" r="2.1" style="animation:twinkle 4.4s .9s ease-in-out infinite"/>
-        <circle cx="1480" cy="210" r="1.5" style="animation:twinkle 3.8s 1.4s ease-in-out infinite"/>
-        <circle cx="880" cy="70" r="1.4" style="animation:twinkle 4s 2s ease-in-out infinite"/>
-        <circle cx="700" cy="160" r="1.5" style="animation:twinkle 3.4s .8s ease-in-out infinite"/>
-        <circle cx="240" cy="60" r="1.4" style="animation:twinkle 4.6s 1.8s ease-in-out infinite"/>
-      </g>
-      <circle cx="1330" cy="160" r="46" fill="#F5F2EB" opacity=".92"/>
-      <circle cx="1348" cy="148" r="40" fill="#182234"/>
-      <g fill="#1B2635">
-        <rect x="-20" y="580" width="150" height="470"/>
-        <rect x="150" y="500" width="120" height="550"/>
-        <rect x="290" y="630" width="170" height="420"/>
-        <rect x="480" y="540" width="110" height="510"/>
-        <rect x="610" y="650" width="180" height="400"/>
-        <rect x="810" y="520" width="130" height="530"/>
-        <rect x="960" y="610" width="150" height="440"/>
-        <rect x="1130" y="490" width="120" height="560"/>
-        <rect x="1270" y="630" width="160" height="420"/>
-        <rect x="1450" y="550" width="170" height="500"/>
-        <circle cx="705" cy="615" r="52"/>
-        <rect x="1180" y="440" width="18" height="60"/>
-      </g>
-      <g fill="#D9A441" opacity=".5">
-        <rect x="180" y="540" width="12" height="16" rx="2"/><rect x="215" y="590" width="12" height="16" rx="2"/>
-        <rect x="510" y="580" width="12" height="16" rx="2"/><rect x="840" y="560" width="12" height="16" rx="2"/>
-        <rect x="870" y="630" width="12" height="16" rx="2"/><rect x="1160" y="530" width="12" height="16" rx="2"/>
-        <rect x="1490" y="590" width="12" height="16" rx="2"/><rect x="1300" y="670" width="12" height="16" rx="2"/>
-      </g>
-      <g fill="#121B28">
-        <rect x="-20" y="730" width="240" height="420" rx="8"/>
-        <rect x="240" y="790" width="200" height="360" rx="8"/>
-        <rect x="460" y="750" width="150" height="400" rx="8"/>
-        <rect x="1000" y="770" width="190" height="380" rx="8"/>
-        <rect x="1210" y="720" width="160" height="430" rx="8"/>
-        <rect x="1390" y="790" width="230" height="360" rx="8"/>
-      </g>
-      <rect x="0" y="1010" width="1600" height="140" fill="#0D1119"/>
-      <rect x="0" y="992" width="1600" height="26" rx="4" fill="#1E2836"/>
-      <g stroke="#0D1119" stroke-width="3" opacity=".6">
-        <line x1="120" y1="992" x2="108" y2="1018"/><line x1="330" y1="992" x2="318" y2="1018"/>
-        <line x1="560" y1="992" x2="548" y2="1018"/><line x1="1060" y1="992" x2="1048" y2="1018"/>
-        <line x1="1290" y1="992" x2="1278" y2="1018"/><line x1="1500" y1="992" x2="1488" y2="1018"/>
-      </g>
-      <g>
-        <rect x="30" y="610" width="330" height="392" fill="#131C2A"/>
-        <rect x="30" y="610" width="330" height="16" fill="#0D1119"/>
-        <rect x="196" y="720" width="132" height="282" rx="8" fill="#0A0E15"/>
-        <rect x="208" y="734" width="108" height="268" rx="6" fill="#241A12"/>
-        <rect x="214" y="742" width="96" height="260" rx="5" fill="url(#doorGlow)"/>
-        <rect x="214" y="742" width="96" height="260" rx="5" fill="#D9A441" opacity=".16"/>
-        <circle cx="302" cy="870" r="5" fill="#D9A441"/>
-        <rect x="180" y="680" width="164" height="34" rx="10" fill="#B3402F"/>
-        <path d="M180 712 h164 l-10 18 h-144 Z" fill="#8f3325"/>
-        <g style="animation:neonFlicker 6s linear infinite">
-          <rect x="64" y="654" width="112" height="44" rx="10" fill="#0A0E15" stroke="#D9A441" stroke-width="3"/>
-          <text x="120" y="684" text-anchor="middle" font-family="Rubik,sans-serif" font-weight="800" font-size="24" fill="#D9A441" letter-spacing="3">CLUB</text>
-        </g>
-        <rect x="64" y="730" width="100" height="86" rx="8" fill="#0A0E15"/>
-        <rect x="70" y="736" width="88" height="74" rx="6" fill="#2E3B50"/>
-        <ellipse cx="262" cy="1006" rx="120" ry="16" fill="#D9A441" opacity=".14"/>
-      </g>
-      <g>
-        <g stroke="#060A10" stroke-width="5">
-          <line x1="420" y1="992" x2="420" y2="890"/>
-          <line x1="560" y1="992" x2="560" y2="890"/>
-        </g>
-        <path d="M420 898 Q490 942 560 898" stroke="#B3402F" stroke-width="9" fill="none" stroke-linecap="round"/>
-        <circle cx="420" cy="886" r="11" fill="#D9A441" stroke="#060A10" stroke-width="4"/>
-        <circle cx="560" cy="886" r="11" fill="#D9A441" stroke="#060A10" stroke-width="4"/>
-        <rect x="402" y="988" width="36" height="12" rx="6" fill="#D9A441" stroke="#060A10" stroke-width="4"/>
-        <rect x="542" y="988" width="36" height="12" rx="6" fill="#D9A441" stroke="#060A10" stroke-width="4"/>
-      </g>
-      <g>
-        <rect x="1490" y="750" width="10" height="252" rx="5" fill="#1E2836" stroke="#060A10" stroke-width="4"/>
-        <rect x="1462" y="732" width="66" height="26" rx="13" fill="#0A0E15" stroke="#060A10" stroke-width="4"/>
-        <ellipse cx="1495" cy="752" rx="22" ry="8" fill="#D9A441" opacity=".8"/>
-        <ellipse cx="1495" cy="1006" rx="110" ry="15" fill="#D9A441" opacity=".12"/>
-      </g>
-      <g transform="translate(700 976)">
-        <ellipse cx="0" cy="6" rx="13" ry="10" fill="#8b93a1" stroke="#060A10" stroke-width="3.5"/>
-        <circle cx="11" cy="-3" r="7" fill="#8b93a1" stroke="#060A10" stroke-width="3.5"/>
-        <path d="M17 -3 l7 2 -7 3 Z" fill="#D9A441"/>
-        <line x1="-3" y1="15" x2="-3" y2="21" stroke="#060A10" stroke-width="3"/>
-        <line x1="4" y1="15" x2="4" y2="21" stroke="#060A10" stroke-width="3"/>
-      </g>
-      <g fill="#D9A441"><circle cx="676" cy="992" r="2"/><circle cx="686" cy="998" r="2"/><circle cx="668" cy="1000" r="2"/></g>
-    </svg>
-  </div>
-
-  <nav class="nav">
-    <div class="wordmark"><svg class="logo" width="36" height="36" viewBox="0 0 100 100" aria-hidden="true">
-      <circle cx="50" cy="50" r="44" fill="#F5B98F" stroke="#060A10" stroke-width="7"/>
-      <path d="M22 60 Q50 88 78 60 Q73 79 50 81 Q27 79 22 60 Z" fill="#DE9A6C"/>
-      <path d="M38 71 L62 71" stroke="#1D1D1D" stroke-width="6" stroke-linecap="round"/>
-      <rect x="13" y="37" width="30" height="20" rx="10" fill="#16161A"/>
-      <rect x="57" y="37" width="30" height="20" rx="10" fill="#16161A"/>
-      <rect x="41" y="43" width="18" height="6" rx="3" fill="#16161A"/>
-      <rect x="18" y="41" width="9" height="4" rx="2" fill="#fff" opacity=".45"/>
-      <path d="M14 31 Q28 26 42 31" stroke="#1D1D1D" stroke-width="6" fill="none" stroke-linecap="round"/>
-      <path d="M58 25 Q72 17 86 27" stroke="#1D1D1D" stroke-width="6" fill="none" stroke-linecap="round"/>
-    </svg>ROCCO<span>.</span></div>
-  </nav>
-
-  <div class="hero-copy">
-    <h1>Your apps have<br>a <em>bouncer</em> now.</h1>
-    <p>Rocco guards the door to Instagram, TikTok &amp; Co. When your time is up, you are out. No arguing.</p>
-    <div class="hero-ctas">
-      <a class="store-btn" href="#" aria-label="Download on the App Store">
-        <svg width="24" height="28" viewBox="0 0 24 28" fill="#fff"><path d="M19.7 14.6c0-3 2.5-4.5 2.6-4.6-1.4-2.1-3.6-2.4-4.4-2.4-1.9-.2-3.7 1.1-4.6 1.1-1 0-2.4-1.1-4-1-2 0-3.9 1.2-5 3-2.1 3.7-.5 9.1 1.5 12.1 1 1.5 2.2 3.1 3.8 3 1.5-.1 2.1-1 4-1s2.4 1 4 1 2.7-1.5 3.7-2.9c1.2-1.7 1.6-3.3 1.7-3.4-.1-.1-3.3-1.3-3.3-4.9zM16.6 5.6c.8-1 1.4-2.4 1.2-3.8-1.2 0-2.7.8-3.5 1.8-.8.9-1.5 2.3-1.3 3.7 1.4.1 2.8-.7 3.6-1.7z"/></svg>
-        <span><span class="s">Download on the</span><span class="l">App Store</span></span>
-      </a>
-    </div>
-    <div class="hero-cue">
-      <svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="#F5F2EB" stroke-width="2.6" stroke-linecap="round"><path d="M6 10 l7 7 7-7"/></svg>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:44px;padding:80px 24px 0;position:relative">
+    <div style="position:absolute;top:0;left:50%;width:0;height:64px;border-left:3px dashed rgba(217,164,65,.35)"></div>
+    <h2 style="margin:0;font:900 clamp(30px,4vw,44px)/1.15 'Gabarito',sans-serif;letter-spacing:-1px;text-align:center">House rules. His rules.</h2>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:24px;max-width:1080px">
+      <div style="flex:1;min-width:270px;max-width:330px;display:flex;flex-direction:column;gap:12px;background:#16202F;border:3px solid #060A10;border-radius:20px;padding:26px;box-shadow:0 12px 30px rgba(0,0,0,.35)">
+        <span style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:#D9A441;border:2.5px solid #060A10;border-radius:999px;font:800 17px 'Gabarito',sans-serif;color:#10161F">1</span>
+        <span style="font:800 21px 'Gabarito',sans-serif;color:#F5F2EB">Make the list</span>
+        <span style="font:400 14.5px/1.6 'Figtree',sans-serif;color:#F5F2EB;opacity:.68">Pick the apps that always run long. They go on the list. The list is the list.</span>
+      </div>
+      <div style="flex:1;min-width:270px;max-width:330px;display:flex;flex-direction:column;gap:12px;background:#16202F;border:3px solid #060A10;border-radius:20px;padding:26px;box-shadow:0 12px 30px rgba(0,0,0,.35)">
+        <span style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:#D9A441;border:2.5px solid #060A10;border-radius:999px;font:800 17px 'Gabarito',sans-serif;color:#10161F">2</span>
+        <span style="font:800 21px 'Gabarito',sans-serif;color:#F5F2EB">Set the door policy</span>
+        <span style="font:400 14.5px/1.6 'Figtree',sans-serif;color:#F5F2EB;opacity:.68">Minutes per day, opens per app, closing hours. You write the policy once — sober, at noon.</span>
+      </div>
+      <div style="flex:1;min-width:270px;max-width:330px;display:flex;flex-direction:column;gap:12px;background:#16202F;border:3px solid #060A10;border-radius:20px;padding:26px;box-shadow:0 12px 30px rgba(0,0,0,.35)">
+        <span style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:#D9A441;border:2.5px solid #060A10;border-radius:999px;font:800 17px 'Gabarito',sans-serif;color:#10161F">3</span>
+        <span style="font:800 21px 'Gabarito',sans-serif;color:#F5F2EB">Rocco takes the shift</span>
+        <span style="font:400 14.5px/1.6 'Figtree',sans-serif;color:#F5F2EB;opacity:.68">Time's up? Door's shut until tomorrow. Whining won't help — he's heard it all.</span>
+      </div>
     </div>
   </div>
 
-  <div class="rocco-door">
-    <svg viewBox="0 0 300 360" aria-label="Rocco crossing his arms at the club door"><use href="#rocco-block"/></svg>
-  </div>
-  <div class="bubble">Time's up. Go home.</div>
-
-  <div class="user-side">
-    <svg viewBox="-34 -24 214 272" aria-label="Kicked-out user complaining about his time being up" style="--coat:#7A4A3B;--skin:#F0AC80;--hat:#3B2E20">
-      <use href="#guest-argue"/>
-    </svg>
-  </div>
-  <div class="bubble-user">But I wasn't done scrolling!!</div>
-
-  <div class="phone-wrap rv">
-    <div class="phone">
-      <div class="screen">
-        <div class="island"></div>
-        <div class="statusbar">
-          <span>9:41</span>
-          <svg width="52" height="12" viewBox="0 0 52 12" fill="#16202F">
-            <rect x="0" y="6" width="2.5" height="5" rx="1"/><rect x="4" y="4" width="2.5" height="7" rx="1"/>
-            <rect x="8" y="2" width="2.5" height="9" rx="1"/><rect x="12" y="0" width="2.5" height="11" rx="1"/>
-            <path d="M22 4.5 a6.5 6.5 0 0 1 9 0 l-1.6 1.7 a4.2 4.2 0 0 0 -5.8 0 Z"/>
-            <circle cx="26.5" cy="9" r="1.6"/>
-            <rect x="36" y="1.5" width="13" height="8" rx="2.5" fill="none" stroke="#16202F" stroke-width="1.4"/>
-            <rect x="38" y="3.5" width="7" height="4" rx="1" fill="#16202F"/>
-            <rect x="50" y="4" width="1.8" height="3" rx="0.9"/>
+  <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:64px;padding:110px 24px 0;position:relative">
+    <div style="width:340px;flex-shrink:0;display:flex;flex-direction:column">
+      <div style="width:340px;height:520px;background:#F5F2EB;border-radius:48px 48px 0 0;border:11px solid #060A10;border-bottom:none;box-shadow:0 -18px 50px rgba(0,0,0,.4);position:relative;overflow:hidden;display:flex;flex-direction:column;box-sizing:border-box">
+        <div style="position:absolute;top:10px;left:50%;transform:translateX(-50%);width:100px;height:28px;background:#10161F;border-radius:16px;z-index:5"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 26px 0;font:600 13px 'Figtree',sans-serif;color:#16202F"><span>21:48</span><span style="letter-spacing:2px;font-size:10px">▮▮▮</span></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 22px 0">
+          <span style="font:900 18px 'Gabarito',sans-serif;color:#16202F;letter-spacing:2px">ROCCO</span>
+          <div style="display:flex;align-items:center;gap:5px;padding:5px 10px;background:#fff;border:2px solid #1D1D1D;border-radius:999px;box-shadow:2px 2px 0 rgba(29,29,29,.85)">
+            <svg viewBox="0 0 20 24" width="11" height="14"><path d="M10 1 Q16 8 15 14 A5.5 5.5 0 0 1 4 14 Q4 8 10 1 Z" fill="#D9A441"></path><path d="M10 10 Q12.5 14 12 17 A2.3 2.3 0 0 1 7.5 17 Q7.5 13 10 10 Z" fill="#F5F2EB"></path></svg>
+            <span style="font:800 12px 'Gabarito',sans-serif;color:#16202F">12</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 22px 0">
+          <svg viewBox="30 0 240 300" width="150" height="188">
+            <g style="animation:rocBreathe 3.4s ease-in-out infinite">
+              <circle cx="58" cy="202" r="24" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"></circle>
+              <circle cx="242" cy="202" r="24" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"></circle>
+              <path d="M62 192 Q62 148 108 142 L192 142 Q238 148 238 192 L238 262 Q238 282 216 282 L84 282 Q62 282 62 262 Z" fill="#1E2836" stroke="#1D1D1D" stroke-width="6"></path>
+              <path d="M116 143 Q150 162 184 143" stroke="#D9A441" stroke-width="7" fill="none" stroke-linecap="round"></path>
+              <g transform="rotate(8 150 226)"><rect x="70" y="210" width="160" height="34" rx="17" fill="#F0AC80" stroke="#1D1D1D" stroke-width="6"></rect><circle cx="86" cy="227" r="15" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"></circle></g>
+              <g transform="rotate(-8 150 208)"><rect x="70" y="192" width="160" height="34" rx="17" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"></rect><circle cx="214" cy="209" r="15" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"></circle></g>
+              <rect x="130" y="112" width="40" height="32" rx="10" fill="#F0AC80" stroke="#1D1D1D" stroke-width="6"></rect>
+            </g>
+            <g style="animation:rocNod 5s ease-in-out infinite;transform-origin:150px 100px;transform-box:view-box">
+              <circle cx="88" cy="70" r="11" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"></circle>
+              <circle cx="212" cy="70" r="11" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"></circle>
+              <rect x="88" y="6" width="124" height="120" rx="50" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"></rect>
+              <path d="M104 88 Q150 128 196 88 Q190 118 150 120 Q110 118 104 88 Z" fill="#DE9A6C"></path>
+              <path d="M136 102 Q152 111 166 102" stroke="#1D1D1D" stroke-width="5" fill="none" stroke-linecap="round"></path>
+              <rect x="102" y="42" width="42" height="28" rx="13" fill="#16161A"></rect>
+              <rect x="156" y="42" width="42" height="28" rx="13" fill="#16161A"></rect>
+              <rect x="141" y="51" width="18" height="7" rx="3.5" fill="#16161A"></rect>
+              <path d="M104 34 Q122 28 140 34" stroke="#1D1D1D" stroke-width="6" fill="none" stroke-linecap="round"></path>
+              <path d="M160 30 Q178 22 196 32" stroke="#1D1D1D" stroke-width="6" fill="none" stroke-linecap="round"></path>
+            </g>
           </svg>
+          <div style="display:flex;align-items:baseline;gap:4px"><span style="font:900 46px/1 'Gabarito',sans-serif;color:#16202F;letter-spacing:-1.5px">18</span><span style="font:800 19px 'Gabarito',sans-serif;color:#5A6270">min left</span></div>
+          <span style="font:500 11.5px 'Figtree',sans-serif;color:#5A6270">of 45 today · &quot;Nutz sie weise.&quot;</span>
+          <div style="width:100%;height:11px;background:#DDD8CC;border:2px solid #1D1D1D;border-radius:999px;margin-top:9px;overflow:hidden;box-sizing:border-box"><div style="width:60%;height:100%;background:#D9A441"></div></div>
         </div>
-        <header class="app-header">
-          <h1>ROCCO</h1>
-          <div class="streak">
-            <svg width="20" height="22" viewBox="0 0 20 22">
-              <path d="M10 1 Q14 6 12 9 Q15 8 16 5 Q19 10 17 15 A8 8 0 0 1 3 15 Q1 10 5 6 Q6 9 8 10 Q6 5 10 1 Z" fill="#D9A441" stroke="#B08334" stroke-width="1"/>
-              <path d="M10 12 Q12 14 11.5 16 A3.4 3.4 0 0 1 6.5 16 Q6 13.5 8 12.5 Q8.5 14 10 12 Z" fill="#F5F2EB"/>
-            </svg>
-            <b>12</b>
-          </div>
-        </header>
-        <div class="phone-rocco">
-          <svg viewBox="0 0 300 360" width="112" height="134" aria-label="Rocco, everything under control"><use href="#rocco-block"/></svg>
-        </div>
-        <div class="score">
-          <div class="pct">90<small>%</small></div>
-          <div class="lbl">Rocco Score today</div>
-        </div>
-        <div class="bar"><i></i></div>
-        <div class="tiles">
-          <div class="tile">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#5A6270" stroke-width="1.6" stroke-linecap="round"><circle cx="8" cy="8" r="6.4"/><path d="M8 4.5 V8 l2.6 1.8"/></svg>
-            <div class="v">1h 24m</div><div class="l">Scroll time</div>
-          </div>
-          <div class="tile">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#5A6270" stroke-width="1.6" stroke-linecap="round"><rect x="4.5" y="1.5" width="7" height="13" rx="1.8"/><path d="M7 12.6 h2"/></svg>
-            <div class="v">32</div><div class="l">Pickups</div>
-          </div>
-          <div class="tile">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#5A6270" stroke-width="1.6" stroke-linecap="round"><rect x="3" y="7" width="10" height="7.5" rx="1.8"/><path d="M5.2 7 V5 a2.8 2.8 0 0 1 5.6 0 v2"/></svg>
-            <div class="v">0</div><div class="l">Exceptions</div>
-          </div>
-        </div>
-        <div class="offenders">
-          <h2>Regulars</h2>
-          <div class="olist">
-            <div class="orow">
-              <svg width="26" height="26" viewBox="0 0 26 26"><defs><linearGradient id="ig" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#FED373"/><stop offset=".4" stop-color="#F15245"/><stop offset=".75" stop-color="#D92E7F"/><stop offset="1" stop-color="#9B36B7"/></linearGradient></defs><rect width="26" height="26" rx="7" fill="url(#ig)"/><rect x="6" y="6" width="14" height="14" rx="4.5" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="13" cy="13" r="3.4" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="17.6" cy="8.4" r="1.2" fill="#fff"/></svg>
-              <div class="meta"><div class="n">Instagram</div><div class="c">Social Media</div></div>
-              <div class="t">28m</div>
-            </div>
-            <div class="orow">
-              <svg width="26" height="26" viewBox="0 0 26 26"><rect width="26" height="26" rx="7" fill="#000"/><path d="M6.5 6 h4.2 l3 4.3 L17.4 6 h2.6 l-5.1 6.1 L20.5 20 h-4.2 l-3.3-4.7 -4 4.7 H6.4 l5.5-6.6 Z" fill="#fff"/></svg>
-              <div class="meta"><div class="n">X</div><div class="c">Social Media</div></div>
-              <div class="t">25m</div>
-            </div>
-            <div class="orow">
-              <svg width="26" height="26" viewBox="0 0 26 26"><rect width="26" height="26" rx="7" fill="#25D366"/><path d="M13 5.5 a7.2 7.2 0 0 0 -6.2 10.9 L6 20 l3.7 -.8 A7.2 7.2 0 1 0 13 5.5 Z" fill="#fff"/><path d="M10.4 9.6 c-.3-.6-.6-.6-.9-.6 -.5 0-1 .6-1 1.5 0 1.5 1.1 3 2.6 4.2 1.8 1.4 3.2 1.6 3.8 1.5 .6-.1 1.2-.6 1.3-1.2 .1-.5 0-.8-.2-.9 l-1.4-.7 c-.3-.1-.5-.1-.7.2 l-.5.6 c-.2.2-.4.2-.7.1 -.9-.4-1.9-1.3-2.4-2.2 -.1-.3-.1-.5.1-.6 l.6-.7 c.2-.2.1-.5 0-.7 Z" fill="#25D366"/></svg>
-              <div class="meta"><div class="n">WhatsApp</div><div class="c">Messaging</div></div>
-              <div class="t">14m</div>
-            </div>
-          </div>
-        </div>
-        <div class="tabbar">
-          <div class="tab active">
-            <svg width="19" height="19" viewBox="0 0 19 19" fill="none" stroke="#16202F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5 9.5 3 16 8.5 V16 a1 1 0 0 1 -1 1 H4 a1 1 0 0 1 -1-1 Z"/><path d="M7.5 17 v-5 h4 v5"/></svg>
-            Home
-          </div>
-          <div class="tab">
-            <svg width="19" height="19" viewBox="0 0 19 19" fill="none" stroke="#9aa1ad" stroke-width="1.8" stroke-linecap="round"><rect x="3.5" y="8" width="12" height="8.5" rx="2"/><path d="M6 8 V6 a3.5 3.5 0 0 1 7 0 v2"/></svg>
-            Block
-          </div>
-          <div class="tab" style="width:60px">
-            <div class="tab-focus">
-              <svg width="30" height="14" viewBox="0 0 30 14"><rect x="0" y="1" width="13" height="9" rx="4.5" fill="#10161F"/><rect x="17" y="1" width="13" height="9" rx="4.5" fill="#10161F"/><rect x="12" y="4" width="6" height="3" rx="1.5" fill="#10161F"/></svg>
-            </div>
-          </div>
-          <div class="tab">
-            <svg width="19" height="19" viewBox="0 0 19 19" fill="none" stroke="#9aa1ad" stroke-width="1.8" stroke-linecap="round"><path d="M3.5 16 V10"/><path d="M9.5 16 V4"/><path d="M15.5 16 V7.5"/></svg>
-            Stats
-          </div>
-          <div class="tab">
-            <svg width="19" height="19" viewBox="0 0 19 19" fill="none" stroke="#9aa1ad" stroke-width="1.8" stroke-linecap="round"><circle cx="9.5" cy="9.5" r="2.6"/><path d="M9.5 2.5 v2 M9.5 14.5 v2 M2.5 9.5 h2 M14.5 9.5 h2 M4.6 4.6 l1.4 1.4 M13 13 l1.4 1.4 M14.4 4.6 13 6 M6 13 l-1.4 1.4"/></svg>
-            More
-          </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:14px 20px 0">
+          <div style="display:flex;flex-direction:column;align-items:center;gap:1px;background:#fff;border:2px solid #1D1D1D;border-radius:12px;padding:8px 4px;box-shadow:2px 2px 0 rgba(29,29,29,.85)"><span style="font:800 15px 'Gabarito',sans-serif;color:#16202F">12m</span><span style="font:500 9.5px 'Figtree',sans-serif;color:#5A6270">scrolled</span></div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:1px;background:#fff;border:2px solid #1D1D1D;border-radius:12px;padding:8px 4px;box-shadow:2px 2px 0 rgba(29,29,29,.85)"><span style="font:800 15px 'Gabarito',sans-serif;color:#16202F">17</span><span style="font:500 9.5px 'Figtree',sans-serif;color:#5A6270">pickups</span></div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:1px;background:#fff;border:2px solid #1D1D1D;border-radius:12px;padding:8px 4px;box-shadow:2px 2px 0 rgba(29,29,29,.85)"><span style="font:800 15px 'Gabarito',sans-serif;color:#D9A441">0</span><span style="font:500 9.5px 'Figtree',sans-serif;color:#5A6270">let-ins</span></div>
         </div>
       </div>
     </div>
+    <div style="display:flex;flex-direction:column;gap:26px;max-width:440px">
+      <h2 style="margin:0;font:900 clamp(30px,4vw,44px)/1.15 'Gabarito',sans-serif;letter-spacing:-1px">He's not angry.<br>He's just on duty.</h2>
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <div style="display:flex;gap:14px;align-items:flex-start">
+          <span style="width:38px;height:38px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:#16202F;border:2.5px solid #060A10;border-radius:12px;font:800 15px 'Gabarito',sans-serif;color:#D9A441">⏱</span>
+          <div style="display:flex;flex-direction:column;gap:2px"><span style="font:700 16px 'Gabarito',sans-serif">Live door count</span><span style="font:400 14px/1.55 'Figtree',sans-serif;opacity:.68">Rocco's mood tracks your minutes. Under ten left, he starts tapping his watch.</span></div>
+        </div>
+        <div style="display:flex;gap:14px;align-items:flex-start">
+          <span style="width:38px;height:38px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:#16202F;border:2.5px solid #060A10;border-radius:12px;font:800 15px 'Gabarito',sans-serif;color:#D9A441">🔥</span>
+          <div style="display:flex;flex-direction:column;gap:2px"><span style="font:700 16px 'Gabarito',sans-serif">Streaks that unlock stuff</span><span style="font:400 14px/1.55 'Figtree',sans-serif;opacity:.68">14 clean days: golden shades. 30 days: Rocco takes a vacation photo for your widget.</span></div>
+        </div>
+        <div style="display:flex;gap:14px;align-items:flex-start">
+          <span style="width:38px;height:38px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:#16202F;border:2.5px solid #060A10;border-radius:12px;font:800 15px 'Gabarito',sans-serif;color:#D9A441">🔒</span>
+          <div style="display:flex;flex-direction:column;gap:2px"><span style="font:700 16px 'Gabarito',sans-serif">Hardcore double lock</span><span style="font:400 14px/1.55 'Figtree',sans-serif;opacity:.68">Opens run out? Only your buddy holds the second key. Locked until midnight.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;align-items:center;gap:36px;padding:110px 24px 0">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center">
+      <h2 style="margin:0;font:900 clamp(30px,4vw,44px)/1.15 'Gabarito',sans-serif;letter-spacing:-1px">The line has opinions.</h2>
+      <span style="font:400 16px 'Figtree',sans-serif;opacity:.65">Reviews from apps that didn't get in.</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:22px;max-width:1080px">
+      <div style="flex:1;min-width:270px;max-width:330px;display:flex;flex-direction:column;gap:14px;background:#16202F;border:3px solid #060A10;border-radius:20px;padding:24px;box-shadow:0 12px 30px rgba(0,0,0,.35)">
+        <span style="font:800 15px 'Gabarito',sans-serif;color:#D9A441;letter-spacing:2px">★☆☆☆☆</span>
+        <span style="font:600 17px/1.5 'Gabarito',sans-serif;color:#F5F2EB">&quot;Absolutely rigid door policy. Zero flexibility. One star.&quot;</span>
+        <div style="display:flex;align-items:center;gap:10px;margin-top:auto"><span style="width:32px;height:32px;background:#010101;border:2px solid #060A10;border-radius:9px;display:flex;align-items:center;justify-content:center;font:800 11px 'Gabarito',sans-serif;color:#fff">TT</span><span style="font:500 13px 'Figtree',sans-serif;opacity:.6">TikTok · 0/1 opens today</span></div>
+      </div>
+      <div style="flex:1;min-width:270px;max-width:330px;display:flex;flex-direction:column;gap:14px;background:#16202F;border:3px solid #060A10;border-radius:20px;padding:24px;box-shadow:0 12px 30px rgba(0,0,0,.35)">
+        <span style="font:800 15px 'Gabarito',sans-serif;color:#D9A441;letter-spacing:2px">★☆☆☆☆</span>
+        <span style="font:600 17px/1.5 'Gabarito',sans-serif;color:#F5F2EB">&quot;We used to be close. Now there's a rope.&quot;</span>
+        <div style="display:flex;align-items:center;gap:10px;margin-top:auto"><span style="width:32px;height:32px;background:#DD2A7B;border:2px solid #060A10;border-radius:9px;display:flex;align-items:center;justify-content:center;font:800 11px 'Gabarito',sans-serif;color:#fff">IG</span><span style="font:500 13px 'Figtree',sans-serif;opacity:.6">Instagram · door closed 22:00</span></div>
+      </div>
+      <div style="flex:1;min-width:270px;max-width:330px;display:flex;flex-direction:column;gap:14px;background:#16202F;border:3px solid #060A10;border-radius:20px;padding:24px;box-shadow:0 12px 30px rgba(0,0,0,.35)">
+        <span style="font:800 15px 'Gabarito',sans-serif;color:#D9A441;letter-spacing:2px">★☆☆☆☆</span>
+        <span style="font:600 17px/1.5 'Gabarito',sans-serif;color:#F5F2EB">&quot;I waited 40 minutes. He looked at me once.&quot;</span>
+        <div style="display:flex;align-items:center;gap:10px;margin-top:auto"><span style="width:32px;height:32px;background:#1E2836;border:2px solid #060A10;border-radius:9px;display:flex;align-items:center;justify-content:center;font:800 12px 'Gabarito',sans-serif;color:#fff">X</span><span style="font:500 13px 'Figtree',sans-serif;opacity:.6">X · not on the guest list</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;align-items:center;gap:24px;padding:130px 24px 0;text-align:center">
+    <svg viewBox="80 0 140 136" width="150" height="146" style="animation:rocBreathe 3.4s ease-in-out infinite">
+      <circle cx="88" cy="70" r="11" fill="#F5B98F" stroke="#060A10" stroke-width="6"></circle>
+      <circle cx="212" cy="70" r="11" fill="#F5B98F" stroke="#060A10" stroke-width="6"></circle>
+      <rect x="88" y="6" width="124" height="120" rx="50" fill="#F5B98F" stroke="#060A10" stroke-width="6"></rect>
+      <path d="M104 88 Q150 128 196 88 Q190 118 150 120 Q110 118 104 88 Z" fill="#DE9A6C"></path>
+      <path d="M130 98 Q150 120 170 98 Z" fill="#1D1D1D"></path>
+      <rect x="140" y="99" width="20" height="5" rx="2" fill="#fff"></rect>
+      <rect x="102" y="42" width="42" height="28" rx="13" fill="#16161A"></rect>
+      <rect x="156" y="42" width="42" height="28" rx="13" fill="#16161A"></rect>
+      <rect x="141" y="51" width="18" height="7" rx="3.5" fill="#16161A"></rect>
+      <rect x="109" y="47" width="13" height="5" rx="2.5" fill="#fff" opacity=".45"></rect>
+      <path d="M104 34 Q122 28 140 34" stroke="#1D1D1D" stroke-width="6" fill="none" stroke-linecap="round"></path>
+      <path d="M160 30 Q178 22 196 32" stroke="#1D1D1D" stroke-width="6" fill="none" stroke-linecap="round"></path>
+    </svg>
+    <h2 style="margin:0;font:900 clamp(38px,5.5vw,64px)/1.1 'Gabarito',sans-serif;letter-spacing:-1.5px;text-wrap:balance">Put Rocco on the door.</h2>
+    <span style="font:400 17px 'Figtree',sans-serif;opacity:.7;max-width:440px">Free to try. He works nights, weekends, holidays.</span>
+    <div style="margin-top:6px;display:flex;align-items:center;gap:12px;background:#000;border:2px solid rgba(245,242,235,.55);border-radius:14px;padding:10px 22px;cursor:pointer">
+      <svg viewBox="0 0 24 24" width="26" height="26" fill="#fff"><path d="M17.05 12.54c-.03-2.89 2.36-4.28 2.47-4.35-1.35-1.97-3.44-2.24-4.18-2.27-1.78-.18-3.47 1.05-4.37 1.05-.9 0-2.29-1.02-3.77-1-1.94.03-3.72 1.13-4.72 2.86-2.01 3.49-.51 8.66 1.45 11.49.96 1.39 2.1 2.94 3.6 2.88 1.45-.06 1.99-.93 3.74-.93s2.24.93 3.77.9c1.56-.03 2.54-1.41 3.49-2.8 1.1-1.61 1.55-3.17 1.58-3.25-.03-.02-3.03-1.16-3.06-4.58zM14.16 4.05c.8-.97 1.34-2.32 1.19-3.66-1.15.05-2.55.77-3.38 1.73-.74.86-1.39 2.23-1.22 3.55 1.29.1 2.6-.65 3.41-1.62z"></path></svg>
+      <div style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.15"><span style="font:500 11px 'Figtree',sans-serif;color:#fff">Download on the</span><span style="font:700 19px 'Gabarito',sans-serif;color:#fff">App Store</span></div>
+    </div>
+  </div>
+
+  <svg viewBox="0 0 1200 400" style="display:block;width:100%;margin-top:40px" aria-label="Ende der Nacht — der Club ist zu">
+    <circle cx="150" cy="70" r="3" fill="#F5F2EB" style="animation:starTwinkle 3.4s ease-in-out infinite"></circle>
+    <circle cx="1050" cy="90" r="4" fill="#F5F2EB" style="animation:starTwinkle 4.2s ease-in-out .8s infinite"></circle>
+    <circle cx="880" cy="50" r="3" fill="#F5F2EB" style="animation:starTwinkle 3.8s ease-in-out .4s infinite"></circle>
+    <path d="M262 40 A30 30 0 1 0 262 96 A24 24 0 0 1 262 40 Z" fill="#F0C96A" opacity=".85"></path>
+    <path d="M0 320 L0 220 L80 220 L80 180 L150 180 L150 240 L230 240 L230 320 Z" fill="#0C1220"></path>
+    <path d="M970 320 L970 210 L1050 210 L1050 170 L1120 170 L1120 250 L1200 250 L1200 320 Z" fill="#0C1220"></path>
+    <g transform="translate(430,60)">
+      <rect x="0" y="0" width="340" height="260" rx="6" fill="#16202F" stroke="#060A10" stroke-width="6"></rect>
+      <rect x="-12" y="-12" width="364" height="22" rx="8" fill="#1E2836" stroke="#060A10" stroke-width="5"></rect>
+      <rect x="110" y="70" width="120" height="190" rx="8" fill="#060A10" stroke="#B08334" stroke-width="5"></rect>
+      <circle cx="170" cy="56" r="7" fill="#3A3324"></circle>
+      <g transform="translate(170,120) rotate(-4)">
+        <line x1="0" y1="-46" x2="0" y2="-16" stroke="#B08334" stroke-width="3"></line>
+        <rect x="-64" y="-16" width="128" height="52" rx="10" fill="#F5F2EB" stroke="#060A10" stroke-width="5"></rect>
+        <text x="0" y="8" text-anchor="middle" style="font:900 20px 'Gabarito',sans-serif;fill:#16202F">CLOSED</text>
+        <text x="0" y="28" text-anchor="middle" style="font:600 10.5px 'Figtree',sans-serif;fill:#5A6270">come back tomorrow</text>
+      </g>
+    </g>
+    <rect x="0" y="320" width="1200" height="52" fill="#1E2836"></rect>
+    <line x1="0" y1="320" x2="1200" y2="320" stroke="#060A10" stroke-width="5"></line>
+    <rect x="0" y="368" width="1200" height="32" fill="#0B1018"></rect>
+    <g>
+      <rect x="404" y="252" width="9" height="70" rx="4" fill="#D9A441" stroke="#060A10" stroke-width="4"></rect>
+      <circle cx="408" cy="248" r="10" fill="#F0C96A" stroke="#060A10" stroke-width="4"></circle>
+      <ellipse cx="408" cy="322" rx="21" ry="6" fill="#B08334" stroke="#060A10" stroke-width="4"></ellipse>
+      <rect x="330" y="252" width="9" height="70" rx="4" fill="#D9A441" stroke="#060A10" stroke-width="4"></rect>
+      <circle cx="334" cy="248" r="10" fill="#F0C96A" stroke="#060A10" stroke-width="4"></circle>
+      <ellipse cx="334" cy="322" rx="21" ry="6" fill="#B08334" stroke="#060A10" stroke-width="4"></ellipse>
+      <path d="M340 258 Q371 292 402 258" stroke="#B3402F" stroke-width="7" fill="none" stroke-linecap="round"></path>
+    </g>
+    <ellipse cx="860" cy="318" rx="76" ry="8" fill="rgba(0,0,0,.4)"></ellipse>
+    <g transform="translate(764,89) scale(0.64)">
+      <g>
+        <rect x="106" y="276" width="36" height="56" rx="16" fill="#2A3648" stroke="#060A10" stroke-width="6"></rect>
+        <rect x="158" y="276" width="36" height="56" rx="16" fill="#2A3648" stroke="#060A10" stroke-width="6"></rect>
+        <rect x="98" y="324" width="52" height="21" rx="10.5" fill="#16161A" stroke="#060A10" stroke-width="6"></rect>
+        <rect x="150" y="324" width="52" height="21" rx="10.5" fill="#16161A" stroke="#060A10" stroke-width="6"></rect>
+      </g>
+      <g style="animation:rocBreathe 3.4s ease-in-out infinite">
+        <circle cx="58" cy="202" r="24" fill="#F5B98F" stroke="#060A10" stroke-width="6"></circle>
+        <circle cx="242" cy="202" r="24" fill="#F5B98F" stroke="#060A10" stroke-width="6"></circle>
+        <path d="M62 192 Q62 148 108 142 L192 142 Q238 148 238 192 L238 262 Q238 282 216 282 L84 282 Q62 282 62 262 Z" fill="#1E2836" stroke="#060A10" stroke-width="6"></path>
+        <path d="M116 143 Q150 162 184 143" stroke="#D9A441" stroke-width="7" fill="none" stroke-linecap="round"></path>
+        <g transform="rotate(8 150 226)"><rect x="70" y="210" width="160" height="34" rx="17" fill="#F0AC80" stroke="#060A10" stroke-width="6"></rect><circle cx="86" cy="227" r="15" fill="#F5B98F" stroke="#060A10" stroke-width="6"></circle></g>
+        <g transform="rotate(-8 150 208)"><rect x="70" y="192" width="160" height="34" rx="17" fill="#F5B98F" stroke="#060A10" stroke-width="6"></rect><circle cx="214" cy="209" r="15" fill="#F5B98F" stroke="#060A10" stroke-width="6"></circle></g>
+        <rect x="130" y="112" width="40" height="32" rx="10" fill="#F0AC80" stroke="#060A10" stroke-width="6"></rect>
+      </g>
+      <g style="animation:rocNod 5s ease-in-out infinite;transform-origin:150px 100px;transform-box:view-box">
+        <circle cx="88" cy="70" r="11" fill="#F5B98F" stroke="#060A10" stroke-width="6"></circle>
+        <circle cx="212" cy="70" r="11" fill="#F5B98F" stroke="#060A10" stroke-width="6"></circle>
+        <rect x="88" y="6" width="124" height="120" rx="50" fill="#F5B98F" stroke="#060A10" stroke-width="6"></rect>
+        <path d="M104 88 Q150 128 196 88 Q190 118 150 120 Q110 118 104 88 Z" fill="#DE9A6C"></path>
+        <path d="M136 102 Q152 111 166 102" stroke="#1D1D1D" stroke-width="5" fill="none" stroke-linecap="round"></path>
+        <rect x="102" y="42" width="42" height="28" rx="13" fill="#16161A"></rect>
+        <rect x="156" y="42" width="42" height="28" rx="13" fill="#16161A"></rect>
+        <rect x="141" y="51" width="18" height="7" rx="3.5" fill="#16161A"></rect>
+        <rect x="109" y="47" width="13" height="5" rx="2.5" fill="#fff" opacity=".45"></rect>
+        <path d="M104 36 Q122 30 140 36" stroke="#1D1D1D" stroke-width="6" fill="none" stroke-linecap="round"></path>
+        <path d="M160 32 Q178 24 196 34" stroke="#1D1D1D" stroke-width="6" fill="none" stroke-linecap="round"></path>
+      </g>
+    </g>
+  </svg>
+
+  <div style="background:#0B1018;display:flex;justify-content:center;gap:22px;align-items:center;padding:18px 24px 30px;font:500 13px 'Figtree',sans-serif;color:#F5F2EB">
+    <span style="opacity:.5">© 2026 Rocco</span><a href="#">Privacy</a><a href="#">Terms</a><span style="opacity:.5">Made for thumbs that need a night off.</span>
   </div>
 
 </div>
-
-<!-- ================= SOCIAL PROOF ================= -->
-<div class="proof">
-  <div class="proof-inner">
-    <div class="rv"><div class="num">1.2M</div><div class="cap">pickups turned away</div></div>
-    <div class="rv d1"><div class="num">−1h 40m</div><div class="cap">avg. screen time saved per day</div></div>
-    <div class="rv d2"><div class="num">4.9 ★</div><div class="cap">on the App Store</div></div>
-    <div class="rv d3"><div class="num">0</div><div class="cap">arguments ever won against Rocco</div></div>
-  </div>
-</div>
-
-<!-- ================= CLUB-STRASSE ================= -->
-<section class="sec street" id="street">
-  <div class="sec-head rv">
-    <span class="kicker">The Door Policy</span>
-    <h2>Your apps? <em>Clubs with a guest list</em> now.</h2>
-    <p>Every app you put on Rocco's list gets a door — and your time limit is the guest list. Over the limit? You stay outside. No matter how good the excuse is.</p>
-  </div>
-  <div class="street-scene rv d1">
-    <svg viewBox="0 0 1600 660" role="img" aria-label="Night street: apps as clubs, Rocco turning guests away">
-      <defs>
-        <linearGradient id="ssky" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#0B111A"/><stop offset="1" stop-color="#1A2434"/>
-        </linearGradient>
-        <linearGradient id="igneon" x1="0" y1="1" x2="1" y2="0">
-          <stop offset="0" stop-color="#F15245"/><stop offset=".6" stop-color="#D92E7F"/><stop offset="1" stop-color="#9B36B7"/>
-        </linearGradient>
-      </defs>
-      <rect width="1600" height="660" fill="url(#ssky)"/>
-      <g fill="#F5F2EB">
-        <circle cx="200" cy="70" r="1.8" style="animation:twinkle 3.4s ease-in-out infinite"/>
-        <circle cx="780" cy="46" r="1.6" style="animation:twinkle 4.2s .7s ease-in-out infinite"/>
-        <circle cx="1240" cy="80" r="1.8" style="animation:twinkle 3.1s 1.2s ease-in-out infinite"/>
-        <circle cx="1480" cy="50" r="1.4" style="animation:twinkle 3.9s .4s ease-in-out infinite"/>
-      </g>
-      <!-- Boden -->
-      <rect x="0" y="560" width="1600" height="100" fill="#0D1119"/>
-      <rect x="0" y="544" width="1600" height="22" rx="4" fill="#1E2836"/>
-
-      <!-- ===== X LOUNGE (dicht, im Hintergrund) ===== -->
-      <g>
-        <rect x="580" y="120" width="300" height="180" fill="#101723"/>
-        <rect x="580" y="120" width="300" height="12" fill="#0A0E15"/>
-        <g opacity=".85">
-          <rect x="650" y="152" width="160" height="52" rx="12" fill="#0A0E15" stroke="#F5F2EB" stroke-width="3.5"/>
-          <text x="730" y="188" text-anchor="middle" font-family="Rubik,sans-serif" font-weight="900" font-size="30" fill="#F5F2EB">X</text>
-        </g>
-        <rect x="676" y="220" width="108" height="56" rx="8" fill="#0A0E15"/>
-        <text x="730" y="244" text-anchor="middle" font-family="Rubik,sans-serif" font-weight="600" font-size="13" fill="#8b93a1">Reopens:</text>
-        <text x="730" y="264" text-anchor="middle" font-family="Rubik,sans-serif" font-weight="800" font-size="16" fill="#D9A441">Tomorrow, 7 AM</text>
-      </g>
-
-      <!-- ===== CLUB INSTA ===== -->
-      <g>
-        <rect x="60" y="150" width="440" height="400" fill="#151E2C"/>
-        <rect x="60" y="150" width="440" height="14" fill="#0A0E15"/>
-        <rect x="60" y="164" width="440" height="10" fill="url(#igneon)" opacity=".35"/>
-        <!-- Neon-Schild -->
-        <g style="animation:neonFlicker 5.2s linear infinite">
-          <rect x="150" y="192" width="260" height="64" rx="14" fill="#0A0E15" stroke="url(#igneon)" stroke-width="4"/>
-          <text x="280" y="235" text-anchor="middle" font-family="Rubik,sans-serif" font-weight="900" font-size="34" fill="url(#igneon)" letter-spacing="4">INSTA</text>
-        </g>
-        <!-- Tür -->
-        <rect x="228" y="330" width="104" height="220" rx="6" fill="#0A0E15"/>
-        <rect x="238" y="342" width="84" height="208" rx="5" fill="#241A12"/>
-        <rect x="242" y="348" width="76" height="202" rx="4" fill="#D92E7F" opacity=".12"/>
-        <!-- Kordel -->
-        <line x1="360" y1="544" x2="360" y2="452" stroke="#060A10" stroke-width="5"/>
-        <line x1="490" y1="544" x2="490" y2="452" stroke="#060A10" stroke-width="5"/>
-        <path d="M360 460 Q425 500 490 460" stroke="#B3402F" stroke-width="8" fill="none" stroke-linecap="round"/>
-        <circle cx="360" cy="448" r="10" fill="#D9A441" stroke="#060A10" stroke-width="4"/>
-        <circle cx="490" cy="448" r="10" fill="#D9A441" stroke="#060A10" stroke-width="4"/>
-        <!-- Rocco an der Tür -->
-        <g transform="translate(340 268) scale(.78)"><use href="#rocco-block"/></g>
-        <!-- Rocco-Bubble -->
-        <g>
-          <rect x="470" y="238" width="96" height="44" rx="13" fill="#F5F2EB" stroke="#060A10" stroke-width="4"/>
-          <path d="M492 280 l8 14 10-14 Z" fill="#F5F2EB" stroke="#060A10" stroke-width="4" stroke-linejoin="round"/>
-          <text x="518" y="266" text-anchor="middle" font-family="Rubik,sans-serif" font-weight="800" font-size="20" fill="#16202F">Nope.</text>
-        </g>
-        <!-- Diskutierender Gast -->
-        <g transform="translate(524 322) scale(.92)" style="--coat:#7A4A3B;--skin:#F0AC80;--hat:#3B2E20"><use href="#guest-argue"/></g>
-        <g>
-          <rect x="600" y="250" width="212" height="44" rx="13" fill="#2E3B50" stroke="#060A10" stroke-width="4"/>
-          <path d="M640 294 l6 13 10-13 Z" fill="#2E3B50" stroke="#060A10" stroke-width="4" stroke-linejoin="round"/>
-          <text x="706" y="278" text-anchor="middle" font-family="Rubik,sans-serif" font-weight="600" font-size="17" fill="#F5F2EB">I'm on the list!</text>
-        </g>
-        <!-- Warteschlange -->
-        <g transform="translate(680 330) scale(.88)" style="--coat:#3D4C63;--skin:#F5B98F;--hat:#241A12"><use href="#guest"/></g>
-        <g transform="translate(790 336) scale(.84)" style="--coat:#4A5A45;--skin:#B97F5C;--hat:#16161A"><use href="#guest"/></g>
-        <g transform="translate(886 340) scale(.8)" style="--coat:#5C4A6B;--skin:#F0AC80;--hat:#2E3B50"><use href="#guest"/></g>
-      </g>
-
-      <!-- ===== TIKTOK BAR ===== -->
-      <g>
-        <rect x="1000" y="200" width="330" height="350" fill="#121A26"/>
-        <rect x="1000" y="200" width="330" height="14" fill="#0A0E15"/>
-        <g style="animation:neonFlicker 7s 1.5s linear infinite">
-          <rect x="1040" y="238" width="250" height="56" rx="13" fill="#0A0E15" stroke="#4DE8EF" stroke-width="4"/>
-          <text x="1165" y="276" text-anchor="middle" font-family="Rubik,sans-serif" font-weight="900" font-size="28" fill="#4DE8EF" letter-spacing="3">TIKTOK BAR</text>
-        </g>
-        <rect x="1120" y="360" width="94" height="190" rx="6" fill="#0A0E15"/>
-        <rect x="1129" y="371" width="76" height="179" rx="5" fill="#1A2230"/>
-        <!-- Schild an der Tür -->
-        <g transform="rotate(-4 1167 430)">
-          <rect x="1128" y="400" width="80" height="62" rx="8" fill="#F5F2EB" stroke="#060A10" stroke-width="4"/>
-          <text x="1168" y="428" text-anchor="middle" font-family="Rubik,sans-serif" font-weight="800" font-size="18" fill="#16202F">Closed</text>
-          <text x="1168" y="450" text-anchor="middle" font-family="Rubik,sans-serif" font-weight="800" font-size="18" fill="#B3402F">today.</text>
-        </g>
-        <!-- Trauriger Gast zieht ab -->
-        <g transform="translate(1240 350) scale(.9)" style="--coat:#44526B;--skin:#F5B98F;--hat:#241A12"><use href="#guest"/></g>
-        <g>
-          <rect x="1372" y="320" width="152" height="40" rx="12" fill="#2E3B50" stroke="#060A10" stroke-width="4"/>
-          <path d="M1392 360 l6 12 9-12 Z" fill="#2E3B50" stroke="#060A10" stroke-width="4" stroke-linejoin="round"/>
-          <text x="1448" y="346" text-anchor="middle" font-family="Rubik,sans-serif" font-weight="600" font-size="15" fill="#F5F2EB">Fine. Sleep it is.</text>
-        </g>
-      </g>
-
-      <!-- Laterne -->
-      <g>
-        <rect x="944" y="330" width="9" height="222" rx="4.5" fill="#1E2836" stroke="#060A10" stroke-width="4"/>
-        <rect x="920" y="314" width="58" height="24" rx="12" fill="#0A0E15" stroke="#060A10" stroke-width="4"/>
-        <ellipse cx="949" cy="332" rx="19" ry="7" fill="#D9A441" opacity=".8"/>
-        <ellipse cx="949" cy="556" rx="95" ry="13" fill="#D9A441" opacity=".1"/>
-      </g>
-    </svg>
-  </div>
-  <p class="street-caption rv d2">A regular night: one guy insists he's on the list (he is not on the list), the queue doom-scrolls whatever's left, and the TikTok Bar is simply closed. Rocco stays friendly. And firm.</p>
-</section>
-
-<!-- ================= FEATURES ================= -->
-<section class="sec features" id="features">
-  <div class="sec-head rv">
-    <span class="kicker">Features</span>
-    <h2>Everything built to keep you out.</h2>
-    <p>Block apps, focus deeply, and build streaks that actually stick. Rocco handles the rest — mainly the door.</p>
-  </div>
-  <div class="feat-grid">
-    <div class="feat-cards">
-      <div class="fcard rv">
-        <div class="fic">
-          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="#D9A441" stroke-width="2" stroke-linecap="round"><rect x="4" y="9.5" width="14" height="9" rx="2.5"/><path d="M7 9.5 V7 a4 4 0 0 1 8 0 v2.5"/></svg>
-        </div>
-        <div>
-          <h3>Blocker</h3>
-          <p>Tell Rocco which apps need a door. From then on, your limit is the guest list.</p>
-        </div>
-      </div>
-      <div class="fcard rv d1">
-        <div class="fic">
-          <svg width="24" height="12" viewBox="0 0 30 14"><rect x="0" y="1" width="13" height="9" rx="4.5" fill="#D9A441"/><rect x="17" y="1" width="13" height="9" rx="4.5" fill="#D9A441"/><rect x="12" y="4" width="6" height="3" rx="1.5" fill="#D9A441"/></svg>
-        </div>
-        <div>
-          <h3>Focus Mode</h3>
-          <p>One session, zero guests. Rocco covers every door at once until you're done.</p>
-        </div>
-      </div>
-      <div class="fcard rv d2">
-        <div class="fic">
-          <svg width="20" height="22" viewBox="0 0 20 22"><path d="M10 1 Q14 6 12 9 Q15 8 16 5 Q19 10 17 15 A8 8 0 0 1 3 15 Q1 10 5 6 Q6 9 8 10 Q6 5 10 1 Z" fill="#D9A441"/></svg>
-        </div>
-        <div>
-          <h3>Streaks</h3>
-          <p>Every clean day counts. Rocco remembers all of it — and gives you an approving nod. Rarely. But it happens.</p>
-        </div>
-      </div>
-      <div class="fcard rv d3">
-        <div class="fic">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#D9A441" stroke-width="2.2" stroke-linecap="round"><path d="M3.5 17 V10"/><path d="M10 17 V4"/><path d="M16.5 17 V8"/></svg>
-        </div>
-        <div>
-          <h3>Stats</h3>
-          <p>Who tried to get in, and how often? Rocco keeps the books: pickups, scroll time, rejected attempts. In black and gold.</p>
-        </div>
-      </div>
-    </div>
-    <div class="feat-phones rv d1">
-      <div class="mini-phone mp-block">
-        <div class="mini-screen block-screen">
-          <div class="mini-island"></div>
-          <div class="mini-status"><span>9:41</span><span style="opacity:.7">Rocco</span></div>
-          <div class="block-body">
-            <svg viewBox="30 0 240 360" width="150" height="225" aria-label="Rocco blocking Instagram"><use href="#rocco-block"/></svg>
-            <div class="block-title">Insta is closed today.</div>
-            <div class="block-sub">Your 45 minutes are up. Rocco opens again tomorrow at 7 AM.</div>
-            <div class="block-btn">Fair enough, Rocco</div>
-            <div class="block-note">"Just 5 more minutes?" — Nope.</div>
-          </div>
-        </div>
-      </div>
-      <div class="mini-phone mp-streak">
-        <div class="mini-screen streak-screen">
-          <div class="mini-island"></div>
-          <div class="mini-status"><span>9:41</span><span style="opacity:.6">✕</span></div>
-          <div class="streak-body">
-            <svg viewBox="10 0 280 140" width="150" height="75" aria-label="Rocco grinning">
-              <g transform="translate(58 10) scale(1.85)"><use href="#rocco-head"/></g>
-            </svg>
-            <div class="streak-num">12</div>
-            <div class="streak-cap">days clean!</div>
-            <div class="week">
-              <div class="day hot">M</div><div class="day hot">T</div><div class="day hot">W</div>
-              <div class="day hot">T</div><div class="day hot">F</div><div class="day">S</div><div class="day">S</div>
-            </div>
-            <div class="streak-card">
-              <div class="a">"Clean. Keep it up."</div>
-              <div class="b">That's all the praise Rocco gives.</div>
-            </div>
-            <div class="mile">
-              <div class="t"><span>30-day milestone</span><span>12/30</span></div>
-              <div class="bar2"><i></i></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= AUSREDEN ================= -->
-<section class="sec excuses" id="excuses">
-  <div class="sec-head rv">
-    <span class="kicker">No arguing</span>
-    <h2>Excuses? He's heard them all.</h2>
-    <p>Feel free to try. Others tried too. Here's a perfectly normal conversation at the door.</p>
-  </div>
-  <div class="chat-grid">
-    <div class="chat rv">
-      <div class="chat-head">
-        <svg width="44" height="44" viewBox="0 0 100 78"><use href="#rocco-head"/></svg>
-        <div class="who"><b>Rocco</b><span>at the door · online</span></div>
-      </div>
-      <div class="msg you">Just 5 more minutes? 🥺</div>
-      <div class="msg roc">Nope.</div>
-      <div class="msg you">I just need to check one thing real quick!!</div>
-      <div class="msg roc">Tomorrow at 7.</div>
-      <div class="msg you">I literally know the developer of this app…</div>
-      <div class="msg roc">Good for you.</div>
-      <div class="msg you">Okay. One last scroll, then I'm done. Promise.</div>
-      <div class="msg roc">Closed is closed.</div>
-      <div class="msg you">…good night, Rocco.</div>
-      <div class="msg roc">Good night. 👊</div>
-    </div>
-    <div class="faces">
-      <div class="face rv">
-        <svg viewBox="80 0 140 136" width="104" height="101"><circle cx="88" cy="70" r="11" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"/><circle cx="212" cy="70" r="11" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"/><rect x="88" y="6" width="124" height="120" rx="50" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"/><path d="M104 88 Q150 128 196 88 Q190 118 150 120 Q110 118 104 88 Z" fill="#DE9A6C"/><path d="M132 100 Q150 114 168 100" stroke="#1D1D1D" stroke-width="5" fill="none" stroke-linecap="round"/><rect x="102" y="42" width="42" height="28" rx="13" fill="#16161A"/><rect x="156" y="42" width="42" height="28" rx="13" fill="#16161A"/><rect x="141" y="51" width="18" height="7" rx="3.5" fill="#16161A"/><rect x="109" y="47" width="13" height="5" rx="2.5" fill="#fff" opacity=".45"/><path d="M104 36 Q122 31 140 36" stroke="#1D1D1D" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M160 36 Q178 31 196 36" stroke="#1D1D1D" stroke-width="6" fill="none" stroke-linecap="round"/></svg>
-        <span>"All good."</span>
-      </div>
-      <div class="face rv d1">
-        <svg viewBox="80 0 140 136" width="104" height="101"><circle cx="88" cy="70" r="11" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"/><circle cx="212" cy="70" r="11" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"/><rect x="88" y="6" width="124" height="120" rx="50" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"/><path d="M104 88 Q150 128 196 88 Q190 118 150 120 Q110 118 104 88 Z" fill="#DE9A6C"/><path d="M136 104 L166 104" stroke="#1D1D1D" stroke-width="5" fill="none" stroke-linecap="round"/><rect x="102" y="42" width="42" height="28" rx="13" fill="#16161A"/><rect x="156" y="42" width="42" height="28" rx="13" fill="#16161A"/><rect x="141" y="51" width="18" height="7" rx="3.5" fill="#16161A"/><rect x="109" y="47" width="13" height="5" rx="2.5" fill="#fff" opacity=".45"/><path d="M104 38 Q122 34 140 38" stroke="#1D1D1D" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M160 30 Q178 22 196 32" stroke="#1D1D1D" stroke-width="6" fill="none" stroke-linecap="round"/></svg>
-        <span>"Hmm. You again."</span>
-      </div>
-      <div class="face rv d2">
-        <svg viewBox="80 0 140 136" width="104" height="101"><circle cx="88" cy="70" r="11" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"/><circle cx="212" cy="70" r="11" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"/><rect x="88" y="6" width="124" height="120" rx="50" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"/><path d="M104 88 Q150 128 196 88 Q190 118 150 120 Q110 118 104 88 Z" fill="#DE9A6C"/><path d="M130 98 Q150 120 170 98 Z" fill="#1D1D1D"/><rect x="140" y="99" width="20" height="5" rx="2" fill="#fff"/><rect x="102" y="42" width="42" height="28" rx="13" fill="#16161A"/><rect x="156" y="42" width="42" height="28" rx="13" fill="#16161A"/><rect x="141" y="51" width="18" height="7" rx="3.5" fill="#16161A"/><rect x="109" y="47" width="13" height="5" rx="2.5" fill="#fff" opacity=".45"/><path d="M104 32 Q122 26 140 32" stroke="#1D1D1D" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M160 32 Q178 26 196 32" stroke="#1D1D1D" stroke-width="6" fill="none" stroke-linecap="round"/></svg>
-        <span>"Clean. 7 days."</span>
-      </div>
-      <div class="face rv d3">
-        <svg viewBox="80 0 140 136" width="104" height="101"><circle cx="88" cy="70" r="11" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"/><circle cx="212" cy="70" r="11" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"/><rect x="88" y="6" width="124" height="120" rx="50" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"/><path d="M104 88 Q150 128 196 88 Q190 118 150 120 Q110 118 104 88 Z" fill="#DE9A6C"/><path d="M138 106 Q150 100 164 106" stroke="#1D1D1D" stroke-width="5" fill="none" stroke-linecap="round"/><rect x="102" y="42" width="42" height="28" rx="13" fill="#16161A"/><rect x="156" y="42" width="42" height="28" rx="13" fill="#16161A"/><rect x="141" y="51" width="18" height="7" rx="3.5" fill="#16161A"/><rect x="109" y="47" width="13" height="5" rx="2.5" fill="#fff" opacity=".45"/><path d="M106 34 Q124 40 140 36" stroke="#1D1D1D" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M160 36 Q176 40 194 34" stroke="#1D1D1D" stroke-width="6" fill="none" stroke-linecap="round"/></svg>
-        <span>"Closed is closed."</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= TESTIMONIALS ================= -->
-<section class="sec testis" id="testis">
-  <div class="sec-head rv">
-    <span class="kicker">Guestbook</span>
-    <h2>Guests who stay out. Happily.</h2>
-    <p>A few voices from people who tried the excuses — and now simply sleep earlier.</p>
-  </div>
-  <div class="t-grid">
-    <div class="t-card rv">
-      <div class="stars">★★★★★</div>
-      <blockquote>"I tried three excuses. Rocco nodded once and closed the door. I respect that."</blockquote>
-      <div class="t-who">
-        <div class="t-ava" style="background:#B3402F">M</div>
-        <div><div class="n2">Milan</div><div class="s2">−2h scroll time per day</div></div>
-      </div>
-    </div>
-    <div class="t-card rv d1">
-      <div class="stars">★★★★★</div>
-      <blockquote>"Since Rocco took the door, I just… go to sleep at night? Weird feeling. Highly recommend."</blockquote>
-      <div class="t-who">
-        <div class="t-ava" style="background:#2E3B50">A</div>
-        <div><div class="n2">Aylin</div><div class="s2">21-day streak</div></div>
-      </div>
-    </div>
-    <div class="t-card rv d2">
-      <div class="stars">★★★★★</div>
-      <blockquote>"Instagram feels like a club I'm banned from now. 10/10, would get turned away again."</blockquote>
-      <div class="t-who">
-        <div class="t-ava" style="background:#D9A441;color:#10161F">J</div>
-        <div><div class="n2">Jonas</div><div class="s2">47 pickups turned away this week</div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= OUTRO CARD ================= -->
-<section class="sec outro" id="download">
-  <div class="outro-card rv">
-    <svg viewBox="0 0 1600 840" preserveAspectRatio="xMidYMax slice" aria-label="Sunrise after closing time: Rocco has a coffee outside the club">
-      <defs>
-        <linearGradient id="dawn" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stop-color="#16202F"/>
-          <stop offset=".5" stop-color="#3E3521"/>
-          <stop offset=".78" stop-color="#B3823A"/>
-          <stop offset="1" stop-color="#D9A441"/>
-        </linearGradient>
-        <radialGradient id="sunGlow" cx=".5" cy=".5" r=".5">
-          <stop offset="0" stop-color="#F2C879" stop-opacity=".85"/>
-          <stop offset="1" stop-color="#F2C879" stop-opacity="0"/>
-        </radialGradient>
-      </defs>
-      <rect width="1600" height="840" fill="url(#dawn)"/>
-      <g fill="#F5F2EB">
-        <circle cx="240" cy="90" r="1.8" style="animation:twinkle 3.6s ease-in-out infinite"/>
-        <circle cx="520" cy="60" r="1.4" style="animation:twinkle 4.2s .8s ease-in-out infinite"/>
-        <circle cx="1130" cy="80" r="1.6" style="animation:twinkle 3.2s 1.3s ease-in-out infinite"/>
-        <circle cx="1420" cy="120" r="1.5" style="animation:twinkle 4s .4s ease-in-out infinite"/>
-      </g>
-      <circle cx="800" cy="668" r="290" fill="url(#sunGlow)"/>
-      <circle cx="800" cy="676" r="92" fill="#F2C879"/>
-      <!-- skyline -->
-      <g fill="#1B2635" opacity=".85">
-        <rect x="-20" y="420" width="150" height="260"/>
-        <rect x="160" y="360" width="120" height="320"/>
-        <rect x="470" y="440" width="130" height="240"/>
-        <rect x="620" y="380" width="110" height="300"/>
-        <rect x="900" y="430" width="140" height="250"/>
-        <rect x="1080" y="360" width="120" height="320"/>
-        <rect x="1290" y="440" width="150" height="240"/>
-        <rect x="1470" y="390" width="150" height="290"/>
-        <circle cx="965" cy="415" r="42"/>
-      </g>
-      <g fill="#121B28">
-        <rect x="440" y="520" width="180" height="160" rx="8"/>
-        <rect x="880" y="540" width="200" height="140" rx="8"/>
-        <rect x="1180" y="500" width="170" height="180" rx="8"/>
-        <rect x="1400" y="540" width="220" height="140" rx="8"/>
-      </g>
-      <!-- street -->
-      <rect x="0" y="680" width="1600" height="160" fill="#0D1119"/>
-      <rect x="0" y="662" width="1600" height="24" rx="4" fill="#1E2836"/>
-      <g stroke="#0D1119" stroke-width="3" opacity=".6">
-        <line x1="480" y1="662" x2="468" y2="686"/><line x1="760" y1="662" x2="748" y2="686"/>
-        <line x1="1040" y1="662" x2="1028" y2="686"/><line x1="1330" y1="662" x2="1318" y2="686"/>
-      </g>
-      <!-- club, closed for the day -->
-      <g>
-        <rect x="40" y="330" width="360" height="332" fill="#131C2A"/>
-        <rect x="40" y="330" width="360" height="14" fill="#0A0E15"/>
-        <g opacity=".55">
-          <rect x="76" y="368" width="112" height="44" rx="10" fill="#0A0E15" stroke="#3A4A61" stroke-width="3"/>
-          <text x="132" y="398" text-anchor="middle" font-family="Rubik,sans-serif" font-weight="800" font-size="24" fill="#3A4A61" letter-spacing="3">CLUB</text>
-        </g>
-        <rect x="222" y="400" width="132" height="262" rx="8" fill="#0A0E15"/>
-        <rect x="234" y="414" width="108" height="248" rx="6" fill="#241A12"/>
-        <g transform="rotate(-3 288 470)">
-          <rect x="243" y="440" width="90" height="58" rx="9" fill="#F5F2EB" stroke="#060A10" stroke-width="4"/>
-          <text x="288" y="466" text-anchor="middle" font-family="Rubik,sans-serif" font-weight="800" font-size="17" fill="#16202F">CLOSED</text>
-          <text x="288" y="486" text-anchor="middle" font-family="Rubik,sans-serif" font-weight="600" font-size="11.5" fill="#5A6270">back at 7:00 PM</text>
-        </g>
-      </g>
-      <!-- rope, off duty -->
-      <g>
-        <line x1="480" y1="662" x2="480" y2="576" stroke="#060A10" stroke-width="5"/>
-        <line x1="610" y1="662" x2="610" y2="576" stroke="#060A10" stroke-width="5"/>
-        <path d="M480 584 Q545 622 610 584" stroke="#B3402F" stroke-width="8" fill="none" stroke-linecap="round"/>
-        <circle cx="480" cy="572" r="10" fill="#D9A441" stroke="#060A10" stroke-width="4"/>
-        <circle cx="610" cy="572" r="10" fill="#D9A441" stroke="#060A10" stroke-width="4"/>
-        <rect x="464" y="658" width="32" height="11" rx="5.5" fill="#D9A441" stroke="#060A10" stroke-width="4"/>
-        <rect x="594" y="658" width="32" height="11" rx="5.5" fill="#D9A441" stroke="#060A10" stroke-width="4"/>
-      </g>
-      <!-- Rocco, feet up, first coffee -->
-      <g transform="translate(340 434) scale(1.15)">
-        <rect x="18" y="120" width="86" height="14" rx="7" fill="#B3402F" stroke="#060A10" stroke-width="5"/>
-        <rect x="10" y="52" width="16" height="82" rx="8" fill="#B3402F" stroke="#060A10" stroke-width="5"/>
-        <rect x="30" y="134" width="10" height="66" rx="5" fill="#060A10"/>
-        <rect x="84" y="134" width="10" height="66" rx="5" fill="#060A10"/>
-        <rect x="70" y="118" width="58" height="26" rx="13" fill="#2A3648" stroke="#060A10" stroke-width="5"/>
-        <rect x="112" y="130" width="24" height="58" rx="12" fill="#2A3648" stroke="#060A10" stroke-width="5"/>
-        <rect x="104" y="180" width="44" height="17" rx="8.5" fill="#16161A" stroke="#060A10" stroke-width="5"/>
-        <path d="M28 62 Q28 34 62 30 L84 30 Q116 34 116 62 L116 112 Q116 128 98 128 L46 128 Q28 128 28 112 Z" fill="#1E2836" stroke="#060A10" stroke-width="5"/>
-        <path d="M52 32 Q72 46 94 32" stroke="#D9A441" stroke-width="5.5" fill="none" stroke-linecap="round"/>
-        <rect x="88" y="58" width="52" height="24" rx="12" fill="#F5B98F" stroke="#060A10" stroke-width="5"/>
-        <circle cx="138" cy="70" r="11" fill="#F5B98F" stroke="#060A10" stroke-width="5"/>
-        <rect x="128" y="38" width="26" height="22" rx="5" fill="#F5F2EB" stroke="#060A10" stroke-width="5"/>
-        <path d="M154 44 q10 3 0 12" stroke="#060A10" stroke-width="5" fill="none"/>
-        <path d="M136 30 q3 -6 0 -10" stroke="#F5F2EB" stroke-width="3.5" fill="none" opacity=".6" style="animation:steam 2.6s ease-out infinite"/>
-        <path d="M146 32 q3 -6 0 -10" stroke="#F5F2EB" stroke-width="3.5" fill="none" opacity=".6" style="animation:steam 2.6s 1.2s ease-out infinite"/>
-        <g>
-          <circle cx="40" cy="-8" r="8" fill="#F5B98F" stroke="#060A10" stroke-width="5"/>
-          <circle cx="104" cy="-8" r="8" fill="#F5B98F" stroke="#060A10" stroke-width="5"/>
-          <rect x="40" y="-42" width="64" height="64" rx="27" fill="#F5B98F" stroke="#060A10" stroke-width="5"/>
-          <path d="M48 2 Q72 24 96 2 Q92 18 72 19 Q52 18 48 2 Z" fill="#DE9A6C"/>
-          <path d="M60 7 Q72 14 84 7" stroke="#1D1D1D" stroke-width="4" fill="none" stroke-linecap="round"/>
-          <rect x="46" y="-24" width="23" height="15" rx="7.5" fill="#16161A"/>
-          <rect x="75" y="-24" width="23" height="15" rx="7.5" fill="#16161A"/>
-          <rect x="67" y="-19" width="10" height="4" rx="2" fill="#16161A"/>
-          <rect x="50" y="-21" width="8" height="3" rx="1.5" fill="#fff" opacity=".45"/>
-          <path d="M47 -30 Q57 -33 67 -30" stroke="#1D1D1D" stroke-width="4.5" fill="none" stroke-linecap="round"/>
-          <path d="M77 -30 Q87 -33 97 -30" stroke="#1D1D1D" stroke-width="4.5" fill="none" stroke-linecap="round"/>
-        </g>
-      </g>
-      <!-- cat -->
-      <g transform="translate(700 690)">
-        <path d="M-24 30 Q-46 24 -40 2" stroke="#16202F" stroke-width="8" fill="none" stroke-linecap="round"/>
-        <ellipse cx="0" cy="16" rx="26" ry="21" fill="#16202F" stroke="#060A10" stroke-width="4"/>
-        <circle cx="22" cy="-8" r="15" fill="#16202F" stroke="#060A10" stroke-width="4"/>
-        <path d="M12 -18 L15 -31 L23 -20 Z" fill="#16202F" stroke="#060A10" stroke-width="3"/>
-        <path d="M31 -19 L38 -30 L40 -17 Z" fill="#16202F" stroke="#060A10" stroke-width="3"/>
-        <circle cx="18" cy="-9" r="2.2" fill="#D9A441"/><circle cx="28" cy="-9" r="2.2" fill="#D9A441"/>
-      </g>
-      <!-- pigeons -->
-      <g transform="translate(950 700)">
-        <ellipse cx="0" cy="6" rx="13" ry="10" fill="#8b93a1" stroke="#060A10" stroke-width="3.5"/>
-        <circle cx="11" cy="-3" r="7" fill="#8b93a1" stroke="#060A10" stroke-width="3.5"/>
-        <path d="M17 -3 l7 2 -7 3 Z" fill="#D9A441"/>
-        <line x1="-3" y1="15" x2="-3" y2="21" stroke="#060A10" stroke-width="3"/>
-        <line x1="4" y1="15" x2="4" y2="21" stroke="#060A10" stroke-width="3"/>
-      </g>
-      <g transform="translate(1030 712) scale(-.85,.85)">
-        <ellipse cx="0" cy="6" rx="13" ry="10" fill="#8b93a1" stroke="#060A10" stroke-width="3.5"/>
-        <circle cx="11" cy="-3" r="7" fill="#8b93a1" stroke="#060A10" stroke-width="3.5"/>
-        <path d="M17 -3 l7 2 -7 3 Z" fill="#D9A441"/>
-        <line x1="-3" y1="15" x2="-3" y2="21" stroke="#060A10" stroke-width="3"/>
-        <line x1="4" y1="15" x2="4" y2="21" stroke="#060A10" stroke-width="3"/>
-      </g>
-    </svg>
-    <div class="outro-copy">
-      <h2>Enough scrolling.<br>Send in <em>Rocco</em>.</h2>
-      <div class="stores">
-        <a class="store-btn" href="#" aria-label="Download on the App Store">
-          <svg width="24" height="28" viewBox="0 0 24 28" fill="#fff"><path d="M19.7 14.6c0-3 2.5-4.5 2.6-4.6-1.4-2.1-3.6-2.4-4.4-2.4-1.9-.2-3.7 1.1-4.6 1.1-1 0-2.4-1.1-4-1-2 0-3.9 1.2-5 3-2.1 3.7-.5 9.1 1.5 12.1 1 1.5 2.2 3.1 3.8 3 1.5-.1 2.1-1 4-1s2.4 1 4 1 2.7-1.5 3.7-2.9c1.2-1.7 1.6-3.3 1.7-3.4-.1-.1-3.3-1.3-3.3-4.9zM16.6 5.6c.8-1 1.4-2.4 1.2-3.8-1.2 0-2.7.8-3.5 1.8-.8.9-1.5 2.3-1.3 3.7 1.4.1 2.8-.7 3.6-1.7z"/></svg>
-          <span><span class="s">Download on the</span><span class="l">App Store</span></span>
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<footer class="footer">
-  <div class="fm"><svg class="logo" width="26" height="26" viewBox="0 0 100 100" aria-hidden="true">
-      <circle cx="50" cy="50" r="44" fill="#F5B98F" stroke="#060A10" stroke-width="7"/>
-      <path d="M22 60 Q50 88 78 60 Q73 79 50 81 Q27 79 22 60 Z" fill="#DE9A6C"/>
-      <path d="M38 71 L62 71" stroke="#1D1D1D" stroke-width="6" stroke-linecap="round"/>
-      <rect x="13" y="37" width="30" height="20" rx="10" fill="#16161A"/>
-      <rect x="57" y="37" width="30" height="20" rx="10" fill="#16161A"/>
-      <rect x="41" y="43" width="18" height="6" rx="3" fill="#16161A"/>
-      <rect x="18" y="41" width="9" height="4" rx="2" fill="#fff" opacity=".45"/>
-      <path d="M14 31 Q28 26 42 31" stroke="#1D1D1D" stroke-width="6" fill="none" stroke-linecap="round"/>
-      <path d="M58 25 Q72 17 86 27" stroke="#1D1D1D" stroke-width="6" fill="none" stroke-linecap="round"/>
-    </svg>ROCCO<span>.</span></div>
-  <nav>
-    <a href="#street">Door Policy</a>
-    <a href="#features">Features</a>
-    <a href="#testis">Guestbook</a>
-    <a href="#">Privacy</a>
-    <a href="#">Legal</a>
-  </nav>
-  <span class="quote">© 2026 Rocco — "Just 5 more minutes?" — Nope.</span>
-</footer>
-
-<script>
-  const io = new IntersectionObserver(entries => {
-    for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-  }, { threshold: .15 });
-  document.querySelectorAll('.rv').forEach(el => io.observe(el));
-</script>
 </body>
 </html>
