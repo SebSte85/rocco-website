@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Datenschutzerklärung — Rocco</title>
+  <meta name="description" content="Datenschutzerklärung der Rocco iOS-App von DigITup GmbH." />
+  <link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@700;800&family=Figtree:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/legal.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <a class="brand" href="../../">Rocco</a>
+      <nav class="nav">
+        <a href="../../terms/de/">AGB / Nutzungsbedingungen</a>
+        <a href="../../impressum/">Impressum</a>
+        <span class="lang">
+          <a href="../">EN</a>
+          <a class="active" href="./">DE</a>
+        </span>
+      </nav>
+    </header>
+
+    <h1>Datenschutzerklärung</h1>
+    <p class="meta">Stand: 20. Juli 2026 · Verantwortlicher: DigITup GmbH</p>
+
+    <p>
+      Diese Datenschutzerklärung informiert darüber, wie die DigITup GmbH („wir“) personenbezogene Daten verarbeitet,
+      wenn Sie die iOS-App <strong>Rocco</strong> und zugehörige Webseiten (z. B. Buddy-Freigabe-Links) nutzen.
+    </p>
+
+    <h2>1. Verantwortlicher</h2>
+    <p>
+      DigITup GmbH<br />
+      Königsallee 27<br />
+      40212 Düsseldorf<br />
+      Deutschland<br />
+      E-Mail: <a href="mailto:kontakt@dig-it-up.de">kontakt@dig-it-up.de</a><br />
+      Telefon: 0211 23855-142
+    </p>
+
+    <h2>2. Was Rocco macht</h2>
+    <p>
+      Rocco ist ein Self-Blocking-Tool auf Basis von Screen Time. Sie wählen selbst, welche Apps oder Kategorien
+      begrenzt werden sollen. Auswahl und großer Teil des Fortschritts bleiben auf dem Gerät. Für Analytics müssen wir
+      nicht wissen, welche Apps Sie blockieren.
+    </p>
+
+    <h2>3. Welche Daten wir verarbeiten</h2>
+
+    <h2>3.1 Auf dem Gerät (keine App-Listen an uns)</h2>
+    <ul>
+      <li>Ihre Screen-Time- / Family-Controls-Auswahl (von Apple verwaltete, undurchsichtige Tokens)</li>
+      <li>Door Hours / Zeitpläne, Door-Policy, House Rules</li>
+      <li>Lokale Streaks, Pins, Shift Reports und verwandter Fortschritt</li>
+      <li>Temporärer Unlock-Status, solange die Tür offen ist</li>
+    </ul>
+    <p>
+      Diese Daten verbleiben in der App und der App Group auf Ihrem iPhone. Die Namen der ausgewählten Apps erhalten wir nicht.
+    </p>
+
+    <h2>3.2 Konto &amp; Abo</h2>
+    <ul>
+      <li>
+        <strong>Mit Apple anmelden</strong> über Supabase Auth (EU-gehostetes Supabase-Projekt). Wir erhalten eine Apple-User-ID
+        und ggf. Ihre E-Mail-Adresse (oder Apples Private-Relay-Adresse).
+      </li>
+      <li>
+        <strong>Käufe</strong> laufen über Apple. Zur Verwaltung von Entitlements nutzen wir RevenueCat (z. B. ob Rocco Pro aktiv ist).
+        Zahlungsdaten verarbeiten Apple und RevenueCat nach deren Bedingungen; vollständige Kartendaten erhalten wir nicht.
+      </li>
+    </ul>
+
+    <h2>3.3 Produkt-Analytics &amp; Abstürze (PostHog, EU)</h2>
+    <p>
+      Wir nutzen PostHog (EU Cloud) für Produkt-Analytics und Error Tracking. Es werden nur Business-Events erfasst, z. B.
+      App-Öffnungen, Onboarding-Schritte, Paywall-Ansichten, Käufe (Produkt-ID / Trial-Flag), Shield angezeigt,
+      Let-ins abgeschlossen oder abgelehnt, Streak gehalten/gebrochen u. Ä. Wir senden bewusst
+      <strong>keine</strong> App-Namen, Selection-Tokens, Venue-Labels oder benutzerdefinierte Zeitplan-Namen.
+    </p>
+    <p>
+      Absturz- und Exception-Reports können technische Stacktraces, Geräte-/OS-Metadaten und die App-Version enthalten,
+      damit wir Fehler beheben können.
+    </p>
+    <p>
+      Host: <code>https://eu.i.posthog.com</code> · Datenschutz des Anbieters:
+      <a href="https://posthog.com/privacy" rel="noopener noreferrer">posthog.com/privacy</a>
+    </p>
+
+    <h2>3.4 Buddy-Links („Second Key“)</h2>
+    <p>
+      Wenn Sie Buddy-Freigaben nutzen, speichern wir kurzlebige Freigabe-Anfragen (z. B. Request-ID, PIN-/Code-Status,
+      Ablauf, Approve/Deny) in Supabase, damit ein Buddy einen Weblink öffnen und antworten kann. Teilen Sie in
+      Begleitnachrichten keine sensiblen Inhalte.
+    </p>
+
+    <h2>3.5 Website</h2>
+    <p>
+      Öffentliche Seiten (einschließlich dieser Erklärung) werden über GitHub Pages bereitgestellt. GitHub kann
+      Verbindungsdaten (IP-Adresse, User-Agent) gemäß der GitHub-Datenschutzerklärung verarbeiten.
+    </p>
+
+    <h2>4. Zwecke &amp; Rechtsgrundlagen (DSGVO)</h2>
+    <ul>
+      <li><strong>Bereitstellung der App und des Abos</strong> — Art. 6 Abs. 1 lit. b DSGVO</li>
+      <li><strong>Sicherheit, Missbrauchsschutz bei Buddy-Links</strong> — Art. 6 Abs. 1 lit. f DSGVO</li>
+      <li><strong>Produkt-Analytics &amp; Crash-Diagnose</strong> — Art. 6 Abs. 1 lit. f DSGVO</li>
+      <li><strong>Rechtliche Pflichten</strong> (z. B. Buchhaltung) — Art. 6 Abs. 1 lit. c DSGVO</li>
+    </ul>
+
+    <h2>5. Empfänger / Auftragsverarbeiter</h2>
+    <ul>
+      <li>Apple Inc. / Apple Distribution International (Sign in with Apple, App Store, Screen Time APIs)</li>
+      <li>Supabase (Auth und Buddy-Backend)</li>
+      <li>RevenueCat (Abo-/Entitlement-Status)</li>
+      <li>PostHog (Analytics und Error Tracking, EU)</li>
+      <li>GitHub (Hosting dieser Website)</li>
+    </ul>
+    <p>Soweit Auftragsverarbeiter eingesetzt werden, erfolgen dies über geeignete Verträge / ggf. SCCs.</p>
+
+    <h2>6. Speicherdauer</h2>
+    <ul>
+      <li>Daten auf dem Gerät: bis zur Löschung der App bzw. zum Zurücksetzen lokalen Fortschritts</li>
+      <li>Kontodaten: solange das Konto besteht, danach Löschung oder Anonymisierung in angemessener Frist</li>
+      <li>Buddy-Anfragen: kurzlebig; abgelaufene/erledigte Einträge werden serverseitig bereinigt</li>
+      <li>Analytics-/Crash-Events: gemäß PostHog-Projekteinstellungen (typischerweise begrenzte Zeiträume)</li>
+      <li>Abrechnungsrelevante Unterlagen: nach handels-/steuerrechtlichen Fristen</li>
+    </ul>
+
+    <h2>7. Ihre Rechte</h2>
+    <p>
+      Sie haben nach der DSGVO ggf. Rechte auf Auskunft, Berichtigung, Löschung, Einschränkung, Datenübertragbarkeit und
+      Widerspruch sowie das Recht, sich bei einer Aufsichtsbehörde zu beschweren (in Deutschland i. d. R. die
+      Landesdatenschutzbehörde; Sitz der DigITup GmbH: Nordrhein-Westfalen).
+    </p>
+    <p>Kontakt: <a href="mailto:kontakt@dig-it-up.de">kontakt@dig-it-up.de</a></p>
+
+    <h2>8. Kinder</h2>
+    <p>
+      Rocco richtet sich an Erwachsene, die ihre eigene Screen Time steuern. Die App richtet sich nicht an Kinder.
+      Nutzen Sie die App nicht, wenn Sie unter 16 Jahre alt sind (bzw. unter dem höheren digitalen Einwilligungsalter
+      Ihres Landes), es sei denn, eine gesetzlich erforderliche Einwilligung der Erziehungsberechtigten liegt vor.
+    </p>
+
+    <h2>9. Drittlandtransfers</h2>
+    <p>
+      Analytics hosten wir bevorzugt in der EU (PostHog EU). Manche Anbieter (Apple, RevenueCat, GitHub) können Daten in
+      den USA oder anderen Ländern verarbeiten — mit den jeweils gesetzlich erforderlichen Garantien.
+    </p>
+
+    <h2>10. Änderungen</h2>
+    <p>
+      Wir können diese Erklärung aktualisieren. Das Datum „Stand“ ändert sich dann. Wesentliche Änderungen können wir
+      zusätzlich in der App oder auf der Website kommunizieren.
+    </p>
+
+    <p class="note">
+      Diese Seite dient der Transparenz und der Erfüllung von App-Store- / DSGVO-Anforderungen. Sie ist keine individuelle Rechtsberatung.
+    </p>
+
+    <footer class="foot">
+      DigITup GmbH · <a href="../">English</a> · <a href="../../terms/de/">Nutzungsbedingungen</a> ·
+      <a href="../../impressum/">Impressum</a>
+    </footer>
+  </div>
+</body>
+</html>
