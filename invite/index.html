@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rocco — second key invite</title>
+  <link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@700;800&family=Figtree:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root { --night:#10161F; --bone:#F5F2EB; --amber:#D9A441; --ink:#1D1D1D; --slate:#9AA3AD; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; background: var(--bone); color: var(--ink);
+      font-family: Figtree, system-ui, sans-serif; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; padding: 28px;
+    }
+    .brand {
+      font-family: Gabarito, sans-serif; font-weight: 800; font-size: 13px;
+      letter-spacing: 2px; color: var(--slate); margin-bottom: 28px;
+    }
+    .face {
+      width: 96px; height: 96px; border-radius: 50%; background: #E8C07A;
+      border: 3px solid var(--ink); display: grid; place-items: center;
+      font-size: 42px; margin-bottom: 22px;
+      box-shadow: 3px 3px 0 var(--ink);
+    }
+    h1 {
+      font-family: Gabarito, sans-serif; font-weight: 800; font-size: 28px;
+      letter-spacing: -0.5px; margin: 0 0 12px; text-align: center; max-width: 320px;
+    }
+    p { color: var(--slate); text-align: center; line-height: 1.5; margin: 0 0 20px; max-width: 320px; }
+    a.cta, button.cta {
+      display: block; width: min(340px, 100%); text-align: center; text-decoration: none;
+      border: 2.5px solid var(--ink); border-radius: 16px; padding: 16px;
+      font-family: Gabarito, sans-serif; font-weight: 700; font-size: 16px;
+      background: var(--amber); color: var(--night); box-shadow: 3px 3px 0 var(--ink);
+      cursor: pointer;
+    }
+    .foot { font-size: 12px; color: var(--slate); margin-top: 18px; text-align: center; max-width: 300px; }
+    .hidden { display: none !important; }
+    .done {
+      font-family: Gabarito, sans-serif; font-weight: 800; font-size: 22px;
+      text-align: center; max-width: 320px; display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="brand">ROCCO</div>
+  <div class="face" aria-hidden="true">😎</div>
+  <div id="panel">
+    <h1 id="title">Someone wants you as second key.</h1>
+    <p id="body">They knock when they want extra time. You decide. That's it.</p>
+    <a class="cta" id="open" href="#">Open in Rocco</a>
+    <p class="foot" id="foot">Rocco is an iPhone app. No iPhone? You're still the second key — you'll get a web link when they ask.</p>
+  </div>
+  <div class="done" id="done"></div>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const token = params.get("t") || "";
+    const name = (params.get("n") || "").trim();
+    const ua = navigator.userAgent || "";
+    // iPhone / iPad / iPod — including iPadOS desktop UA with Mac + touch
+    const isIOS = /iPhone|iPad|iPod/i.test(ua) ||
+      (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+    if (name) {
+      document.getElementById("title").textContent = `${name} wants you as second key.`;
+    }
+
+    const open = document.getElementById("open");
+    const body = document.getElementById("body");
+    const foot = document.getElementById("foot");
+    const panel = document.getElementById("panel");
+    const done = document.getElementById("done");
+
+    if (isIOS) {
+      body.textContent = "They knock when they want extra time. You decide. That's it.";
+      open.textContent = "Open in Rocco";
+      open.href = token
+        ? `rocco://buddy-invite?t=${encodeURIComponent(token)}`
+        : "rocco://buddy-invite";
+      foot.textContent = "No Rocco yet? Install it, then tap again — or just wait for a web link when they ask.";
+    } else {
+      // Android / desktop / other — linking needs the iPhone app; web ask still works.
+      body.textContent = "Rocco only runs on iPhone. You don't need the app to be their second key — when they ask, you'll get a one-time web link. Tap it, enter their code, say yes or no.";
+      open.textContent = "Got it — I'll wait for the link";
+      open.removeAttribute("href");
+      open.onclick = (e) => {
+        e.preventDefault();
+        panel.classList.add("hidden");
+        done.style.display = "block";
+        done.textContent = "You're set. The link comes later — when they knock.";
+      };
+      foot.textContent = "Have an iPhone? Open this page there to link in Rocco and get pushes instead.";
+    }
+  </script>
+</body>
+</html>

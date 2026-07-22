@@ -1,0 +1,17 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "F8V8D7W259.app.rocco",
+        "paths": [
+          "/rocco-website/invite",
+          "/rocco-website/invite/*",
+          "/rocco-website/invite/",
+          "/invite",
+          "/invite/*"
+        ]
+      }
+    ]
+  }
+}
