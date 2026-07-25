@@ -4,6 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Rocco — second key invite</title>
+  <link rel="icon" type="image/png" href="../assets/app-icon.png" />
+  <link rel="apple-touch-icon" href="../assets/app-icon.png" />
+  <meta property="og:title" content="Rocco — second key invite" />
+  <meta property="og:image" content="https://sebste85.github.io/rocco-website/assets/app-icon.png" />
   <link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@700;800&family=Figtree:wght@400;600&display=swap" rel="stylesheet" />
   <style>
     :root { --night:#10161F; --bone:#F5F2EB; --amber:#D9A441; --ink:#1D1D1D; --slate:#9AA3AD; }
@@ -17,25 +21,39 @@
       font-family: Gabarito, sans-serif; font-weight: 800; font-size: 13px;
       letter-spacing: 2px; color: var(--slate); margin-bottom: 28px;
     }
-    .face {
-      width: 96px; height: 96px; border-radius: 50%; background: #E8C07A;
-      border: 3px solid var(--ink); display: grid; place-items: center;
-      font-size: 42px; margin-bottom: 22px;
-      box-shadow: 3px 3px 0 var(--ink);
+    .logo {
+      width: 96px; height: 96px; border-radius: 22px; margin-bottom: 22px;
+      border: 3px solid var(--ink); box-shadow: 3px 3px 0 var(--ink);
+      object-fit: cover; background: var(--night);
     }
     h1 {
       font-family: Gabarito, sans-serif; font-weight: 800; font-size: 28px;
       letter-spacing: -0.5px; margin: 0 0 12px; text-align: center; max-width: 320px;
     }
-    p { color: var(--slate); text-align: center; line-height: 1.5; margin: 0 0 20px; max-width: 320px; }
+    p { color: var(--slate); text-align: center; line-height: 1.5; margin: 0 0 16px; max-width: 320px; }
+    .steps {
+      width: min(340px, 100%); text-align: left; margin: 0 0 20px;
+      padding: 14px 16px; border: 2.5px solid var(--ink); border-radius: 16px;
+      background: #fff; box-shadow: 3px 3px 0 var(--ink);
+      font-size: 14px; line-height: 1.45; color: var(--ink);
+    }
+    .steps strong { font-family: Gabarito, sans-serif; }
+    .free {
+      display: inline-block; font-family: Gabarito, sans-serif; font-weight: 800; font-size: 11px;
+      letter-spacing: 0.5px; background: var(--amber); color: var(--night);
+      border: 2px solid var(--ink); border-radius: 999px; padding: 5px 10px; margin-bottom: 16px;
+    }
     a.cta, button.cta {
       display: block; width: min(340px, 100%); text-align: center; text-decoration: none;
       border: 2.5px solid var(--ink); border-radius: 16px; padding: 16px;
       font-family: Gabarito, sans-serif; font-weight: 700; font-size: 16px;
       background: var(--amber); color: var(--night); box-shadow: 3px 3px 0 var(--ink);
-      cursor: pointer;
+      cursor: pointer; margin-bottom: 10px;
     }
-    .foot { font-size: 12px; color: var(--slate); margin-top: 18px; text-align: center; max-width: 300px; }
+    a.cta.secondary {
+      background: #fff; color: var(--ink);
+    }
+    .foot { font-size: 12px; color: var(--slate); margin-top: 12px; text-align: center; max-width: 300px; }
     .hidden { display: none !important; }
     .done {
       font-family: Gabarito, sans-serif; font-weight: 800; font-size: 22px;
@@ -45,12 +63,19 @@
 </head>
 <body>
   <div class="brand">ROCCO</div>
-  <div class="face" aria-hidden="true">😎</div>
+  <img class="logo" src="../assets/app-icon.png" width="96" height="96" alt="Rocco" />
   <div id="panel">
     <h1 id="title">Someone wants you as second key.</h1>
-    <p id="body">They knock when they want extra time. You decide. That's it.</p>
-    <a class="cta" id="open" href="#">Open in Rocco</a>
-    <p class="foot" id="foot">Rocco is an iPhone app. No iPhone? You're still the second key — you'll get a web link when they ask.</p>
+    <div class="free">FREE AS SECOND KEY · NO SUBSCRIPTION</div>
+    <p id="body">They knock when they want extra time. You decide. That’s the whole job.</p>
+    <div class="steps" id="steps">
+      <div><strong>1.</strong> Get Rocco on your iPhone</div>
+      <div style="margin-top:8px"><strong>2.</strong> Open this invite again → Accept</div>
+      <div style="margin-top:8px"><strong>3.</strong> Allow notifications</div>
+    </div>
+    <a class="cta" id="open" href="#">Open invite in Rocco</a>
+    <a class="cta secondary" id="get" href="https://sebste85.github.io/rocco-website/">Get Rocco</a>
+    <p class="foot" id="foot">App Store isn’t live yet — testers install via TestFlight/Xcode, then tap Open invite.</p>
   </div>
   <div class="done" id="done"></div>
   <script>
@@ -58,7 +83,6 @@
     const token = params.get("t") || "";
     const name = (params.get("n") || "").trim();
     const ua = navigator.userAgent || "";
-    // iPhone / iPad / iPod — including iPadOS desktop UA with Mac + touch
     const isIOS = /iPhone|iPad|iPod/i.test(ua) ||
       (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 
@@ -67,30 +91,41 @@
     }
 
     const open = document.getElementById("open");
+    const get = document.getElementById("get");
     const body = document.getElementById("body");
     const foot = document.getElementById("foot");
     const panel = document.getElementById("panel");
     const done = document.getElementById("done");
+    const steps = document.getElementById("steps");
 
     if (isIOS) {
-      body.textContent = "They knock when they want extra time. You decide. That's it.";
-      open.textContent = "Open in Rocco";
-      open.href = token
-        ? `rocco://buddy-invite?t=${encodeURIComponent(token)}`
-        : "rocco://buddy-invite";
-      foot.textContent = "No Rocco yet? Install it, then tap again — or just wait for a web link when they ask.";
+      body.textContent = "Holding the key is free. Your own door (if you want one later) is separate — Pro.";
+      open.textContent = "Open invite in Rocco";
+      if (token) {
+        const deep = new URL("rocco://buddy-invite");
+        deep.searchParams.set("t", token);
+        if (name) deep.searchParams.set("n", name);
+        open.href = deep.toString();
+      } else {
+        open.href = "rocco://buddy-invite";
+      }
+      get.textContent = "Don’t have Rocco yet? Get it";
+      // Until App Store: landing page explains TestFlight / install.
+      get.href = "https://sebste85.github.io/rocco-website/";
+      foot.textContent = "Already installed? Tap Open invite. First time? Get Rocco, install, then come back to this link.";
     } else {
-      // Android / desktop / other — linking needs the iPhone app; web ask still works.
-      body.textContent = "Rocco only runs on iPhone. You don't need the app to be their second key — when they ask, you'll get a one-time web link. Tap it, enter their code, say yes or no.";
-      open.textContent = "Got it — I'll wait for the link";
+      steps.classList.add("hidden");
+      body.textContent = "Rocco only runs on iPhone. You don’t need the app — when they ask, you’ll get a one-time web link + code.";
+      open.textContent = "Got it — I’ll wait for the link";
       open.removeAttribute("href");
       open.onclick = (e) => {
         e.preventDefault();
         panel.classList.add("hidden");
         done.style.display = "block";
-        done.textContent = "You're set. The link comes later — when they knock.";
+        done.textContent = "You’re set. The ask link comes later — when they knock.";
       };
-      foot.textContent = "Have an iPhone? Open this page there to link in Rocco and get pushes instead.";
+      get.classList.add("hidden");
+      foot.textContent = "Have an iPhone? Open this page there to install Rocco (free as second key).";
     }
   </script>
 </body>
