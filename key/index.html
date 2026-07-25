@@ -111,7 +111,7 @@
     function showPanel(key) {
       loading.classList.add("hidden");
       gate.classList.add("hidden");
-      const requester = key.requester_name || "Someone";
+      const requester = key.requester_name || "Your friend";
       const app = key.app_label || "an app on the list";
       const minutes = key.session_minutes || 5;
       const expires = new Date(key.expires_at);
