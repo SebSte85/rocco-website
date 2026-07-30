@@ -4,8 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Rocco — Scroll's over. Rocco's on the door.</title>
-<meta name="description" content="Put your apps on the list, set your minutes. When time's up, Rocco decides who gets in — and it's nobody.">
-<link rel="icon" type="image/svg+xml" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="%23F5B98F" stroke="%23060A10" stroke-width="7"/><path d="M22 60 Q50 88 78 60 Q73 79 50 81 Q27 79 22 60 Z" fill="%23DE9A6C"/><path d="M38 71 L62 71" stroke="%231D1D1D" stroke-width="6" stroke-linecap="round"/><rect x="13" y="37" width="30" height="20" rx="10" fill="%2316161A"/><rect x="57" y="37" width="30" height="20" rx="10" fill="%2316161A"/><rect x="41" y="43" width="18" height="6" rx="3" fill="%2316161A"/><path d="M14 31 Q28 26 42 31" stroke="%231D1D1D" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M58 25 Q72 17 86 27" stroke="%231D1D1D" stroke-width="6" fill="none" stroke-linecap="round"/></svg>'>
+<meta name="description" content="The blocker you can't sweet-talk. When time's up, the only way back in is asking a friend to unlock.">
+<link rel="icon" type="image/png" href="assets/app-icon.png" />
+<link rel="apple-touch-icon" href="assets/app-icon.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@500;600;700;800;900&amp;family=Figtree:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
 <style>body{margin:0;background:#10161F;font-family:'Figtree',sans-serif}a{color:#D9A441;text-decoration:none}a:hover{color:#F0C96A}
@@ -14,6 +15,10 @@
 @keyframes neonFlick{0%,72%,76%,100%{opacity:1}74%{opacity:.55}90%{opacity:.85}}
 @keyframes bubbleBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 @keyframes starTwinkle{0%,100%{opacity:.9}50%{opacity:.35}}</style>
+<script>
+  // After App Store approval, set the real apps.apple.com URL here.
+  window.ROCCO_APP_STORE_URL = "";
+</script>
 </head>
 <body>
 <div style="background:#10161F;color:#F5F2EB;overflow:hidden;position:relative">
@@ -43,11 +48,11 @@
       <span style="font:900 19px 'Gabarito',sans-serif;letter-spacing:3px;color:#F5F2EB">ROCCO</span>
     </div>
     <h1 style="margin:70px 0 0;font:900 clamp(44px,7vw,84px)/1.05 'Gabarito',sans-serif;letter-spacing:-2px;color:#F5F2EB;text-wrap:balance">Scroll's over.<br>Rocco's on the door.</h1>
-    <p style="margin:22px 0 0;max-width:540px;font:400 18px/1.6 'Figtree',sans-serif;color:#F5F2EB;opacity:.72;text-wrap:pretty">Put your apps on the list, set your minutes. When time's up, Rocco decides who gets in — and it's nobody.</p>
-    <div style="margin-top:32px;display:flex;align-items:center;gap:12px;background:#000;border:2px solid rgba(245,242,235,.55);border-radius:14px;padding:10px 22px;cursor:pointer">
+    <p style="margin:22px 0 0;max-width:540px;font:400 18px/1.6 'Figtree',sans-serif;color:#F5F2EB;opacity:.72;text-wrap:pretty">The blocker you can't sweet-talk. When time's up, the only way back in is asking a friend to unlock — and let's be honest, you won't.</p>
+    <a class="rocco-store-badge" href="#" style="margin-top:32px;display:inline-flex;align-items:center;gap:12px;background:#000;border:2px solid rgba(245,242,235,.55);border-radius:14px;padding:10px 22px;color:#fff;text-decoration:none">
       <svg viewBox="0 0 24 24" width="26" height="26" fill="#fff"><path d="M17.05 12.54c-.03-2.89 2.36-4.28 2.47-4.35-1.35-1.97-3.44-2.24-4.18-2.27-1.78-.18-3.47 1.05-4.37 1.05-.9 0-2.29-1.02-3.77-1-1.94.03-3.72 1.13-4.72 2.86-2.01 3.49-.51 8.66 1.45 11.49.96 1.39 2.1 2.94 3.6 2.88 1.45-.06 1.99-.93 3.74-.93s2.24.93 3.77.9c1.56-.03 2.54-1.41 3.49-2.8 1.1-1.61 1.55-3.17 1.58-3.25-.03-.02-3.03-1.16-3.06-4.58zM14.16 4.05c.8-.97 1.34-2.32 1.19-3.66-1.15.05-2.55.77-3.38 1.73-.74.86-1.39 2.23-1.22 3.55 1.29.1 2.6-.65 3.41-1.62z"></path></svg>
       <div style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.15"><span style="font:500 11px 'Figtree',sans-serif;color:#fff">Download on the</span><span style="font:700 19px 'Gabarito',sans-serif;color:#fff">App Store</span></div>
-    </div>
+    </a>
   </div>
 
   <svg viewBox="0 0 1200 660" style="display:block;width:100%;margin-top:-10px" aria-label="Rocco vor dem Club, niemand kommt rein">
@@ -83,37 +88,32 @@
     <ellipse cx="600" cy="556" rx="96" ry="10" fill="rgba(0,0,0,.4)"></ellipse>
     <g transform="translate(480,272) scale(0.8)">
       <g id="legs">
-        <rect x="106" y="276" width="36" height="56" rx="16" fill="#3A5070" stroke="#1D1D1D" stroke-width="6"></rect>
-        <rect x="158" y="276" width="36" height="56" rx="16" fill="#3A5070" stroke="#1D1D1D" stroke-width="6"></rect>
-        <rect x="98" y="324" width="52" height="21" rx="10.5" fill="#16161A" stroke="#1D1D1D" stroke-width="6"></rect>
-        <rect x="150" y="324" width="52" height="21" rx="10.5" fill="#16161A" stroke="#1D1D1D" stroke-width="6"></rect>
+        <rect x="106" y="276" width="36" height="56" rx="16" fill="#3A5070" stroke="#060A10" stroke-width="6"></rect>
+        <rect x="158" y="276" width="36" height="56" rx="16" fill="#3A5070" stroke="#060A10" stroke-width="6"></rect>
+        <rect x="98" y="324" width="52" height="21" rx="10.5" fill="#16161A" stroke="#060A10" stroke-width="6"></rect>
+        <rect x="150" y="324" width="52" height="21" rx="10.5" fill="#16161A" stroke="#060A10" stroke-width="6"></rect>
       </g>
       <g style="animation:rocBreathe 3.4s ease-in-out infinite">
-        <path d="M62 192 Q62 148 108 142 L192 142 Q238 148 238 192 L238 262 Q238 282 216 282 L84 282 Q62 282 62 262 Z" fill="#2E4059" stroke="#1D1D1D" stroke-width="6"></path>
+        <path d="M62 192 Q62 148 108 142 L192 142 Q238 148 238 192 L238 262 Q238 282 216 282 L84 282 Q62 282 62 262 Z" fill="#2E4059" stroke="#060A10" stroke-width="6"></path>
         <path d="M116 143 Q150 162 184 143" stroke="#D9A441" stroke-width="7" fill="none" stroke-linecap="round"></path>
-        <path d="M194 145 Q235 153 236 194 L236 254" stroke="#D9A441" stroke-width="4" fill="none" stroke-linecap="round" opacity=".55"></path>
-        <path d="M106 145 Q65 153 64 194 L64 254" stroke="#D9A441" stroke-width="4" fill="none" stroke-linecap="round" opacity=".3"></path>
-        <path d="M214 160 Q234 172 228 188 Q220 200 198 200 L108 198" stroke="#1D1D1D" stroke-width="38" fill="none" stroke-linecap="round"></path>
-        <path d="M214 160 Q234 172 228 188 Q220 200 198 200 L108 198" stroke="#F0AC80" stroke-width="26" fill="none" stroke-linecap="round"></path>
-        <circle cx="104" cy="198" r="15" fill="#F0AC80" stroke="#1D1D1D" stroke-width="6"></circle>
-        <path d="M86 160 Q66 176 72 192 Q80 206 102 208 L196 216" stroke="#1D1D1D" stroke-width="38" fill="none" stroke-linecap="round"></path>
-        <path d="M86 160 Q66 176 72 192 Q80 206 102 208 L196 216" stroke="#F5B98F" stroke-width="26" fill="none" stroke-linecap="round"></path>
-        <circle cx="200" cy="217" r="15" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"></circle>
-        <rect x="130" y="112" width="40" height="32" rx="10" fill="#F0AC80" stroke="#1D1D1D" stroke-width="6"></rect>
+        <path d="M214 160 Q234 172 228 188 Q220 200 198 200 L108 198" stroke="#060A10" stroke-width="38" fill="none" stroke-linecap="round"></path><path d="M214 160 Q234 172 228 188 Q220 200 198 200 L108 198" stroke="#F0AC80" stroke-width="26" fill="none" stroke-linecap="round"></path><circle cx="104" cy="198" r="15" fill="#F0AC80" stroke="#060A10" stroke-width="6"></circle><path d="M86 160 Q66 176 72 192 Q80 206 102 208 L196 216" stroke="#060A10" stroke-width="38" fill="none" stroke-linecap="round"></path><path d="M86 160 Q66 176 72 192 Q80 206 102 208 L196 216" stroke="#F5B98F" stroke-width="26" fill="none" stroke-linecap="round"></path><circle cx="200" cy="217" r="15" fill="#F5B98F" stroke="#060A10" stroke-width="6"></circle>
+        <rect x="130" y="112" width="40" height="32" rx="10" fill="#F0AC80" stroke="#060A10" stroke-width="6"></rect>
       </g>
       <g style="animation:rocNod 5s ease-in-out infinite;transform-origin:150px 100px;transform-box:view-box">
-        <circle cx="88" cy="70" r="11" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"></circle>
-        <circle cx="212" cy="70" r="11" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"></circle>
-        <rect x="88" y="6" width="124" height="120" rx="50" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"></rect>
+        <circle cx="88" cy="70" r="11" fill="#F5B98F" stroke="#060A10" stroke-width="6"></circle>
+        <circle cx="212" cy="70" r="11" fill="#F5B98F" stroke="#060A10" stroke-width="6"></circle>
+        <rect x="88" y="6" width="124" height="120" rx="50" fill="#F5B98F" stroke="#060A10" stroke-width="6"></rect>
+        <path d="M104 88 Q150 128 196 88 Q190 118 150 120 Q110 118 104 88 Z" fill="#DE9A6C"></path>
         <path d="M136 104 L166 104" stroke="#1D1D1D" stroke-width="5" fill="none" stroke-linecap="round"></path>
         <rect x="102" y="42" width="42" height="28" rx="13" fill="#16161A"></rect>
         <rect x="156" y="42" width="42" height="28" rx="13" fill="#16161A"></rect>
         <rect x="141" y="51" width="18" height="7" rx="3.5" fill="#16161A"></rect>
         <rect x="109" y="47" width="13" height="5" rx="2.5" fill="#fff" opacity=".45"></rect>
-        <path d="M104 36 Q122 30 140 36" stroke="#1D1D1D" stroke-width="6" fill="none" stroke-linecap="round"></path>
-        <path d="M160 32 Q178 24 196 34" stroke="#1D1D1D" stroke-width="6" fill="none" stroke-linecap="round"></path>
+        <path d="M104 38 Q122 34 140 38" stroke="#1D1D1D" stroke-width="6" fill="none" stroke-linecap="round"></path>
+        <path d="M160 30 Q178 22 196 32" stroke="#1D1D1D" stroke-width="6" fill="none" stroke-linecap="round"></path>
       </g>
     </g>
+    
       <g>
         <g transform="translate(118,468) rotate(-3)">
           <rect x="0" y="0" width="58" height="58" rx="14" fill="#DD2A7B" stroke="#060A10" stroke-width="5"></rect>
@@ -124,7 +124,9 @@
         </g>
         <ellipse cx="147" cy="556" rx="34" ry="6" fill="rgba(0,0,0,.35)"></ellipse>
         <g style="animation:bubbleBob 3s ease-in-out infinite;transform-box:fill-box;transform-origin:center">
-          <path d="M100 408 H226 Q238 408 238 420 V436 Q238 448 226 448 H160 L152 462 L140 448 H100 Q88 448 88 436 V420 Q88 408 100 408 Z" fill="#F5F2EB" stroke="#060A10" stroke-width="4" stroke-linejoin="round"></path>
+          <rect x="88" y="408" width="150" height="40" rx="12" fill="#F5F2EB" stroke="#060A10" stroke-width="4"></rect>
+          <path d="M140 446 L152 462 L160 446 Z" fill="#F5F2EB" stroke="#060A10" stroke-width="4" stroke-linejoin="round"></path>
+          <rect x="92" y="444" width="60" height="6" fill="#F5F2EB"></rect>
           <text x="163" y="434" text-anchor="middle" style="font:700 16px 'Gabarito',sans-serif;fill:#16202F">C'mon. 5 minutes.</text>
         </g>
         <g transform="translate(222,482) rotate(4)">
@@ -136,7 +138,9 @@
         </g>
         <ellipse cx="249" cy="556" rx="32" ry="6" fill="rgba(0,0,0,.35)"></ellipse>
         <g style="animation:bubbleBob 3s ease-in-out .7s infinite;transform-box:fill-box;transform-origin:center">
-          <path d="M208 352 H316 Q328 352 328 364 V380 Q328 392 316 392 H258 L250 406 L240 392 H208 Q196 392 196 380 V364 Q196 352 208 352 Z" fill="#F5F2EB" stroke="#060A10" stroke-width="4" stroke-linejoin="round"></path>
+          <rect x="196" y="352" width="132" height="40" rx="12" fill="#F5F2EB" stroke="#060A10" stroke-width="4"></rect>
+          <path d="M240 390 L250 406 L258 390 Z" fill="#F5F2EB" stroke="#060A10" stroke-width="4" stroke-linejoin="round"></path>
+          <rect x="200" y="388" width="56" height="6" fill="#F5F2EB"></rect>
           <text x="262" y="378" text-anchor="middle" style="font:700 16px 'Gabarito',sans-serif;fill:#16202F">We had plans!</text>
         </g>
         <g transform="translate(316,474) rotate(-2)">
@@ -148,7 +152,9 @@
         </g>
         <ellipse cx="344" cy="556" rx="32" ry="6" fill="rgba(0,0,0,.35)"></ellipse>
         <g style="animation:bubbleBob 3s ease-in-out 1.4s infinite;transform-box:fill-box;transform-origin:center">
-          <path d="M330 418 H392 Q404 418 404 430 V444 Q404 456 392 456 H358 L350 470 L340 456 H330 Q318 456 318 444 V430 Q318 418 330 418 Z" fill="#F5F2EB" stroke="#060A10" stroke-width="4" stroke-linejoin="round"></path>
+          <rect x="318" y="418" width="86" height="38" rx="12" fill="#F5F2EB" stroke="#060A10" stroke-width="4"></rect>
+          <path d="M340 454 L350 470 L358 454 Z" fill="#F5F2EB" stroke="#060A10" stroke-width="4" stroke-linejoin="round"></path>
+          <rect x="322" y="452" width="46" height="6" fill="#F5F2EB"></rect>
           <text x="361" y="443" text-anchor="middle" style="font:700 16px 'Gabarito',sans-serif;fill:#16202F">…hello?</text>
         </g>
       </g>
@@ -164,6 +170,61 @@
       <path d="M448 484 Q600 542 752 484" stroke="rgba(255,255,255,.18)" stroke-width="3" fill="none" stroke-linecap="round"></path>
     </g>
   </svg>
+
+  <div style="display:flex;flex-direction:column;align-items:center;gap:40px;padding:90px 24px 0;position:relative">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;max-width:640px">
+      <span style="padding:6px 14px;background:rgba(217,164,65,.14);border:2px solid rgba(217,164,65,.5);border-radius:999px;font:800 12px 'Gabarito',sans-serif;color:#D9A441;letter-spacing:1.5px">THE PART NOBODY ELSE HAS</span>
+      <h2 style="margin:0;font:900 clamp(32px,4.5vw,52px)/1.12 'Gabarito',sans-serif;letter-spacing:-1px;text-wrap:balance">Every blocker asks you.<br>Rocco asks your buddy.</h2>
+      <p style="margin:0;font:400 16.5px/1.6 'Figtree',sans-serif;opacity:.7;text-wrap:pretty">Screen-time apps hand you the snooze button and hope. With Rocco, more minutes mean texting a real person: &#8222;Hey — let me back into Instagram.&#8220; Most nights, that ask is embarrassing enough that you never send it. That&#8217;s the point.</p>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:26px;max-width:1020px">
+      <div style="flex:1;min-width:300px;max-width:420px;display:flex;flex-direction:column;gap:18px;background:#131B29;border:3px solid #060A10;border-radius:22px;padding:28px;opacity:.85">
+        <span style="font:800 12px 'Gabarito',sans-serif;color:#5A6270;letter-spacing:2px">EVERY OTHER BLOCKER</span>
+        <div style="display:flex;flex-direction:column;gap:10px;background:#F5F2EB;border-radius:16px;padding:20px;text-align:center">
+          <span style="font:700 15px 'Figtree',sans-serif;color:#16202F">Time limit reached</span>
+          <span style="font:400 12.5px 'Figtree',sans-serif;color:#5A6270">You've spent 45 minutes on Instagram.</span>
+          <div style="padding:12px 0;background:#fff;border-radius:12px;font:600 14px 'Figtree',sans-serif;color:#2E7CF6;box-shadow:0 2px 8px rgba(0,0,0,.08)">Ignore Limit For Today</div>
+        </div>
+        <span style="font:400 14.5px/1.55 'Figtree',sans-serif;opacity:.65;text-wrap:pretty">You, negotiating with yourself at 1 a.m. Guess who wins. Every night.</span>
+      </div>
+      <div style="flex:1;min-width:300px;max-width:420px;display:flex;flex-direction:column;gap:18px;background:#16202F;border:3px solid #D9A441;border-radius:22px;padding:28px;box-shadow:0 16px 40px rgba(0,0,0,.4)">
+        <span style="font:800 12px 'Gabarito',sans-serif;color:#D9A441;letter-spacing:2px">ROCCO + YOUR BUDDY</span>
+        <div style="display:flex;flex-direction:column;gap:12px;background:#0B1018;border:2.5px solid #060A10;border-radius:16px;padding:18px">
+          <div style="display:flex;align-items:flex-start;gap:11px;background:rgba(245,242,235,.08);border:1.5px solid rgba(245,242,235,.18);border-radius:14px;padding:13px 14px;backdrop-filter:blur(4px)">
+            <div style="width:32px;height:32px;flex-shrink:0;background:#D9A441;border:2px solid #060A10;border-radius:8px;display:flex;align-items:center;justify-content:center;font:800 13px 'Gabarito',sans-serif;color:#10161F">R</div>
+            <div style="flex:1;display:flex;flex-direction:column;gap:1px">
+              <div style="display:flex;justify-content:space-between;gap:8px"><span style="font:700 13px 'Figtree',sans-serif;color:#F5F2EB">ROCCO</span><span style="font:400 11px 'Figtree',sans-serif;color:#F5F2EB;opacity:.5">now</span></div>
+              <span style="font:400 13px/1.45 'Figtree',sans-serif;color:#F5F2EB;opacity:.85">Max wants into Instagram. 15 more minutes. Your call.</span>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div style="text-align:center;padding:11px 0;background:transparent;border:2.5px solid rgba(245,242,235,.4);border-radius:12px;font:700 14px 'Gabarito',sans-serif;color:#F5F2EB">Let them in</div>
+            <div style="text-align:center;padding:11px 0;background:#D9A441;border:2.5px solid #060A10;border-radius:12px;font:700 14px 'Gabarito',sans-serif;color:#10161F;box-shadow:0 2px 0 #B08334">Hold the door</div>
+          </div>
+        </div>
+        <span style="font:400 14.5px/1.55 'Figtree',sans-serif;opacity:.75;text-wrap:pretty">Your ask lands on a friend's phone as a push. They say yes or no — and they know you. No buddy's yes, no extra minutes.</span>
+      </div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:14px;max-width:900px">
+      <span style="padding:9px 16px;background:#16202F;border:2.5px solid #060A10;border-radius:999px;font:600 13.5px 'Figtree',sans-serif;color:#F5F2EB;opacity:.85">You pick who holds the key</span>
+      <span style="padding:9px 16px;background:#16202F;border:2.5px solid #060A10;border-radius:999px;font:600 13.5px 'Figtree',sans-serif;color:#F5F2EB;opacity:.85">Every let-in needs their yes</span>
+      <span style="padding:9px 16px;background:#16202F;border:2.5px solid #060A10;border-radius:999px;font:600 13.5px 'Figtree',sans-serif;color:#F5F2EB;opacity:.85">Being the buddy is free</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:14px">
+      <svg viewBox="80 0 140 136" width="66" height="64" style="flex-shrink:0">
+        <circle cx="88" cy="70" r="11" fill="#F5B98F" stroke="#060A10" stroke-width="6"></circle>
+        <circle cx="212" cy="70" r="11" fill="#F5B98F" stroke="#060A10" stroke-width="6"></circle>
+        <rect x="88" y="6" width="124" height="120" rx="50" fill="#F5B98F" stroke="#060A10" stroke-width="6"></rect>
+        <path d="M136 104 L166 104" stroke="#1D1D1D" stroke-width="5" fill="none" stroke-linecap="round"></path>
+        <rect x="102" y="42" width="42" height="28" rx="13" fill="#16161A"></rect>
+        <rect x="156" y="42" width="42" height="28" rx="13" fill="#16161A"></rect>
+        <rect x="141" y="51" width="18" height="7" rx="3.5" fill="#16161A"></rect>
+        <path d="M104 38 Q122 34 140 38" stroke="#1D1D1D" stroke-width="6" fill="none" stroke-linecap="round"></path>
+        <path d="M160 30 Q178 22 196 32" stroke="#1D1D1D" stroke-width="6" fill="none" stroke-linecap="round"></path>
+      </svg>
+      <div style="position:relative;background:#F5F2EB;border:3px solid #060A10;border-radius:14px;padding:10px 16px;font:700 14.5px 'Gabarito',sans-serif;color:#16202F;box-shadow:3px 3px 0 rgba(0,0,0,.5)"><span style="position:absolute;top:50%;left:-8px;margin-top:-7px;width:13px;height:13px;background:#F5F2EB;border-left:3px solid #060A10;border-bottom:3px solid #060A10;transform:rotate(45deg)"></span>&#8222;Your willpower at 1 a.m.? Yeah, we've met.&#8220;</div>
+    </div>
+  </div>
 
   <div style="display:flex;flex-direction:column;align-items:center;gap:44px;padding:80px 24px 0;position:relative">
     <div style="position:absolute;top:0;left:50%;width:0;height:64px;border-left:3px dashed rgba(217,164,65,.35)"></div>
@@ -189,50 +250,68 @@
 
   <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:64px;padding:110px 24px 0;position:relative">
     <div style="width:340px;flex-shrink:0;display:flex;flex-direction:column">
-      <div style="width:340px;height:520px;background:#F5F2EB;border-radius:48px 48px 0 0;border:11px solid #060A10;border-bottom:none;box-shadow:0 -18px 50px rgba(0,0,0,.4);position:relative;overflow:hidden;display:flex;flex-direction:column;box-sizing:border-box">
+      <div style="width:340px;height:560px;background:#F5F2EB;border-radius:48px 48px 0 0;border:11px solid #060A10;border-bottom:none;box-shadow:0 -18px 50px rgba(0,0,0,.4);position:relative;overflow:hidden;display:flex;flex-direction:column;box-sizing:border-box">
         <div style="position:absolute;top:10px;left:50%;transform:translateX(-50%);width:100px;height:28px;background:#10161F;border-radius:16px;z-index:5"></div>
-        <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 26px 0;font:600 13px 'Figtree',sans-serif;color:#16202F"><span>21:48</span><span style="letter-spacing:2px;font-size:10px">▮▮▮</span></div>
-        <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 22px 0">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 22px 0;font:600 13px 'Figtree',sans-serif;color:#16202F"><span>9:41</span><span style="letter-spacing:2px;font-size:10px">▮▮▮</span></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 18px 0">
           <span style="font:900 18px 'Gabarito',sans-serif;color:#16202F;letter-spacing:2px">ROCCO</span>
           <div style="display:flex;align-items:center;gap:5px;padding:5px 10px;background:#fff;border:2px solid #1D1D1D;border-radius:999px;box-shadow:2px 2px 0 rgba(29,29,29,.85)">
             <svg viewBox="0 0 20 24" width="11" height="14"><path d="M10 1 Q16 8 15 14 A5.5 5.5 0 0 1 4 14 Q4 8 10 1 Z" fill="#D9A441"></path><path d="M10 10 Q12.5 14 12 17 A2.3 2.3 0 0 1 7.5 17 Q7.5 13 10 10 Z" fill="#F5F2EB"></path></svg>
             <span style="font:800 12px 'Gabarito',sans-serif;color:#16202F">12</span>
           </div>
         </div>
-        <div style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 22px 0">
-          <svg viewBox="30 0 240 300" width="150" height="188">
-            <g style="animation:rocBreathe 3.4s ease-in-out infinite">
-              <path d="M62 192 Q62 148 108 142 L192 142 Q238 148 238 192 L238 262 Q238 282 216 282 L84 282 Q62 282 62 262 Z" fill="#2E4059" stroke="#1D1D1D" stroke-width="6"></path>
-              <path d="M116 143 Q150 162 184 143" stroke="#D9A441" stroke-width="7" fill="none" stroke-linecap="round"></path>
-              <path d="M214 160 Q234 172 228 188 Q220 200 198 200 L108 198" stroke="#1D1D1D" stroke-width="38" fill="none" stroke-linecap="round"></path>
-              <path d="M214 160 Q234 172 228 188 Q220 200 198 200 L108 198" stroke="#F0AC80" stroke-width="26" fill="none" stroke-linecap="round"></path>
-              <circle cx="104" cy="198" r="15" fill="#F0AC80" stroke="#1D1D1D" stroke-width="6"></circle>
-              <path d="M86 160 Q66 176 72 192 Q80 206 102 208 L196 216" stroke="#1D1D1D" stroke-width="38" fill="none" stroke-linecap="round"></path>
-              <path d="M86 160 Q66 176 72 192 Q80 206 102 208 L196 216" stroke="#F5B98F" stroke-width="26" fill="none" stroke-linecap="round"></path>
-              <circle cx="200" cy="217" r="15" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"></circle>
-              <rect x="130" y="112" width="40" height="32" rx="10" fill="#F0AC80" stroke="#1D1D1D" stroke-width="6"></rect>
-            </g>
-            <g style="animation:rocNod 5s ease-in-out infinite;transform-origin:150px 100px;transform-box:view-box">
-              <circle cx="88" cy="70" r="11" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"></circle>
-              <circle cx="212" cy="70" r="11" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"></circle>
-              <rect x="88" y="6" width="124" height="120" rx="50" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"></rect>
-              <path d="M104 88 Q150 128 196 88 Q190 118 150 120 Q110 118 104 88 Z" fill="#DE9A6C"></path>
-              <path d="M136 102 Q152 111 166 102" stroke="#1D1D1D" stroke-width="5" fill="none" stroke-linecap="round"></path>
-              <rect x="102" y="42" width="42" height="28" rx="13" fill="#16161A"></rect>
-              <rect x="156" y="42" width="42" height="28" rx="13" fill="#16161A"></rect>
-              <rect x="141" y="51" width="18" height="7" rx="3.5" fill="#16161A"></rect>
-              <path d="M104 34 Q122 28 140 34" stroke="#1D1D1D" stroke-width="6" fill="none" stroke-linecap="round"></path>
-              <path d="M160 30 Q178 22 196 32" stroke="#1D1D1D" stroke-width="6" fill="none" stroke-linecap="round"></path>
-            </g>
-          </svg>
-          <div style="display:flex;align-items:baseline;gap:4px"><span style="font:900 46px/1 'Gabarito',sans-serif;color:#16202F;letter-spacing:-1.5px">18</span><span style="font:800 19px 'Gabarito',sans-serif;color:#5A6270">min left</span></div>
-          <span style="font:500 11.5px 'Figtree',sans-serif;color:#5A6270">of 45 today · &quot;Nutz sie weise.&quot;</span>
-          <div style="width:100%;height:11px;background:#DDD8CC;border:2px solid #1D1D1D;border-radius:999px;margin-top:9px;overflow:hidden;box-sizing:border-box"><div style="width:60%;height:100%;background:#D9A441"></div></div>
+        <div style="display:flex;flex-direction:column;gap:4px;padding:8px 16px 0">
+          <div style="display:flex;align-items:flex-end;gap:4px;width:100%">
+            <svg viewBox="30 0 240 300" width="118" height="148" style="flex-shrink:0;margin-left:-6px" aria-label="Rocco on duty">
+              <g style="animation:rocBreathe 3.4s ease-in-out infinite">
+                <path d="M62 192 Q62 148 108 142 L192 142 Q238 148 238 192 L238 262 Q238 282 216 282 L84 282 Q62 282 62 262 Z" fill="#2E4059" stroke="#1D1D1D" stroke-width="6"></path>
+                <path d="M116 143 Q150 162 184 143" stroke="#D9A441" stroke-width="7" fill="none" stroke-linecap="round"></path>
+                <path d="M214 160 Q234 172 228 188 Q220 200 198 200 L108 198" stroke="#1D1D1D" stroke-width="38" fill="none" stroke-linecap="round"></path>
+                <path d="M214 160 Q234 172 228 188 Q220 200 198 200 L108 198" stroke="#F0AC80" stroke-width="26" fill="none" stroke-linecap="round"></path>
+                <circle cx="104" cy="198" r="15" fill="#F0AC80" stroke="#1D1D1D" stroke-width="6"></circle>
+                <path d="M86 160 Q66 176 72 192 Q80 206 102 208 L196 216" stroke="#1D1D1D" stroke-width="38" fill="none" stroke-linecap="round"></path>
+                <path d="M86 160 Q66 176 72 192 Q80 206 102 208 L196 216" stroke="#F5B98F" stroke-width="26" fill="none" stroke-linecap="round"></path>
+                <circle cx="200" cy="217" r="15" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"></circle>
+                <rect x="130" y="112" width="40" height="32" rx="10" fill="#F0AC80" stroke="#1D1D1D" stroke-width="6"></rect>
+              </g>
+              <g style="animation:rocNod 5s ease-in-out infinite;transform-origin:150px 100px;transform-box:view-box">
+                <circle cx="88" cy="70" r="11" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"></circle>
+                <circle cx="212" cy="70" r="11" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"></circle>
+                <rect x="88" y="6" width="124" height="120" rx="50" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"></rect>
+                <path d="M104 88 Q150 128 196 88 Q190 118 150 120 Q110 118 104 88 Z" fill="#DE9A6C"></path>
+                <path d="M136 102 Q152 111 166 102" stroke="#1D1D1D" stroke-width="5" fill="none" stroke-linecap="round"></path>
+                <rect x="102" y="42" width="42" height="28" rx="13" fill="#16161A"></rect>
+                <rect x="156" y="42" width="42" height="28" rx="13" fill="#16161A"></rect>
+                <rect x="141" y="51" width="18" height="7" rx="3.5" fill="#16161A"></rect>
+                <path d="M104 34 Q122 28 140 34" stroke="#1D1D1D" stroke-width="6" fill="none" stroke-linecap="round"></path>
+                <path d="M160 30 Q178 22 196 32" stroke="#1D1D1D" stroke-width="6" fill="none" stroke-linecap="round"></path>
+              </g>
+            </svg>
+            <div style="flex:1;display:flex;flex-direction:column;align-items:flex-start;gap:1px;padding-bottom:16px">
+              <span style="font:900 64px/0.9 'Gabarito',sans-serif;color:#16202F;letter-spacing:-2px">18</span>
+              <span style="font:800 18px 'Gabarito',sans-serif;color:#5A6270">min left</span>
+              <span style="font:500 12px 'Figtree',sans-serif;color:#5A6270;margin-top:2px">of 45 today</span>
+            </div>
+          </div>
+          <span style="font:500 12px/1.35 'Figtree',sans-serif;color:#5A6270;text-align:center;width:100%">"Over halfway through today's budget."</span>
+          <div style="width:100%;height:10px;background:#DDD8CC;border:2px solid #1D1D1D;border-radius:999px;margin-top:6px;overflow:hidden;box-sizing:border-box"><div style="width:40%;height:100%;background:#D9A441"></div></div>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:14px 20px 0">
-          <div style="display:flex;flex-direction:column;align-items:center;gap:1px;background:#fff;border:2px solid #1D1D1D;border-radius:12px;padding:8px 4px;box-shadow:2px 2px 0 rgba(29,29,29,.85)"><span style="font:800 15px 'Gabarito',sans-serif;color:#16202F">12m</span><span style="font:500 9.5px 'Figtree',sans-serif;color:#5A6270">scrolled</span></div>
-          <div style="display:flex;flex-direction:column;align-items:center;gap:1px;background:#fff;border:2px solid #1D1D1D;border-radius:12px;padding:8px 4px;box-shadow:2px 2px 0 rgba(29,29,29,.85)"><span style="font:800 15px 'Gabarito',sans-serif;color:#16202F">17</span><span style="font:500 9.5px 'Figtree',sans-serif;color:#5A6270">pickups</span></div>
-          <div style="display:flex;flex-direction:column;align-items:center;gap:1px;background:#fff;border:2px solid #1D1D1D;border-radius:12px;padding:8px 4px;box-shadow:2px 2px 0 rgba(29,29,29,.85)"><span style="font:800 15px 'Gabarito',sans-serif;color:#D9A441">0</span><span style="font:500 9.5px 'Figtree',sans-serif;color:#5A6270">let-ins</span></div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;padding:12px 16px 0">
+          <span style="padding:5px 10px;background:#fff;border:2px solid #1D1D1D;border-radius:999px;font:700 11px 'Gabarito',sans-serif;color:#16202F;box-shadow:1.5px 1.5px 0 rgba(29,29,29,.85)">0/3 let-ins</span>
+          <span style="padding:5px 10px;background:#fff;border:2px solid #1D1D1D;border-radius:999px;font:700 11px 'Gabarito',sans-serif;color:#16202F;box-shadow:1.5px 1.5px 0 rgba(29,29,29,.85)">3 on the list</span>
+        </div>
+        <div style="padding:12px 16px 0;font:800 13px 'Gabarito',sans-serif;color:#16202F">Venues tonight</div>
+        <div style="display:flex;flex-direction:column;gap:8px;padding:8px 16px 0">
+          <div style="display:flex;align-items:center;gap:10px;background:#fff;border:2px solid #1D1D1D;border-radius:12px;padding:8px 10px;box-shadow:2px 2px 0 rgba(29,29,29,.85)">
+            <div style="width:28px;height:28px;border-radius:8px;background:linear-gradient(45deg,#F58529,#DD2A7B,#8134AF);display:flex;align-items:center;justify-content:center;font:800 9px 'Gabarito',sans-serif;color:#fff">IG</div>
+            <div style="flex:1;display:flex;flex-direction:column"><span style="font:700 12px 'Gabarito',sans-serif;color:#16202F">Instagram</span><div style="width:100%;height:5px;background:#DDD8CC;border-radius:999px;margin-top:3px"><div style="width:70%;height:100%;background:#D9A441;border-radius:999px"></div></div></div>
+            <span style="font:600 10px 'Figtree',sans-serif;color:#5A6270">7m left</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;background:#fff;border:2px solid #1D1D1D;border-radius:12px;padding:8px 10px;box-shadow:2px 2px 0 rgba(29,29,29,.85)">
+            <div style="width:28px;height:28px;border-radius:8px;background:#010101;display:flex;align-items:center;justify-content:center;font:800 9px 'Gabarito',sans-serif;color:#fff">TT</div>
+            <div style="flex:1;display:flex;flex-direction:column"><span style="font:700 12px 'Gabarito',sans-serif;color:#16202F">TikTok</span><div style="width:100%;height:5px;background:#DDD8CC;border-radius:999px;margin-top:3px"><div style="width:100%;height:100%;background:#B3402F;border-radius:999px"></div></div></div>
+            <span style="font:700 10px 'Figtree',sans-serif;color:#B3402F">door closed</span>
+          </div>
         </div>
       </div>
     </div>
@@ -252,59 +331,6 @@
           <div style="display:flex;flex-direction:column;gap:2px"><span style="font:700 16px 'Gabarito',sans-serif">Hardcore double lock</span><span style="font:400 14px/1.55 'Figtree',sans-serif;opacity:.68">Opens run out? Only your buddy holds the second key. Locked until midnight.</span></div>
         </div>
       </div>
-    </div>
-  </div>
-
-  <div style="display:flex;flex-direction:column;align-items:center;padding:110px 24px 0;text-align:center">
-    <span style="display:inline-block;padding:8px 20px;border:2px solid #D9A441;border-radius:999px;font:800 12px 'Gabarito',sans-serif;letter-spacing:2.5px;color:#D9A441">THE PART NOBODY ELSE HAS</span>
-    <h2 style="margin:26px 0 0;font:900 clamp(34px,5vw,56px)/1.12 'Gabarito',sans-serif;letter-spacing:-1.5px;color:#F5F2EB;text-wrap:balance">Every blocker asks you.<br>Rocco asks your buddy.</h2>
-    <p style="margin:20px 0 0;max-width:560px;font:400 17px/1.6 'Figtree',sans-serif;color:#F5F2EB;opacity:.72;text-wrap:pretty">Screen-time apps hand you the snooze button and hope. With Rocco, extra time needs a second key — a friend who has to sign off. Out loud. On their phone.</p>
-    <div style="margin-top:46px;display:flex;flex-wrap:wrap;justify-content:center;gap:26px;max-width:1000px;width:100%">
-      <div style="flex:1;min-width:300px;max-width:460px;display:flex;flex-direction:column;gap:18px;background:#131B29;border:3px solid #060A10;border-radius:20px;padding:28px;text-align:left;box-shadow:0 12px 30px rgba(0,0,0,.35);box-sizing:border-box">
-        <span style="font:800 12px 'Gabarito',sans-serif;letter-spacing:2.5px;color:#5A6270">EVERY OTHER BLOCKER</span>
-        <div style="background:#E9E6DE;border:2.5px solid #060A10;border-radius:16px;padding:20px 18px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center">
-          <span style="font:700 16px 'Gabarito',sans-serif;color:#16202F">Time limit reached</span>
-          <span style="font:400 13px 'Figtree',sans-serif;color:#5A6270">You've spent 45 minutes on Instagram.</span>
-          <div style="margin-top:10px;width:100%;background:#F7F5EF;border-radius:10px;padding:10px 0;font:600 14px 'Figtree',sans-serif;color:#3478F6;box-sizing:border-box">Ignore Limit For Today</div>
-        </div>
-        <span style="font:400 14.5px/1.6 'Figtree',sans-serif;color:#F5F2EB;opacity:.68">You, negotiating with yourself at 1 a.m. Guess who wins. Every night.</span>
-      </div>
-      <div style="flex:1;min-width:300px;max-width:460px;display:flex;flex-direction:column;gap:18px;background:#16202F;border:3px solid #D9A441;border-radius:20px;padding:28px;text-align:left;box-shadow:0 12px 30px rgba(0,0,0,.35);box-sizing:border-box">
-        <span style="font:800 12px 'Gabarito',sans-serif;letter-spacing:2.5px;color:#D9A441">ROCCO + YOUR BUDDY</span>
-        <div style="background:#0B1018;border:2.5px solid #060A10;border-radius:16px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start">
-          <span style="width:38px;height:38px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:#D9A441;border:2px solid #060A10;border-radius:10px;font:900 17px 'Gabarito',sans-serif;color:#10161F">R</span>
-          <div style="display:flex;flex-direction:column;gap:3px;flex:1">
-            <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font:800 13px 'Gabarito',sans-serif;color:#F5F2EB;letter-spacing:1px">ROCCO</span><span style="font:400 11.5px 'Figtree',sans-serif;color:#5A6270">now</span></div>
-            <span style="font:400 13.5px/1.5 'Figtree',sans-serif;color:#F5F2EB;opacity:.85">Max wants into Instagram. 15 more minutes. Your call.</span>
-          </div>
-        </div>
-        <div style="display:flex;gap:12px">
-          <div style="flex:1;display:flex;align-items:center;justify-content:center;background:#10161F;border:2.5px solid rgba(245,242,235,.35);border-radius:12px;padding:11px 0;font:700 14px 'Gabarito',sans-serif;color:#F5F2EB;cursor:default">Let them in</div>
-          <div style="flex:1;display:flex;align-items:center;justify-content:center;background:#D9A441;border:2.5px solid #060A10;border-radius:12px;padding:11px 0;font:700 14px 'Gabarito',sans-serif;color:#10161F;cursor:default">Hold the door</div>
-        </div>
-        <span style="font:400 14.5px/1.6 'Figtree',sans-serif;color:#F5F2EB;opacity:.68">Your ask lands on a friend's phone as a push. They say yes or no — and they know you. No buddy's yes, no extra minutes.</span>
-      </div>
-    </div>
-    <div style="margin-top:36px;display:flex;flex-wrap:wrap;justify-content:center;gap:14px">
-      <span style="padding:10px 20px;background:#16202F;border:2.5px solid #060A10;border-radius:999px;font:700 13.5px 'Gabarito',sans-serif;color:#F5F2EB">You pick who holds the key</span>
-      <span style="padding:10px 20px;background:#16202F;border:2.5px solid #060A10;border-radius:999px;font:700 13.5px 'Gabarito',sans-serif;color:#F5F2EB">Every let-in needs their yes</span>
-      <span style="padding:10px 20px;background:#16202F;border:2.5px solid #060A10;border-radius:999px;font:700 13.5px 'Gabarito',sans-serif;color:#F5F2EB">Being the buddy is free</span>
-    </div>
-    <div style="margin-top:44px;display:flex;align-items:center">
-      <svg viewBox="80 -2 140 140" width="64" height="64" style="flex-shrink:0">
-        <circle cx="88" cy="70" r="11" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"></circle>
-        <circle cx="212" cy="70" r="11" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"></circle>
-        <rect x="88" y="6" width="124" height="120" rx="50" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"></rect>
-        <path d="M104 88 Q150 128 196 88 Q190 118 150 120 Q110 118 104 88 Z" fill="#DE9A6C"></path>
-        <path d="M136 102 Q152 111 166 102" stroke="#1D1D1D" stroke-width="5" fill="none" stroke-linecap="round"></path>
-        <rect x="102" y="42" width="42" height="28" rx="13" fill="#16161A"></rect>
-        <rect x="156" y="42" width="42" height="28" rx="13" fill="#16161A"></rect>
-        <rect x="141" y="51" width="18" height="7" rx="3.5" fill="#16161A"></rect>
-        <path d="M104 36 Q122 31 140 36" stroke="#1D1D1D" stroke-width="6" fill="none" stroke-linecap="round"></path>
-        <path d="M160 30 Q178 22 196 32" stroke="#1D1D1D" stroke-width="6" fill="none" stroke-linecap="round"></path>
-      </svg>
-      <span style="width:14px;height:14px;background:#F5F2EB;border-left:3px solid #060A10;border-bottom:3px solid #060A10;transform:rotate(45deg);margin:0 -9px 0 6px;position:relative;z-index:1"></span>
-      <span style="background:#F5F2EB;border:3px solid #060A10;border-radius:14px;padding:10px 18px;font:700 15px 'Gabarito',sans-serif;color:#16202F;position:relative">&#8222;Your willpower at 1 a.m.? Yeah, we've met.&#8220;</span>
     </div>
   </div>
 
@@ -332,6 +358,25 @@
     </div>
   </div>
 
+  <div style="display:flex;flex-direction:column;align-items:center;gap:28px;padding:110px 24px 0">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;max-width:560px">
+      <h2 style="margin:0;font:900 clamp(30px,4vw,44px)/1.15 'Gabarito',sans-serif;letter-spacing:-1px">Cover charge: one euro a month.</h2>
+      <span style="font:400 16px/1.6 'Figtree',sans-serif;opacity:.68;text-wrap:pretty">Willpower shouldn't cost 100&nbsp;&euro; a year. Rocco works the door for 12&nbsp;&euro; &mdash; billed once, per year.</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;align-items:stretch;gap:22px">
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-width:230px;background:#131B29;border:3px solid #060A10;border-radius:20px;padding:26px 34px;opacity:.75">
+        <span style="font:800 12px 'Gabarito',sans-serif;color:#5A6270;letter-spacing:2px">OTHER DOORMEN</span>
+        <span style="font:900 34px 'Gabarito',sans-serif;color:#5A6270;text-decoration:line-through;text-decoration-thickness:3px">60&ndash;100&nbsp;&euro;</span>
+        <span style="font:500 13px 'Figtree',sans-serif;opacity:.6">per year, same job</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-width:230px;background:#16202F;border:3px solid #D9A441;border-radius:20px;padding:26px 34px;box-shadow:0 16px 40px rgba(0,0,0,.4)">
+        <span style="font:800 12px 'Gabarito',sans-serif;color:#D9A441;letter-spacing:2px">ROCCO</span>
+        <span style="font:900 46px/1 'Gabarito',sans-serif;color:#F5F2EB">12&nbsp;&euro;<span style="font:800 18px 'Gabarito',sans-serif;color:#D9A441">/year</span></span>
+        <span style="font:500 13px 'Figtree',sans-serif;opacity:.7">free trial first &middot; being the buddy is always free</span>
+      </div>
+    </div>
+  </div>
+
   <div style="display:flex;flex-direction:column;align-items:center;gap:24px;padding:130px 24px 0;text-align:center">
     <svg viewBox="80 0 140 136" width="150" height="146" style="animation:rocBreathe 3.4s ease-in-out infinite">
       <circle cx="88" cy="70" r="11" fill="#F5B98F" stroke="#060A10" stroke-width="6"></circle>
@@ -348,11 +393,11 @@
       <path d="M160 30 Q178 22 196 32" stroke="#1D1D1D" stroke-width="6" fill="none" stroke-linecap="round"></path>
     </svg>
     <h2 style="margin:0;font:900 clamp(38px,5.5vw,64px)/1.1 'Gabarito',sans-serif;letter-spacing:-1.5px;text-wrap:balance">Put Rocco on the door.</h2>
-    <span style="font:400 17px 'Figtree',sans-serif;opacity:.7;max-width:440px">Free to try. He works nights, weekends, holidays.</span>
-    <div style="margin-top:6px;display:flex;align-items:center;gap:12px;background:#000;border:2px solid rgba(245,242,235,.55);border-radius:14px;padding:10px 22px;cursor:pointer">
+    <span style="font:400 17px 'Figtree',sans-serif;opacity:.7;max-width:440px">Free to try, 12&nbsp;&euro; a year after. He works nights, weekends, holidays.</span>
+    <a class="rocco-store-badge" href="#" style="margin-top:6px;display:inline-flex;align-items:center;gap:12px;background:#000;border:2px solid rgba(245,242,235,.55);border-radius:14px;padding:10px 22px;color:#fff;text-decoration:none">
       <svg viewBox="0 0 24 24" width="26" height="26" fill="#fff"><path d="M17.05 12.54c-.03-2.89 2.36-4.28 2.47-4.35-1.35-1.97-3.44-2.24-4.18-2.27-1.78-.18-3.47 1.05-4.37 1.05-.9 0-2.29-1.02-3.77-1-1.94.03-3.72 1.13-4.72 2.86-2.01 3.49-.51 8.66 1.45 11.49.96 1.39 2.1 2.94 3.6 2.88 1.45-.06 1.99-.93 3.74-.93s2.24.93 3.77.9c1.56-.03 2.54-1.41 3.49-2.8 1.1-1.61 1.55-3.17 1.58-3.25-.03-.02-3.03-1.16-3.06-4.58zM14.16 4.05c.8-.97 1.34-2.32 1.19-3.66-1.15.05-2.55.77-3.38 1.73-.74.86-1.39 2.23-1.22 3.55 1.29.1 2.6-.65 3.41-1.62z"></path></svg>
       <div style="display:flex;flex-direction:column;align-items:flex-start;line-height:1.15"><span style="font:500 11px 'Figtree',sans-serif;color:#fff">Download on the</span><span style="font:700 19px 'Gabarito',sans-serif;color:#fff">App Store</span></div>
-    </div>
+    </a>
   </div>
 
   <svg viewBox="0 0 1200 400" style="display:block;width:100%;margin-top:40px" aria-label="Ende der Nacht — der Club ist zu">
@@ -389,28 +434,21 @@
     <ellipse cx="860" cy="318" rx="76" ry="8" fill="rgba(0,0,0,.4)"></ellipse>
     <g transform="translate(764,89) scale(0.64)">
       <g>
-        <rect x="106" y="276" width="36" height="56" rx="16" fill="#3A5070" stroke="#1D1D1D" stroke-width="6"></rect>
-        <rect x="158" y="276" width="36" height="56" rx="16" fill="#3A5070" stroke="#1D1D1D" stroke-width="6"></rect>
-        <rect x="98" y="324" width="52" height="21" rx="10.5" fill="#16161A" stroke="#1D1D1D" stroke-width="6"></rect>
-        <rect x="150" y="324" width="52" height="21" rx="10.5" fill="#16161A" stroke="#1D1D1D" stroke-width="6"></rect>
+        <rect x="106" y="276" width="36" height="56" rx="16" fill="#3A5070" stroke="#060A10" stroke-width="6"></rect>
+        <rect x="158" y="276" width="36" height="56" rx="16" fill="#3A5070" stroke="#060A10" stroke-width="6"></rect>
+        <rect x="98" y="324" width="52" height="21" rx="10.5" fill="#16161A" stroke="#060A10" stroke-width="6"></rect>
+        <rect x="150" y="324" width="52" height="21" rx="10.5" fill="#16161A" stroke="#060A10" stroke-width="6"></rect>
       </g>
       <g style="animation:rocBreathe 3.4s ease-in-out infinite">
-        <path d="M62 192 Q62 148 108 142 L192 142 Q238 148 238 192 L238 262 Q238 282 216 282 L84 282 Q62 282 62 262 Z" fill="#2E4059" stroke="#1D1D1D" stroke-width="6"></path>
+        <path d="M62 192 Q62 148 108 142 L192 142 Q238 148 238 192 L238 262 Q238 282 216 282 L84 282 Q62 282 62 262 Z" fill="#2E4059" stroke="#060A10" stroke-width="6"></path>
         <path d="M116 143 Q150 162 184 143" stroke="#D9A441" stroke-width="7" fill="none" stroke-linecap="round"></path>
-        <path d="M194 145 Q235 153 236 194 L236 254" stroke="#D9A441" stroke-width="4" fill="none" stroke-linecap="round" opacity=".55"></path>
-        <path d="M106 145 Q65 153 64 194 L64 254" stroke="#D9A441" stroke-width="4" fill="none" stroke-linecap="round" opacity=".3"></path>
-        <path d="M214 160 Q234 172 228 188 Q220 200 198 200 L108 198" stroke="#1D1D1D" stroke-width="38" fill="none" stroke-linecap="round"></path>
-        <path d="M214 160 Q234 172 228 188 Q220 200 198 200 L108 198" stroke="#F0AC80" stroke-width="26" fill="none" stroke-linecap="round"></path>
-        <circle cx="104" cy="198" r="15" fill="#F0AC80" stroke="#1D1D1D" stroke-width="6"></circle>
-        <path d="M86 160 Q66 176 72 192 Q80 206 102 208 L196 216" stroke="#1D1D1D" stroke-width="38" fill="none" stroke-linecap="round"></path>
-        <path d="M86 160 Q66 176 72 192 Q80 206 102 208 L196 216" stroke="#F5B98F" stroke-width="26" fill="none" stroke-linecap="round"></path>
-        <circle cx="200" cy="217" r="15" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"></circle>
-        <rect x="130" y="112" width="40" height="32" rx="10" fill="#F0AC80" stroke="#1D1D1D" stroke-width="6"></rect>
+        <path d="M214 160 Q234 172 228 188 Q220 200 198 200 L108 198" stroke="#060A10" stroke-width="38" fill="none" stroke-linecap="round"></path><path d="M214 160 Q234 172 228 188 Q220 200 198 200 L108 198" stroke="#F0AC80" stroke-width="26" fill="none" stroke-linecap="round"></path><circle cx="104" cy="198" r="15" fill="#F0AC80" stroke="#060A10" stroke-width="6"></circle><path d="M86 160 Q66 176 72 192 Q80 206 102 208 L196 216" stroke="#060A10" stroke-width="38" fill="none" stroke-linecap="round"></path><path d="M86 160 Q66 176 72 192 Q80 206 102 208 L196 216" stroke="#F5B98F" stroke-width="26" fill="none" stroke-linecap="round"></path><circle cx="200" cy="217" r="15" fill="#F5B98F" stroke="#060A10" stroke-width="6"></circle>
+        <rect x="130" y="112" width="40" height="32" rx="10" fill="#F0AC80" stroke="#060A10" stroke-width="6"></rect>
       </g>
       <g style="animation:rocNod 5s ease-in-out infinite;transform-origin:150px 100px;transform-box:view-box">
-        <circle cx="88" cy="70" r="11" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"></circle>
-        <circle cx="212" cy="70" r="11" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"></circle>
-        <rect x="88" y="6" width="124" height="120" rx="50" fill="#F5B98F" stroke="#1D1D1D" stroke-width="6"></rect>
+        <circle cx="88" cy="70" r="11" fill="#F5B98F" stroke="#060A10" stroke-width="6"></circle>
+        <circle cx="212" cy="70" r="11" fill="#F5B98F" stroke="#060A10" stroke-width="6"></circle>
+        <rect x="88" y="6" width="124" height="120" rx="50" fill="#F5B98F" stroke="#060A10" stroke-width="6"></rect>
         <path d="M104 88 Q150 128 196 88 Q190 118 150 120 Q110 118 104 88 Z" fill="#DE9A6C"></path>
         <path d="M136 102 Q152 111 166 102" stroke="#1D1D1D" stroke-width="5" fill="none" stroke-linecap="round"></path>
         <rect x="102" y="42" width="42" height="28" rx="13" fill="#16161A"></rect>
@@ -428,5 +466,20 @@
   </div>
 
 </div>
+<script>
+  (function () {
+    var url = (window.ROCCO_APP_STORE_URL || "").trim();
+    document.querySelectorAll(".rocco-store-badge").forEach(function (el) {
+      if (url) {
+        el.setAttribute("href", url);
+        el.setAttribute("rel", "noopener");
+      } else {
+        el.addEventListener("click", function (e) { e.preventDefault(); });
+        el.style.cursor = "default";
+        el.setAttribute("aria-disabled", "true");
+      }
+    });
+  })();
+</script>
 </body>
 </html>
