@@ -15,8 +15,8 @@
 @keyframes neonFlick{0%,72%,76%,100%{opacity:1}74%{opacity:.55}90%{opacity:.85}}
 @keyframes bubbleBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 @keyframes starTwinkle{0%,100%{opacity:.9}50%{opacity:.35}}
-.hero-section{display:flex;flex-direction:column;min-height:100vh;min-height:100svh}
-.hero{position:relative;flex:1 0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:64px 24px 0}
+.hero-section{display:flex;flex-direction:column;min-height:100vh;min-height:100svh;overflow:hidden}
+.hero{position:relative;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;text-align:center;padding:64px 24px 0}
 .hero-brand{display:flex;align-items:center;justify-content:center;gap:11px}
 .hero-title{margin:70px 0 0;font:900 clamp(44px,7vw,84px)/1.05 'Gabarito',sans-serif;letter-spacing:-2px;color:#F5F2EB;text-wrap:balance}
 .hero-sub{margin:22px 0 0;max-width:540px;font:400 18px/1.6 'Figtree',sans-serif;color:#F5F2EB;opacity:.72;text-wrap:pretty}
@@ -24,20 +24,20 @@
 .hero-cta svg{width:26px;height:26px;flex-shrink:0}
 .hero-cta-label{font:500 11px 'Figtree',sans-serif;color:#fff}
 .hero-cta-store{font:700 19px 'Gabarito',sans-serif;color:#fff}
-.hero-scene{display:block;width:100%;margin-top:auto}
+.hero-scene{display:block;width:100%;margin-top:-10px}
 @media (max-width:640px){
-.hero{padding:28px 20px 0}
-.hero-brand{gap:9px}
-.hero-brand-icon{width:34px!important;height:34px!important;border-radius:9px!important}
-.hero-brand-icon svg{width:28px!important;height:28px!important}
-.hero-brand-name{font-size:16px!important;letter-spacing:2.5px!important}
-.hero-title{margin-top:18px;font-size:clamp(32px,9.2vw,44px);letter-spacing:-1.2px;line-height:1.08}
-.hero-sub{margin-top:12px;font-size:14px;line-height:1.45;max-width:340px}
-.hero-cta{margin-top:16px;gap:8px;padding:7px 14px;border-radius:11px;border-width:1.5px}
-.hero-cta svg{width:18px;height:18px}
-.hero-cta-label{font-size:9px}
-.hero-cta-store{font-size:14px}
-.hero-scene{margin-top:auto;padding-top:14px}
+.hero{padding:max(8px,env(safe-area-inset-top)) 18px 0}
+.hero-brand{gap:10px}
+.hero-brand-icon{width:40px!important;height:40px!important;border-radius:10px!important}
+.hero-brand-icon svg{width:34px!important;height:34px!important}
+.hero-brand-name{font-size:18px!important;letter-spacing:2.5px!important}
+.hero-title{margin-top:22px;font-size:clamp(40px,10.8vw,50px);letter-spacing:-1.5px;line-height:1.05}
+.hero-sub{margin-top:14px;font-size:17px;line-height:1.5;max-width:360px}
+.hero-cta{margin-top:18px;gap:10px;padding:9px 18px;border-radius:12px;border-width:2px}
+.hero-cta svg{width:22px;height:22px}
+.hero-cta-label{font-size:10px}
+.hero-cta-store{font-size:16px}
+.hero-scene{flex:1 1 0;width:100%;height:100%;min-height:0;margin-top:12px}
 .hero-deco{display:none!important}
 }</style>
 <script>
@@ -81,7 +81,7 @@
     </a>
   </div>
 
-  <svg class="hero-scene" viewBox="0 0 1200 660" aria-label="Rocco vor dem Club, niemand kommt rein">
+  <svg class="hero-scene" viewBox="0 0 1200 660" preserveAspectRatio="xMidYMax meet" aria-label="Rocco vor dem Club, niemand kommt rein">
     <path d="M0 560 L0 400 L70 400 L70 330 L130 330 L130 410 L210 410 L210 360 L290 360 L290 560 Z" fill="#0C1220"></path>
     <path d="M880 560 L880 380 L950 380 L950 300 L1010 300 L1010 390 L1090 390 L1090 340 L1200 340 L1200 560 Z" fill="#0C1220"></path>
     <path d="M120 560 L120 440 L200 440 L200 470 L280 470 L280 430 L340 430 L340 560 Z" fill="#131B29"></path>
@@ -540,11 +540,13 @@
     var scene = document.querySelector(".hero-scene");
     if (!scene) return;
     var desktopView = "0 0 1200 660";
-    // Tighter mobile crop: keeps the club sign, Rocco, all speech bubbles
-    // and the velvet rope fully in frame while enlarging them enough to read.
-    var mobileView = "30 100 830 560";
+    // Start below empty sky so the scene begins under the CTA;
+    // slice fills remaining viewport height.
+    var mobileView = "50 300 780 360";
     function fitHeroScene() {
-      scene.setAttribute("viewBox", window.matchMedia("(max-width:640px)").matches ? mobileView : desktopView);
+      var mobile = window.matchMedia("(max-width:640px)").matches;
+      scene.setAttribute("viewBox", mobile ? mobileView : desktopView);
+      scene.setAttribute("preserveAspectRatio", mobile ? "xMidYMin slice" : "xMidYMax meet");
     }
     fitHeroScene();
     window.addEventListener("resize", fitHeroScene);
