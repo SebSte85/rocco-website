@@ -26,18 +26,20 @@
 .hero-cta-store{font:700 19px 'Gabarito',sans-serif;color:#fff}
 .hero-scene{display:block;width:100%;margin-top:-10px}
 @media (max-width:640px){
-.hero{padding:max(8px,env(safe-area-inset-top)) 18px 0}
+/* Copy block grows and distributes leftover space between its rows,
+   so the untouched full-width scene sits flush at the bottom. */
+.hero{flex:1 1 auto;justify-content:space-between;padding:max(8px,env(safe-area-inset-top)) 18px 12px}
 .hero-brand{gap:10px}
 .hero-brand-icon{width:40px!important;height:40px!important;border-radius:10px!important}
 .hero-brand-icon svg{width:34px!important;height:34px!important}
 .hero-brand-name{font-size:18px!important;letter-spacing:2.5px!important}
-.hero-title{margin-top:22px;font-size:clamp(40px,10.8vw,50px);letter-spacing:-1.5px;line-height:1.05}
-.hero-sub{margin-top:14px;font-size:17px;line-height:1.5;max-width:360px}
-.hero-cta{margin-top:18px;gap:10px;padding:9px 18px;border-radius:12px;border-width:2px}
-.hero-cta svg{width:22px;height:22px}
+.hero-title{margin-top:14px;font-size:clamp(40px,10.8vw,50px);letter-spacing:-1.5px;line-height:1.05}
+.hero-sub{margin-top:10px;font-size:17px;line-height:1.5;max-width:360px}
+.hero-cta{margin-top:12px;gap:10px;padding:10px 20px;border-radius:12px;border-width:2px}
+.hero-cta svg{width:24px;height:24px}
 .hero-cta-label{font-size:10px}
-.hero-cta-store{font-size:16px}
-.hero-scene{flex:1 1 0;width:100%;height:100%;min-height:0;margin-top:12px}
+.hero-cta-store{font-size:17px}
+.hero-scene{flex:0 0 auto;width:100%;height:auto;margin-top:0}
 .hero-deco{display:none!important}
 }</style>
 <script>
@@ -540,13 +542,13 @@
     var scene = document.querySelector(".hero-scene");
     if (!scene) return;
     var desktopView = "0 0 1200 660";
-    // Start below empty sky so the scene begins under the CTA;
-    // slice fills remaining viewport height.
-    var mobileView = "50 300 780 360";
+    // Full scene cropped to the action (bubbles, Rocco, sign, rope),
+    // rendered at natural aspect so nothing gets sliced off.
+    var mobileView = "85 100 700 560";
     function fitHeroScene() {
       var mobile = window.matchMedia("(max-width:640px)").matches;
       scene.setAttribute("viewBox", mobile ? mobileView : desktopView);
-      scene.setAttribute("preserveAspectRatio", mobile ? "xMidYMin slice" : "xMidYMax meet");
+      scene.setAttribute("preserveAspectRatio", "xMidYMax meet");
     }
     fitHeroScene();
     window.addEventListener("resize", fitHeroScene);
