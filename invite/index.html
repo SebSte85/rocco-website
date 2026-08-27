@@ -6,6 +6,7 @@
   <title>Rocco — second key invite</title>
   <link rel="icon" type="image/png" href="../assets/app-icon.png" />
   <link rel="apple-touch-icon" href="../assets/app-icon.png" />
+  <meta name="apple-itunes-app" content="app-id=6793236853">
   <meta property="og:title" content="Rocco — second key invite" />
   <meta property="og:image" content="https://www.theroccoapp.com/assets/app-icon.png" />
   <link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@700;800&family=Figtree:wght@400;600&display=swap" rel="stylesheet" />
@@ -74,11 +75,12 @@
       <div style="margin-top:8px"><strong>3.</strong> Allow notifications</div>
     </div>
     <a class="cta" id="open" href="#">Open invite in Rocco</a>
-    <a class="cta secondary" id="get" href="https://www.theroccoapp.com/">Get Rocco</a>
-    <p class="foot" id="foot">Install Rocco via TestFlight (or the App Store once it’s live), then tap Open invite.</p>
+    <a class="cta secondary" id="get" href="https://apps.apple.com/app/the-rocco-app/id6793236853">Get Rocco</a>
+    <p class="foot" id="foot">Get Rocco from the App Store, then tap Open invite.</p>
   </div>
   <div class="done" id="done"></div>
   <script>
+    const APP_STORE_URL = "https://apps.apple.com/app/the-rocco-app/id6793236853";
     const params = new URLSearchParams(location.search);
     const token = params.get("t") || "";
     const name = (params.get("n") || "").trim();
@@ -110,9 +112,8 @@
         open.href = "rocco://buddy-invite";
       }
       get.textContent = "Don’t have Rocco yet? Get it";
-      // Until App Store: landing page explains TestFlight / install.
-      get.href = "https://www.theroccoapp.com/";
-      foot.textContent = "Already installed? Tap Open invite. First time? Get Rocco, install, then come back to this link.";
+      get.href = APP_STORE_URL;
+      foot.textContent = "Already installed? Tap Open invite. First time? Get it from the App Store, then come back to this link.";
     } else {
       steps.classList.add("hidden");
       body.textContent = "Rocco only runs on iPhone. You don’t need the app — when they ask, you’ll get a one-time web link + code.";
