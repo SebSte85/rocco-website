@@ -92,9 +92,53 @@
     const isIOS = /iPhone|iPad|iPod/i.test(ua) ||
       (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 
-    if (name) {
-      document.getElementById("title").textContent = `${name} wants you as second key.`;
+
+    // Sprache: Parameter aus der App gewinnt, sonst der Browser des Empfaengers.
+    const lang = (params.get("l") || navigator.language || "en").toLowerCase().startsWith("de")
+      ? "de" : "en";
+    const T = {
+      de: {
+        title: "Jemand will dich als zweiten Schlüssel.",
+        titleNamed: (n) => `${n} will dich als zweiten Schlüssel.`,
+        free: "ALS ZWEITER SCHLÜSSEL GRATIS · KEIN ABO",
+        step1: "Hol dir Rocco aufs iPhone",
+        step2: "Diese Einladung nochmal öffnen → Annehmen",
+        step3: "Mitteilungen erlauben",
+        bodyIOS: "Den Schlüssel zu halten ist gratis. Eine eigene Tür — falls du später eine willst — ist davon getrennt.",
+        openIOS: "Einladung in Rocco öffnen",
+        getIOS: "Noch kein Rocco? Hier holen",
+        footIOS: "Schon installiert? Tippe auf Einladung öffnen. Zum ersten Mal hier? Hol dir Rocco im App Store und komm über diesen Link zurück.",
+        bodyWeb: "Rocco läuft nur auf dem iPhone. Du brauchst die App nicht — wenn geklopft wird, bekommst du einen einmaligen Web-Link samt Code.",
+        openWeb: "Verstanden — ich warte auf den Link",
+        doneWeb: "Alles klar. Der Link kommt später — wenn geklopft wird.",
+        footWeb: "Du hast ein iPhone? Öffne diese Seite dort, um Rocco zu installieren (als zweiter Schlüssel gratis)."
+      },
+      en: {
+        title: "Someone wants you as second key.",
+        titleNamed: (n) => `${n} wants you as second key.`,
+        free: "FREE AS SECOND KEY · NO SUBSCRIPTION",
+        step1: "Get Rocco on your iPhone",
+        step2: "Open this invite again → Accept",
+        step3: "Allow notifications",
+        bodyIOS: "Holding the key is free. Your own door — if you want one later — is separate.",
+        openIOS: "Open invite in Rocco",
+        getIOS: "Don’t have Rocco yet? Get it",
+        footIOS: "Already installed? Tap Open invite. First time? Get it from the App Store, then come back to this link.",
+        bodyWeb: "Rocco only runs on iPhone. You don’t need the app — when they ask, you’ll get a one-time web link + code.",
+        openWeb: "Got it — I’ll wait for the link",
+        doneWeb: "You’re set. The ask link comes later — when they knock.",
+        footWeb: "Have an iPhone? Open this page there to install Rocco (free as second key)."
+      }
+    }[lang];
+    document.documentElement.lang = lang;
+    document.querySelector(".free").textContent = T.free;
+    {
+      const st = document.getElementById("steps").children;
+      st[0].innerHTML = `<strong>1.</strong> ${T.step1}`;
+      st[1].innerHTML = `<strong>2.</strong> ${T.step2}`;
+      st[2].innerHTML = `<strong>3.</strong> ${T.step3}`;
     }
+    document.getElementById("title").textContent = name ? T.titleNamed(name) : T.title;
 
     const open = document.getElementById("open");
     const get = document.getElementById("get");
@@ -105,8 +149,8 @@
     const steps = document.getElementById("steps");
 
     if (isIOS) {
-      body.textContent = "Holding the key is free. Your own door (if you want one later) is separate — Pro.";
-      open.textContent = "Open invite in Rocco";
+      body.textContent = T.bodyIOS;
+      open.textContent = T.openIOS;
       if (token) {
         const deep = new URL("roccodev://buddy-invite");
         deep.searchParams.set("t", token);
@@ -115,22 +159,22 @@
       } else {
         open.href = "roccodev://buddy-invite";
       }
-      get.textContent = "Don’t have Rocco yet? Get it";
+      get.textContent = T.getIOS;
       get.href = APP_STORE_URL;
-      foot.textContent = "Already installed? Tap Open invite. First time? Get it from the App Store, then come back to this link.";
+      foot.textContent = T.footIOS;
     } else {
       steps.classList.add("hidden");
-      body.textContent = "Rocco only runs on iPhone. You don’t need the app — when they ask, you’ll get a one-time web link + code.";
-      open.textContent = "Got it — I’ll wait for the link";
+      body.textContent = T.bodyWeb;
+      open.textContent = T.openWeb;
       open.removeAttribute("href");
       open.onclick = (e) => {
         e.preventDefault();
         panel.classList.add("hidden");
         done.style.display = "block";
-        done.textContent = "You’re set. The ask link comes later — when they knock.";
+        done.textContent = T.doneWeb;
       };
       get.classList.add("hidden");
-      foot.textContent = "Have an iPhone? Open this page there to install Rocco (free as second key).";
+      foot.textContent = T.footWeb;
     }
   </script>
 </body>
