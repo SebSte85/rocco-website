@@ -3,6 +3,15 @@
     "apps": [],
     "details": [
       {
+        "appID": "F8V8D7W259.app.rocco.dev",
+        "paths": [
+          "/invite-dev",
+          "/invite-dev/*",
+          "/key-dev",
+          "/key-dev/*"
+        ]
+      },
+      {
         "appID": "F8V8D7W259.app.rocco",
         "paths": [
           "/invite",
