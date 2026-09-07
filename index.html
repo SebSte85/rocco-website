@@ -468,6 +468,27 @@ html.lenis,html.lenis body{height:auto}
     </div>
   </div>
 
+  <div id="stats-section" hidden style="display:flex;flex-direction:column;align-items:center;gap:36px;padding:110px 24px 0">
+    <div class="rv" style="display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center">
+      <h2 style="margin:0;font:900 clamp(30px,4vw,44px)/1.15 'Gabarito',sans-serif;letter-spacing:-1px">The door, in numbers.</h2>
+      <span style="font:400 16px 'Figtree',sans-serif;opacity:.65">Live from the app. Anonymised, no accounts, refreshed every 15 minutes.</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:22px;max-width:1080px">
+      <div id="stat-minutes" hidden class="rv rv-card" style="flex:1;min-width:250px;max-width:330px;display:flex;flex-direction:column;align-items:center;gap:8px;background:#16202F;border:3px solid #060A10;border-radius:20px;padding:28px 24px;box-shadow:4px 4px 0 #060A10;text-align:center">
+        <span style="font:900 46px/1 'Gabarito',sans-serif;color:#F5F2EB;font-variant-numeric:tabular-nums"><span data-stat="minutes">0</span><span style="font:800 20px 'Gabarito',sans-serif;color:#D9A441">&nbsp;min</span></span>
+        <span style="font:400 14.5px/1.5 'Figtree',sans-serif;color:#F5F2EB;opacity:.68">a Rocco user&rsquo;s day in listed apps &middot; median, last 8 weeks</span>
+      </div>
+      <div id="stat-asks" hidden class="rv rv-card" data-rv-delay=".12" style="flex:1;min-width:250px;max-width:330px;display:flex;flex-direction:column;align-items:center;gap:8px;background:#16202F;border:3px solid #060A10;border-radius:20px;padding:28px 24px;box-shadow:4px 4px 0 #060A10;text-align:center">
+        <span style="font:900 46px/1 'Gabarito',sans-serif;color:#F5F2EB;font-variant-numeric:tabular-nums" data-stat="asks">0</span>
+        <span style="font:400 14.5px/1.5 'Figtree',sans-serif;color:#F5F2EB;opacity:.68">buddy asks sent &middot; someone had to say yes</span>
+      </div>
+      <div id="stat-denied" hidden class="rv rv-card" data-rv-delay=".24" style="flex:1;min-width:250px;max-width:330px;display:flex;flex-direction:column;align-items:center;gap:8px;background:#16202F;border:3px solid #060A10;border-radius:20px;padding:28px 24px;box-shadow:4px 4px 0 #060A10;text-align:center">
+        <span style="font:900 46px/1 'Gabarito',sans-serif;color:#F5F2EB;font-variant-numeric:tabular-nums"><span data-stat="denied">0</span><span style="font:800 20px 'Gabarito',sans-serif;color:#D9A441">&nbsp;%</span></span>
+        <span style="font:400 14.5px/1.5 'Figtree',sans-serif;color:#F5F2EB;opacity:.68">answered with a no &middot; <span data-stat="approved">0</span>&nbsp;% got in</span>
+      </div>
+    </div>
+  </div>
+
   <div style="display:flex;flex-direction:column;align-items:center;gap:28px;padding:110px 24px 0">
     <div class="rv" style="display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;max-width:560px">
       <h2 style="margin:0;font:900 clamp(30px,4vw,44px)/1.15 'Gabarito',sans-serif;letter-spacing:-1px">Cover charge: about a euro a month.</h2>
@@ -617,6 +638,49 @@ html.lenis,html.lenis body{height:auto}
     }
     fitHeroScene();
     window.addEventListener("resize", fitHeroScene);
+  })();
+</script>
+<script>
+  (function () {
+    var url = (window.ROCCO_STATS_URL || "https://aankajwzxqsmvopdpzky.supabase.co/functions/v1/public-stats").trim();
+    var MIN_WEEKLY_SAMPLES = 10, MIN_ANSWERED = 20;
+    var section = document.getElementById("stats-section");
+    if (!section || !window.fetch) return;
+
+    function setNumber(el, value) {
+      var target = Math.max(0, Math.round(value));
+      var final = target.toLocaleString("en");
+      // Final value first; the count-up only paints over it, so a stalled ticker
+      // (background tab, reduced motion) still leaves the real number on screen.
+      el.textContent = final;
+      if (window.gsap && document.documentElement.classList.contains("rocco-motion")) {
+        var o = { v: 0 };
+        gsap.to(o, { v: target, duration: 1.4, ease: "power2.out",
+          onUpdate: function () { el.textContent = Math.round(o.v).toLocaleString("en"); },
+          onComplete: function () { el.textContent = final; } });
+      }
+    }
+
+    fetch(url, { cache: "default" }).then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
+      if (!d) return;
+      var shown = 0;
+      var minutes = document.getElementById("stat-minutes");
+      if (minutes && (d.weekly_samples | 0) >= MIN_WEEKLY_SAMPLES) {
+        minutes.hidden = false; shown++;
+        setNumber(minutes.querySelector("[data-stat=minutes]"), d.minutes_per_day_median);
+      }
+      var answered = d.buddy_answered | 0;
+      var asks = document.getElementById("stat-asks"), denied = document.getElementById("stat-denied");
+      if (asks && denied && answered >= MIN_ANSWERED) {
+        asks.hidden = false; denied.hidden = false; shown += 2;
+        setNumber(asks.querySelector("[data-stat=asks]"), d.buddy_asks_total);
+        setNumber(denied.querySelector("[data-stat=denied]"), 100 * (d.buddy_denied | 0) / answered);
+        setNumber(denied.querySelector("[data-stat=approved]"), 100 * (d.buddy_approved | 0) / answered);
+      }
+      if (!shown) return;
+      section.hidden = false;
+      if (window.ScrollTrigger) ScrollTrigger.refresh();
+    }).catch(function () {});
   })();
 </script>
 <script src="assets/vendor/gsap.min.js"></script>

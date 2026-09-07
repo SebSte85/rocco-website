@@ -91,14 +91,23 @@
       <a href="https://posthog.com/privacy" rel="noopener noreferrer">posthog.com/privacy</a>
     </p>
 
-    <h2>3.4 Buddy (“second key”) links</h2>
+<h2>3.4 Buddy (“second key”) links</h2>
     <p>
       If you use buddy approval, we store short-lived approval requests (for example request id, PIN hash/code state,
       expiry, approve/deny result) in Supabase so a buddy can open a web link and respond. Share links may be opened in a
       browser. Do not put sensitive content in messages you send with those links.
     </p>
 
-    <h2>3.5 Website</h2>
+    <h2>3.5 Anonymous usage statistics</h2>
+    <p>
+      Once a week the app sends one anonymous sample to our backend (Supabase, EU): the rounded per-day average of
+      minutes spent in the apps on your list over the last seven finished days, the number of days that were
+      recorded, and the calendar week. It carries no account, device identifier or app names, and we do not evaluate
+      IP addresses for it. We use these samples, together with the aggregate count of buddy asks and their answers,
+      for the live numbers on our website. There is no way to attribute a sample to you.
+    </p>
+
+    <h2>3.6 Website</h2>
     <p>
       Our public pages (including this policy) are hosted on GitHub Pages. GitHub may process connection data (IP address,
       user agent) as described in GitHub’s privacy statement.
