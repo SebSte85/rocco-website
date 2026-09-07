@@ -71,7 +71,18 @@ html.lenis,html.lenis body{height:auto}
 .hero-trust{margin-top:8px!important;font-size:12px!important}
 .hero-scene{flex:0 0 auto;width:100%;height:auto;margin-top:0}
 .hero-deco{display:none!important}
-}</style>
+}.led-board{width:100%;max-width:1080px;box-sizing:border-box;display:flex;flex-wrap:wrap;justify-content:center;background:#0A0E15;border:2px solid rgba(90,98,112,.55);border-radius:18px;padding:40px 12px 34px;box-shadow:0 0 0 1px rgba(0,0,0,.7),0 24px 60px rgba(0,0,0,.45),inset 0 0 70px rgba(0,0,0,.65)}
+.led-cell{flex:1 1 260px;min-width:220px;position:relative;display:flex;flex-direction:column;align-items:center;gap:18px;padding:12px 24px;text-align:center}
+.led-cell+.led-cell::before{content:"";position:absolute;left:0;top:10%;height:80%;border-left:2px dashed rgba(90,98,112,.5)}
+.led-num{display:inline-flex;align-items:baseline;gap:6px;font:900 clamp(64px,8vw,96px)/1 'Gabarito',sans-serif;color:#F0C96A;font-variant-numeric:tabular-nums;text-shadow:0 0 18px rgba(217,164,65,.75),0 0 46px rgba(217,164,65,.35)}
+.led-unit{font:800 clamp(20px,2.4vw,28px) 'Gabarito',sans-serif;color:#D9A441}
+.led-label{font:700 12.5px/1.75 ui-monospace,'SF Mono',Menlo,Consolas,monospace;letter-spacing:2.5px;text-transform:uppercase;color:#5A6270;max-width:300px}
+.led-live{display:flex;align-items:center;gap:10px;font:700 12px ui-monospace,'SF Mono',Menlo,Consolas,monospace;letter-spacing:3px;text-transform:uppercase;color:#5A6270}
+.led-live-dot{width:9px;height:9px;border-radius:50%;background:#3CCB6E;box-shadow:0 0 10px rgba(60,203,110,.85);animation:ledPulse 1.8s ease-in-out infinite}
+@keyframes ledPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.78)}}
+.led-on .led-num{animation:neonFlick 7s linear 1.2s infinite}
+@media (max-width:760px){.led-board{padding:28px 8px 22px}.led-cell{flex-basis:100%;padding:18px 20px}.led-cell+.led-cell::before{left:18%;right:18%;top:0;height:0;border-left:0;border-top:2px dashed rgba(90,98,112,.5)}}
+</style>
 <script>
   window.ROCCO_APP_STORE_URL = "https://apps.apple.com/app/the-rocco-app/id6793236853";
 </script>
@@ -468,27 +479,27 @@ html.lenis,html.lenis body{height:auto}
     </div>
   </div>
 
-  <div id="stats-section" hidden style="display:flex;flex-direction:column;align-items:center;gap:36px;padding:110px 24px 0">
+  <div id="stats-section" hidden style="display:flex;flex-direction:column;align-items:center;gap:40px;padding:110px 24px 0">
     <div class="rv" style="display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center">
       <h2 style="margin:0;font:900 clamp(30px,4vw,44px)/1.15 'Gabarito',sans-serif;letter-spacing:-1px">The door, in numbers.</h2>
       <span style="font:400 16px 'Figtree',sans-serif;opacity:.65">Live from the app. Anonymised, no accounts, refreshed every 15 minutes.</span>
     </div>
-    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:22px;max-width:1080px">
-      <div id="stat-minutes" hidden class="rv rv-card" style="flex:1;min-width:250px;max-width:330px;display:flex;flex-direction:column;align-items:center;gap:8px;background:#16202F;border:3px solid #060A10;border-radius:20px;padding:28px 24px;box-shadow:4px 4px 0 #060A10;text-align:center">
-        <span style="font:900 46px/1 'Gabarito',sans-serif;color:#F5F2EB;font-variant-numeric:tabular-nums"><span data-stat="minutes">0</span><span style="font:800 20px 'Gabarito',sans-serif;color:#D9A441">&nbsp;min</span></span>
-        <span style="font:400 14.5px/1.5 'Figtree',sans-serif;color:#F5F2EB;opacity:.68">a Rocco user&rsquo;s day in listed apps &middot; median, last 8 weeks</span>
+    <div id="stats-board" class="led-board rv" data-rv-pop="1">
+      <div id="stat-minutes" hidden class="led-cell">
+        <span class="led-num"><span data-stat="minutes" data-target="0">0</span><span class="led-unit">min</span></span>
+        <span class="led-label">A Rocco user&rsquo;s day in listed apps &middot; median, last 8 weeks</span>
       </div>
-      <div id="stat-asks" hidden class="rv rv-card" data-rv-delay=".12" style="flex:1;min-width:250px;max-width:330px;display:flex;flex-direction:column;align-items:center;gap:8px;background:#16202F;border:3px solid #060A10;border-radius:20px;padding:28px 24px;box-shadow:4px 4px 0 #060A10;text-align:center">
-        <span style="font:900 46px/1 'Gabarito',sans-serif;color:#F5F2EB;font-variant-numeric:tabular-nums" data-stat="asks">0</span>
-        <span style="font:400 14.5px/1.5 'Figtree',sans-serif;color:#F5F2EB;opacity:.68">buddy asks sent &middot; someone had to say yes</span>
+      <div id="stat-asks" hidden class="led-cell">
+        <span class="led-num"><span data-stat="asks" data-target="0">0</span></span>
+        <span class="led-label">Buddy asks sent &middot; someone had to say yes</span>
       </div>
-      <div id="stat-denied" hidden class="rv rv-card" data-rv-delay=".24" style="flex:1;min-width:250px;max-width:330px;display:flex;flex-direction:column;align-items:center;gap:8px;background:#16202F;border:3px solid #060A10;border-radius:20px;padding:28px 24px;box-shadow:4px 4px 0 #060A10;text-align:center">
-        <span style="font:900 46px/1 'Gabarito',sans-serif;color:#F5F2EB;font-variant-numeric:tabular-nums"><span data-stat="denied">0</span><span style="font:800 20px 'Gabarito',sans-serif;color:#D9A441">&nbsp;%</span></span>
-        <span style="font:400 14.5px/1.5 'Figtree',sans-serif;color:#F5F2EB;opacity:.68">answered with a no &middot; <span data-stat="approved">0</span>&nbsp;% got in</span>
+      <div id="stat-denied" hidden class="led-cell">
+        <span class="led-num"><span data-stat="denied" data-target="0">0</span><span class="led-unit">%</span></span>
+        <span class="led-label">Answered with a no &middot; <span data-stat="approved" data-target="0">0</span>&nbsp;% got in</span>
       </div>
     </div>
+    <div class="led-live rv" data-rv-delay=".25"><span class="led-live-dot"></span>Live &middot; tonight&rsquo;s shift</div>
   </div>
-
   <div style="display:flex;flex-direction:column;align-items:center;gap:28px;padding:110px 24px 0">
     <div class="rv" style="display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;max-width:560px">
       <h2 style="margin:0;font:900 clamp(30px,4vw,44px)/1.15 'Gabarito',sans-serif;letter-spacing:-1px">Cover charge: about a euro a month.</h2>
@@ -645,20 +656,31 @@ html.lenis,html.lenis body{height:auto}
     var url = (window.ROCCO_STATS_URL || "https://aankajwzxqsmvopdpzky.supabase.co/functions/v1/public-stats").trim();
     var MIN_WEEKLY_SAMPLES = 10, MIN_ANSWERED = 20;
     var section = document.getElementById("stats-section");
-    if (!section || !window.fetch) return;
+    var board = document.getElementById("stats-board");
+    if (!section || !board || !window.fetch) return;
 
+    // The real value lands in the DOM right away; the count-up on scroll only
+    // paints over it, so a stalled ticker still leaves the number on the board.
     function setNumber(el, value) {
       var target = Math.max(0, Math.round(value));
-      var final = target.toLocaleString("en");
-      // Final value first; the count-up only paints over it, so a stalled ticker
-      // (background tab, reduced motion) still leaves the real number on screen.
-      el.textContent = final;
-      if (window.gsap && document.documentElement.classList.contains("rocco-motion")) {
-        var o = { v: 0 };
-        gsap.to(o, { v: target, duration: 1.4, ease: "power2.out",
-          onUpdate: function () { el.textContent = Math.round(o.v).toLocaleString("en"); },
-          onComplete: function () { el.textContent = final; } });
-      }
+      el.setAttribute("data-target", String(target));
+      el.textContent = target.toLocaleString("en");
+    }
+
+    function armCountUp() {
+      var motion = document.documentElement.classList.contains("rocco-motion");
+      if (!(motion && window.gsap && window.ScrollTrigger)) return;
+      ScrollTrigger.create({ trigger: board, start: "top 80%", once: true, onEnter: function () {
+        board.classList.add("led-on");
+        board.querySelectorAll("[data-target]").forEach(function (el, i) {
+          var target = parseInt(el.getAttribute("data-target"), 10) || 0;
+          var final = target.toLocaleString("en");
+          var o = { v: 0 };
+          gsap.to(o, { v: target, duration: 1.6, delay: 0.12 * i, ease: "power2.out",
+            onUpdate: function () { el.textContent = Math.round(o.v).toLocaleString("en"); },
+            onComplete: function () { el.textContent = final; } });
+        });
+      } });
     }
 
     fetch(url, { cache: "default" }).then(function (r) { return r.ok ? r.json() : null; }).then(function (d) {
@@ -679,6 +701,7 @@ html.lenis,html.lenis body{height:auto}
       }
       if (!shown) return;
       section.hidden = false;
+      armCountUp();
       if (window.ScrollTrigger) ScrollTrigger.refresh();
     }).catch(function () {});
   })();
