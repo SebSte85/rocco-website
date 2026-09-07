@@ -655,9 +655,12 @@ html.lenis,html.lenis body{height:auto}
   (function () {
     var url = (window.ROCCO_STATS_URL || "https://aankajwzxqsmvopdpzky.supabase.co/functions/v1/public-stats").trim();
     var MIN_WEEKLY_SAMPLES = 10, MIN_ANSWERED = 20;
+    // Off until the board has real numbers to show. Flip to true to go live;
+    // the thresholds above still keep thin numbers off the page.
+    var STATS_ENABLED = false;
     var section = document.getElementById("stats-section");
     var board = document.getElementById("stats-board");
-    if (!section || !board || !window.fetch) return;
+    if (!STATS_ENABLED || !section || !board || !window.fetch) return;
 
     // The real value lands in the DOM right away; the count-up on scroll only
     // paints over it, so a stalled ticker still leaves the number on the board.
