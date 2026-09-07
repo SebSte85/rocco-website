@@ -82,6 +82,7 @@ html.lenis,html.lenis body{height:auto}
 @keyframes ledPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.78)}}
 .led-on .led-num{animation:neonFlick 7s linear 1.2s infinite}
 @media (max-width:760px){.led-board{padding:28px 8px 22px}.led-cell{flex-basis:100%;padding:18px 20px}.led-cell+.led-cell::before{left:18%;right:18%;top:0;height:0;border-left:0;border-top:2px dashed rgba(90,98,112,.5)}}
+#stats-section[hidden],.led-cell[hidden]{display:none!important}
 </style>
 <script>
   window.ROCCO_APP_STORE_URL = "https://apps.apple.com/app/the-rocco-app/id6793236853";
@@ -479,6 +480,7 @@ html.lenis,html.lenis body{height:auto}
     </div>
   </div>
 
+  <!-- The door, in numbers: off until the app has sent enough weeks. Re-enable by removing this comment and setting STATS_ENABLED = true.
   <div id="stats-section" hidden style="display:flex;flex-direction:column;align-items:center;gap:40px;padding:110px 24px 0">
     <div class="rv" style="display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center">
       <h2 style="margin:0;font:900 clamp(30px,4vw,44px)/1.15 'Gabarito',sans-serif;letter-spacing:-1px">The door, in numbers.</h2>
@@ -500,6 +502,7 @@ html.lenis,html.lenis body{height:auto}
     </div>
     <div class="led-live rv" data-rv-delay=".25"><span class="led-live-dot"></span>Live &middot; tonight&rsquo;s shift</div>
   </div>
+  -->
   <div style="display:flex;flex-direction:column;align-items:center;gap:28px;padding:110px 24px 0">
     <div class="rv" style="display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;max-width:560px">
       <h2 style="margin:0;font:900 clamp(30px,4vw,44px)/1.15 'Gabarito',sans-serif;letter-spacing:-1px">Cover charge: about a euro a month.</h2>
